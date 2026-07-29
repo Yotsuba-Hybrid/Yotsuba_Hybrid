@@ -444,6 +444,53 @@ nav {
 .union-callout .big { font-family: 'Fraunces', serif; font-size: 32px; color: var(--md-accent); }
 .union-callout p { font-size: 14px; color: var(--md-on-surface-variant); margin: 0; }
 
+/* ---------- COBERTURA ---------- */
+.coverage-wrap {
+  margin-top: 48px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-shape-xl);
+  overflow: hidden;
+  background: var(--md-surface-container-lowest);
+}
+.coverage-group { padding: 32px clamp(20px,4vw,40px); border-bottom: 1px solid var(--md-outline-variant); }
+.coverage-group:last-of-type { border-bottom: none; }
+.coverage-label {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; margin-bottom: 24px; display: inline-block;
+}
+.coverage-label.hue-primary { color: var(--md-primary); }
+.coverage-label.hue-secondary { color: var(--md-secondary); }
+.coverage-label.hue-tertiary { color: var(--md-tertiary); }
+.coverage-items { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px 32px; }
+@media (min-width: 640px) { .coverage-items { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 960px) {
+  .coverage-items.cols-5 { grid-template-columns: repeat(5, 1fr); }
+  .coverage-items.cols-4 { grid-template-columns: repeat(4, 1fr); }
+  .coverage-items.cols-3 { grid-template-columns: repeat(3, 1fr); }
+}
+.coverage-item { display: flex; gap: 14px; align-items: flex-start; }
+.coverage-icon {
+  width: 44px; height: 44px; border-radius: var(--md-shape-md);
+  background: var(--md-surface-container-high);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; color: var(--md-on-surface);
+}
+.coverage-icon svg { width: 22px; height: 22px; }
+.coverage-item h4 { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; margin-bottom: 2px; color: var(--md-on-surface); }
+.coverage-item span { font-size: 12.5px; color: var(--md-on-surface-variant); line-height: 1.4; }
+.coverage-footnote {
+  display: flex; align-items: center; gap: 14px; margin-top: 28px;
+  padding: 18px 24px; border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-shape-lg); background: var(--md-surface-container-low);
+}
+.coverage-footnote .dot {
+  width: 28px; height: 28px; border-radius: var(--md-shape-full);
+  background: var(--md-accent); color: var(--md-on-accent);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-weight: 700; font-size: 14px;
+}
+.coverage-footnote p { font-size: 14px; color: var(--md-on-surface-variant); margin: 0; }
+
 /* ---------- PRECIO ---------- */
 .pricing-grid {
   display: grid;
@@ -517,6 +564,24 @@ footer {
 </style>
 </head>
 <body>
+<svg style="display:none" aria-hidden="true">
+  <defs>
+    <symbol id="ic-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2" width="11" height="20" rx="2.2"/><line x1="10.5" y1="18.3" x2="13.5" y2="18.3"/></symbol>
+    <symbol id="ic-tablet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="10.5" y1="18.3" x2="13.5" y2="18.3"/></symbol>
+    <symbol id="ic-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="12,3 21,8 12,13 3,8"/><polyline points="3,13 12,18 21,13"/><polyline points="3,17.5 12,22.5 21,17.5"/></symbol>
+    <symbol id="ic-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="1.5"/><rect x="9.5" y="9.5" width="5" height="5"/><line x1="9" y1="1.5" x2="9" y2="4"/><line x1="15" y1="1.5" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22.5"/><line x1="15" y1="20" x2="15" y2="22.5"/><line x1="1.5" y1="9" x2="4" y2="9"/><line x1="1.5" y1="15" x2="4" y2="15"/><line x1="20" y1="9" x2="22.5" y2="9"/><line x1="20" y1="15" x2="22.5" y2="15"/></symbol>
+    <symbol id="ic-tv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="13" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17.5" x2="12" y2="21"/></symbol>
+    <symbol id="ic-headset" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="9" width="19" height="8" rx="4"/><circle cx="7.3" cy="13" r="1.6"/><circle cx="16.7" cy="13" r="1.6"/></symbol>
+    <symbol id="ic-laptop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="10" rx="1.3"/><path d="M2.5 18.5h19l-1.7-3.5h-15.6z"/></symbol>
+    <symbol id="ic-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="1"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1"/></symbol>
+    <symbol id="ic-terminal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="16" rx="2"/><polyline points="6.5,9 10.5,12 6.5,15"/><line x1="12.5" y1="15" x2="17.5" y2="15"/></symbol>
+    <symbol id="ic-gamepad" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8.5h10l3 8a2.3 2.3 0 0 1-4.2 1.8L14.3 15H9.7l-1.5 3.3A2.3 2.3 0 0 1 4 16.5z"/><line x1="7.2" y1="12" x2="7.2" y2="14.2"/><line x1="6.1" y1="13.1" x2="8.3" y2="13.1"/><circle cx="17" cy="11.5" r="0.9"/><circle cx="14.8" cy="13.3" r="0.9"/></symbol>
+    <symbol id="ic-joycon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3.5" width="7" height="17" rx="3.5"/><rect x="14" y="3.5" width="7" height="17" rx="3.5"/><circle cx="6.5" cy="8.5" r="1"/><circle cx="17.5" cy="14.5" r="1.4"/></symbol>
+    <symbol id="ic-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><ellipse cx="12" cy="12" rx="4.2" ry="9.5"/><line x1="2.5" y1="12" x2="21.5" y2="12"/></symbol>
+    <symbol id="ic-hex" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="12,2.5 20.5,7.5 20.5,16.5 12,21.5 3.5,16.5 3.5,7.5"/><line x1="12" y1="2.5" x2="12" y2="21.5" opacity="0"/></symbol>
+    <symbol id="ic-cube" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="12,2.5 21,7.5 21,16.5 12,21.5 3,16.5 3,7.5"/><polyline points="3,7.5 12,12.5 21,7.5"/><line x1="12" y1="12.5" x2="12" y2="21.5"/></symbol>
+  </defs>
+</svg>
 
 <nav>
   <a href="#" class="logo">
@@ -527,6 +592,7 @@ footer {
     <a href="#que-es">Qué es</a>
     <a href="#como-funciona">Cómo funciona</a>
     <a href="#plataformas">Plataformas</a>
+    <a href="#cobertura">Cobertura</a>
     <a href="#precio">Precio</a>
   </div>
   <a href="#" class="btn btn-filled">Próximamente</a>
@@ -600,7 +666,7 @@ footer {
     <img src="img editor.jpeg" alt="Yotsuba Hybrid Editor" style="width: 100%; height: auto; display: block;">
   </div>
 
-  <div class="steps-row">
+  <div class="steps-row" style="margin-top:48px;">
     <div class="step-card">
       <div class="step-num">01</div>
       <h3>Escribes tu juego</h3>
@@ -616,6 +682,10 @@ footer {
       <h3>Compilas en release</h3>
       <p>El editor desaparece por completo. Solo queda tu juego, corriendo sobre el backend que elegiste.</p>
     </div>
+  </div>
+
+  <div style="margin-top:48px;">
+    <img src="gridIG.png" alt="Yotsuba Hybrid Grid IG" style="width: 100%; height: auto; display: block; border-radius: var(--md-shape-xl); border: 1px solid var(--md-outline-variant);">
   </div>
 </section>
 
@@ -661,6 +731,147 @@ footer {
   <div class="union-callout">
     <div class="big">Σ</div>
     <p>Todas las plataformas de MonoGame + todas las de KNI + Yotsuba Framework, disponibles desde una sola base de código. Sin trabajo extra de tu parte al cambiar de implementación.</p>
+  </div>
+</section>
+
+<!-- COBERTURA -->
+<section class="section" id="cobertura">
+  <span class="eyebrow">Cobertura</span>
+  <h2 style="font-size:clamp(32px,4.5vw,48px); max-width:760px;">Desarrolla hoy. Publica en <span style="color:var(--md-primary);">todas partes</span>.</h2>
+  <p style="color:var(--md-on-surface-variant); max-width:640px; margin-top:16px; font-size:16px;">Yotsuba Hybrid te permite crear una sola vez y llevar tu juego o aplicación a múltiples plataformas con el máximo rendimiento nativo. Backends modernos, APIs nativas, experiencia consistente en cualquier dispositivo.</p>
+
+  <div class="steps-row" style="margin-top:40px;">
+    <div class="step-card">
+      <h3 style="font-size:16px;">Cobertura real, sin compromisos</h3>
+      <p>Desde móviles hasta consolas, desktop y la web.</p>
+    </div>
+    <div class="step-card">
+      <h3 style="font-size:16px;">Rendimiento nativo en cada plataforma</h3>
+      <p>Usamos la mejor API gráfica disponible en cada sistema.</p>
+    </div>
+    <div class="step-card">
+      <h3 style="font-size:16px;">Un solo código, múltiples destinos</h3>
+      <p>Tu lógica en C# y .NET, nosotros nos encargamos del resto.</p>
+    </div>
+  </div>
+
+  <div class="coverage-wrap">
+
+    <div class="coverage-group">
+      <span class="coverage-label hue-primary">Móviles</span>
+      <div class="coverage-items cols-5">
+        <div class="coverage-item">
+          <div class="coverage-icon"><svg><use href="#ic-phone"/></svg></div>
+          <div><h4>iOS</h4><span>iPhone</span></div>
+        </div>
+        <div class="coverage-item">
+          <div class="coverage-icon"><svg><use href="#ic-tablet"/></svg></div>
+          <div><h4>iPadOS</h4><span>iPad</span></div>
+        </div>
+        <div class="coverage-item">
+          <div class="coverage-icon"><svg><use href="#ic-phone"/></svg></div>
+          <div><h4>Android</h4><span>Teléfonos y tablets</span></div>
+        </div>
+        <div class="coverage-item">
+          <div class="coverage-icon"><svg><use href="#ic-layers"/></svg></div>
+          <div><h4>HarmonyOS</h4><span>Dispositivos compatibles</span></div>
+        </div>
+        <div class="coverage-item">
+          <div class="coverage-icon"><svg><use href="#ic-cpu"/></svg></div>
+          <div><h4>Windows on ARM</h4><span>Dispositivos ARM64</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="coverage-group">
+      <span class="coverage-label hue-secondary">Apple plataformas</span>
+      <div class="coverage-items cols-3">
+        <div class="coverage-item">
+          <div class="coverage-icon"><svg><use href="#ic-tv"/></svg></div>
+          <div><h4>Apple TV</h4><span>tvOS</span></div>
+        </div>
+        <div class="coverage-item">
+          <div class="coverage-icon"><svg><use href="#ic-headset"/></svg></div>
+          <div><h4>Apple Vision Pro</h4><span>visionOS</span></div>
+        </div>
+        <div class="coverage-item">
+          <div class="coverage-icon"><svg><use href="#ic-laptop"/></svg></div>
+          <div><h4>macOS</h4><span>Intel y Apple Silicon</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="coverage-group">
+      <span class="coverage-label hue-tertiary">Desktop</span>
+      <div class="coverage-items cols-3">
+        <div class="coverage-item">
+          <div class="coverage-icon"><svg><use href="#ic-grid"/></svg></div>
+          <div><h4>Windows</h4><span>10 / 11</span></div>
+        </div>
+        <div class="coverage-item">
+          <div class="coverage-icon"><svg><use href="#ic-terminal"/></svg></div>
+          <div><h4>Linux</h4><span>Ubuntu, Arch, Fedora y más</span></div>
+        </div>
+        <div class="coverage-item">
+          <div class="coverage-icon"><svg><use href="#ic-gamepad"/></svg></div>
+          <div><h4>Steam Deck</h4><span>SteamOS · Dispositivos compatibles</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="coverage-group">
+      <span class="coverage-label hue-primary">Consolas</span>
+      <div class="coverage-items cols-4">
+        <div class="coverage-item">
+          <div class="coverage-icon"><svg><use href="#ic-gamepad"/></svg></div>
+          <div><h4>PlayStation® 5</h4><span>PS5</span></div>
+        </div>
+        <div class="coverage-item">
+          <div class="coverage-icon"><svg><use href="#ic-gamepad"/></svg></div>
+          <div><h4>Xbox Series X|S</h4><span>Xbox</span></div>
+        </div>
+        <div class="coverage-item">
+          <div class="coverage-icon"><svg><use href="#ic-joycon"/></svg></div>
+          <div><h4>Nintendo Switch™</h4><span>Docked &amp; Handheld</span></div>
+        </div>
+        <div class="coverage-item">
+          <div class="coverage-icon"><svg><use href="#ic-headset"/></svg></div>
+          <div><h4>Meta Quest</h4><span>VR / MR</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="coverage-group">
+      <span class="coverage-label hue-secondary">Web y tecnologías emergentes</span>
+      <div class="coverage-items cols-5">
+        <div class="coverage-item">
+          <div class="coverage-icon"><svg><use href="#ic-globe"/></svg></div>
+          <div><h4>Web</h4><span>Navegadores modernos</span></div>
+        </div>
+        <div class="coverage-item">
+          <div class="coverage-icon"><svg><use href="#ic-cpu"/></svg></div>
+          <div><h4>WebGPU</h4><span>Gráficos modernos en la web</span></div>
+        </div>
+        <div class="coverage-item">
+          <div class="coverage-icon"><svg><use href="#ic-hex"/></svg></div>
+          <div><h4>WebAssembly</h4><span>Rendimiento cercano a nativo</span></div>
+        </div>
+        <div class="coverage-item">
+          <div class="coverage-icon"><svg><use href="#ic-headset"/></svg></div>
+          <div><h4>WebXR</h4><span>Experiencias inmersivas</span></div>
+        </div>
+        <div class="coverage-item">
+          <div class="coverage-icon"><svg><use href="#ic-cube"/></svg></div>
+          <div><h4>AR / MR</h4><span>Dispositivos compatibles</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="coverage-footnote">
+    <div class="dot">✓</div>
+    <p>Nuevas plataformas y dispositivos se agregan continuamente. Yotsuba Hybrid está diseñado para el futuro.</p>
   </div>
 </section>
 
