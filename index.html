@@ -167,6 +167,7 @@ nav {
   flex-direction: column;
   justify-content: center;
   padding-top: 140px;
+  padding-bottom: 64px;
   position: relative;
   overflow: hidden;
   background-image: var(--hero-bg-url);
@@ -206,6 +207,45 @@ nav {
   margin-bottom: 36px;
 }
 .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 56px; }
+
+.hero-highlights {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+@media (min-width: 860px) { .hero-highlights { grid-template-columns: repeat(3, 1fr); } }
+.highlight-card {
+  position: relative;
+  overflow: hidden;
+  background: rgba(11,11,14,0.62);
+  backdrop-filter: blur(18px);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-shape-xl);
+  padding: 26px 24px;
+  transition: transform .3s var(--ease-std), border-color .3s var(--ease-std);
+}
+.highlight-card:hover { transform: translateY(-3px); border-color: var(--hl-color); }
+.highlight-card::before {
+  content: "";
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--hl-color);
+}
+.highlight-card.hl-tertiary { --hl-color: var(--md-tertiary); --hl-container: var(--md-tertiary-container); --hl-on-container: var(--md-on-tertiary-container); }
+.highlight-card.hl-secondary { --hl-color: var(--md-secondary); --hl-container: var(--md-secondary-container); --hl-on-container: var(--md-on-secondary-container); }
+.highlight-card.hl-primary { --hl-color: var(--md-primary); --hl-container: var(--md-primary-container); --hl-on-container: var(--md-on-primary-container); }
+.highlight-icon {
+  width: 40px; height: 40px; border-radius: var(--md-shape-md);
+  background: var(--hl-container); color: var(--hl-on-container);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 18px;
+}
+.highlight-icon svg { width: 20px; height: 20px; }
+.highlight-card h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 19px; margin-bottom: 8px; color: var(--md-on-surface); }
+.highlight-card p { font-size: 13.5px; color: var(--md-on-surface-variant); line-height: 1.5; }
+.highlight-card .mono-tag { color: var(--hl-color); }
+.highlight-logos { display: flex; align-items: center; gap: 12px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--md-outline-variant); }
+.highlight-logos img { height: 20px; width: auto; opacity: .85; }
 
 .selector {
   background: var(--md-surface-container-low);
@@ -612,10 +652,31 @@ footer {
         </div>
       </div>
     </div>
+
+    <div class="hero-highlights">
+      <div class="highlight-card hl-tertiary">
+        <div class="highlight-icon"><svg><use href="#ic-terminal"/></svg></div>
+        <h3>No es una app externa</h3>
+        <p>El editor visual se muestra dentro de tu propio juego, en modo <span class="mono-tag mono">DEBUG</span> — no una ventana separada.</p>
+      </div>
+      <div class="highlight-card hl-secondary">
+        <div class="highlight-icon"><svg><use href="#ic-layers"/></svg></div>
+        <h3>Unifica los 3 frameworks</h3>
+        <p>MonoGame, KNI y Yotsuba Framework, disponibles al mismo tiempo para elegir con cuál ejecutar el proyecto.</p>
+        <div class="highlight-logos">
+          <img src="monogame_logo.svg" alt="MonoGame">
+          <img src="kni.png" alt="KNI">
+          <img src="Yotsuba Framework Logo.png" alt="Yotsuba Framework">
+        </div>
+      </div>
+      <div class="highlight-card hl-primary">
+        <div class="highlight-icon"><svg><use href="#ic-cube"/></svg></div>
+        <h3>Framework × Game Engine</h3>
+        <p>Combina la versatilidad y el control total de un framework con las herramientas visuales de un Game Engine.</p>
+      </div>
+    </div>
   </div>
 </section>
-
-<!-- QUE ES -->
 <section class="section" id="que-es">
   <div class="split">
     <div>
@@ -685,7 +746,7 @@ footer {
   </div>
 
   <div style="margin-top:48px;">
-    <img src="gridIG.png" alt="Yotsuba Hybrid Grid IG" style="width: 100%; height: auto; display: block; border-radius: var(--md-shape-xl); border: 1px solid var(--md-outline-variant);">
+    <img src="yotsuba_hybrid_banner.png" alt="Yotsuba Hybrid" style="width: 100%; height: auto; display: block; border-radius: var(--md-shape-xl); border: 1px solid var(--md-outline-variant);">
   </div>
 </section>
 
