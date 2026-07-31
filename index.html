@@ -159,6 +159,129 @@ nav {
 .btn-accent:hover { box-shadow: 0 8px 24px -8px rgba(242,183,5,.5); transform: translateY(-1px); }
 .btn-outline { background: transparent; color: var(--md-on-surface); border: 1px solid var(--md-outline); }
 .btn-outline:hover { background: var(--md-surface-container); }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+
+/* ---------- MODAL: Notificame del Lanzamiento ---------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(5,5,6,0.72);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  transition: opacity .3s var(--ease-std);
+}
+.modal-overlay.open {
+  display: flex;
+  opacity: 1;
+}
+.modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  background: var(--md-surface-container-high);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-shape-xl);
+  padding: 40px;
+  box-shadow: 0 24px 64px -16px rgba(0,0,0,.6), 0 12px 40px -12px rgba(255,61,142,.18);
+  transform: translateY(12px) scale(0.98);
+  opacity: 0;
+  transition: transform .35s var(--ease-dec), opacity .35s var(--ease-dec);
+}
+.modal-overlay.open .modal-card {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--md-shape-full);
+  border: 1px solid var(--md-outline-variant);
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s var(--ease-std), color .2s var(--ease-std);
+}
+.modal-close:hover { background: var(--md-surface-container-highest); color: var(--md-on-surface); }
+.modal-eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--md-primary);
+  margin-bottom: 14px;
+  display: inline-block;
+}
+.modal-card h3 {
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+.modal-card p.modal-lede {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--md-on-surface-variant);
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+.field {
+  margin-bottom: 18px;
+}
+.field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--md-on-surface-variant);
+  margin-bottom: 8px;
+}
+.field input {
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  color: var(--md-on-surface);
+  background: var(--md-surface-container-low);
+  border: 1px solid var(--md-outline);
+  border-radius: var(--md-shape-xs) var(--md-shape-xs) 0 0;
+  border-bottom: 1.5px solid var(--md-outline);
+  padding: 13px 14px;
+  outline: none;
+  transition: border-color .2s var(--ease-std), background .2s var(--ease-std);
+}
+.field input::placeholder { color: var(--md-on-surface-variant); opacity: 0.55; }
+.field input:hover { background: var(--md-surface-container); }
+.field input:focus {
+  border-bottom: 2px solid var(--md-primary);
+  box-shadow: 0 0 0 2px rgba(255,61,142,0.12);
+}
+.modal-submit {
+  width: 100%;
+  text-align: center;
+  margin-top: 6px;
+  padding: 14px 24px;
+}
+.modal-msg {
+  margin-top: 16px;
+  font-size: 13px;
+  line-height: 1.5;
+  display: none;
+}
+.modal-msg.show { display: block; }
+.modal-msg.success { color: var(--md-tertiary); }
+.modal-msg.error { color: var(--md-primary); }
 
 /* ---------- HERO ---------- */
 .hero {
@@ -644,11 +767,10 @@ footer {
     <div class="hero-grid">
       <div>
         <span class="eyebrow">Filosofía</span>
-        <h1>Un híbrido entre<br>framework y <em>engine</em>.</h1>
+        <h1>Un híbrido entre<br>Game Framework y <em>Game Engine</em>.</h1>
         <p class="lede">Yotsuba Hybrid no te obliga a elegir entre el control granular de un framework como MonoGame y la comodidad visual de un engine tipo Unity o Godot. Te da ambos, sobre la misma base de código.</p>
         <div class="hero-ctas">
-          <a href="#" class="btn btn-filled">Próximamente</a>
-          <a href="#" class="btn btn-outline">Enero 2026</a>
+          <button type="button" class="btn btn-filled" onclick="openNotifyModal()">Notificame del Lanzamiento</button>
         </div>
       </div>
     </div>
@@ -1016,6 +1138,115 @@ footer {
   </a>
   <div>© 2026 Yotsuba Hybrid. Framework + Engine.</div>
 </footer>
+
+<!-- MODAL: Notificame del Lanzamiento -->
+<div class="modal-overlay" id="notifyOverlay" onclick="if(event.target===this) closeNotifyModal()">
+  <div class="modal-card">
+    <button type="button" class="modal-close" aria-label="Cerrar" onclick="closeNotifyModal()">✕</button>
+    <span class="modal-eyebrow">Lanzamiento · Enero 2026</span>
+    <h3>Notificame del Lanzamiento</h3>
+    <p class="modal-lede">Dejanos tus datos y te avisamos apenas Yotsuba Hybrid esté disponible. Sin spam.</p>
+
+    <form id="notifyForm" novalidate>
+      <div class="field">
+        <label for="notifyNombre">Nombre</label>
+        <input type="text" id="notifyNombre" name="nombre" placeholder="Tu nombre" required>
+      </div>
+      <div class="field">
+        <label for="notifyCorreo">Correo</label>
+        <input type="email" id="notifyCorreo" name="correo" placeholder="tu@correo.com" required>
+      </div>
+      <div class="field">
+        <label for="notifyCelular">Celular <span style="text-transform:none; opacity:.6;">(opcional)</span></label>
+        <input type="tel" id="notifyCelular" name="celular" placeholder="8091234567" inputmode="numeric">
+      </div>
+      <button type="submit" class="btn btn-filled modal-submit" id="notifySubmitBtn">Notificarme</button>
+      <div class="modal-msg" id="notifyMsg"></div>
+    </form>
+  </div>
+</div>
+
+<script>
+  // ⚠️ Reemplaza esto con tu Supabase anon/public API key (Settings → API en tu proyecto Supabase).
+  const SUPABASE_URL = 'https://paxcudhlpkjqkgcohonw.supabase.co/rest/v1/Personas';
+  const SUPABASE_ANON_KEY = 'sb_publishable_I_Nn5LGuUJ2v9wlg3HPODg_8BjBHstQ';
+
+  const notifyOverlay = document.getElementById('notifyOverlay');
+  const notifyForm = document.getElementById('notifyForm');
+  const notifyMsg = document.getElementById('notifyMsg');
+  const notifySubmitBtn = document.getElementById('notifySubmitBtn');
+
+  function openNotifyModal() {
+    notifyOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeNotifyModal() {
+    notifyOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && notifyOverlay.classList.contains('open')) closeNotifyModal();
+  });
+
+  function showNotifyMsg(text, type) {
+    notifyMsg.textContent = text;
+    notifyMsg.className = 'modal-msg show ' + type;
+  }
+
+  notifyForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const nombre = document.getElementById('notifyNombre').value.trim();
+    const correo = document.getElementById('notifyCorreo').value.trim();
+    const celularRaw = document.getElementById('notifyCelular').value.trim();
+    const celular = celularRaw ? Number(celularRaw.replace(/\D/g, '')) : null;
+
+    if (!nombre || !correo) {
+      showNotifyMsg('Por favor completa nombre y correo.', 'error');
+      return;
+    }
+
+    notifySubmitBtn.disabled = true;
+    notifySubmitBtn.textContent = 'Enviando...';
+    notifyMsg.className = 'modal-msg';
+
+    try {
+      const response = await fetch(SUPABASE_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          PersonaID: Date.now(),
+          Nombre: nombre,
+          Correo: correo,
+          Celular: celular
+        })
+      });
+
+      if (!response.ok) {
+        const errText = await response.text();
+        throw new Error(errText || ('Error ' + response.status));
+      }
+
+      showNotifyMsg('¡Listo! Te avisaremos apenas lancemos Yotsuba Hybrid.', 'success');
+      notifyForm.reset();
+      notifySubmitBtn.textContent = 'Notificarme';
+      notifySubmitBtn.disabled = false;
+      setTimeout(closeNotifyModal, 2200);
+    } catch (err) {
+      console.error('Error al enviar:', err);
+      showNotifyMsg('Algo salió mal. Intenta de nuevo en unos segundos.', 'error');
+      notifySubmitBtn.textContent = 'Notificarme';
+      notifySubmitBtn.disabled = false;
+    }
+  });
+</script>
 
 </body>
 </html>
