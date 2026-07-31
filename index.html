@@ -437,6 +437,125 @@ nav {
   border-radius: 6px;
 }
 
+/* ---------- DEPENDENCY TREE ---------- */
+.dep-tree { display: flex; flex-direction: column; align-items: center; width: 100%; }
+
+.dep-root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: var(--md-surface-container-high);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-shape-lg);
+  padding: 12px 22px;
+  box-shadow: 0 8px 24px -12px rgba(0,0,0,.5);
+}
+.dep-root-label { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 13px; color: var(--md-on-surface); }
+.dep-root-sub { font-size: 11px; color: var(--md-on-surface-variant); }
+
+.dep-connector { width: 1px; height: 24px; background: var(--md-outline-variant); }
+
+.dep-engine {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--md-primary-container);
+  border: 1px solid var(--md-primary);
+  border-radius: var(--md-shape-lg);
+  padding: 10px 20px;
+  box-shadow: 0 8px 24px -12px rgba(0,0,0,.5);
+}
+.dep-engine-logo { height: 20px; width: 20px; object-fit: contain; border-radius: 5px; display: block; }
+.dep-engine-label { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 13px; color: var(--md-on-primary-container); }
+
+.dep-branches {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  margin-top: 28px;
+}
+.dep-branches::before {
+  content: '';
+  position: absolute;
+  top: -28px;
+  left: 16.6%;
+  right: 16.6%;
+  height: 1px;
+  background: var(--md-outline-variant);
+}
+.dep-branch { position: relative; flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; }
+.dep-branch::before {
+  content: '';
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  width: 1px;
+  height: 28px;
+  background: var(--md-outline-variant);
+}
+
+.dep-node {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+  border: 1px solid var(--dep-color);
+  background: var(--dep-container);
+  border-radius: var(--md-shape-md);
+  padding: 10px 6px;
+}
+.dep-node-logo { width: 22px; height: 22px; object-fit: contain; border-radius: 5px; }
+.dep-node-name { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 11.5px; color: var(--dep-on-container); line-height: 1.3; }
+.dep-node-tag { font-size: 9px; color: var(--dep-color); opacity: .9; line-height: 1.3; }
+
+.dep-branch.dep-mono { --dep-color: var(--md-tertiary); --dep-container: var(--md-tertiary-container); --dep-on-container: var(--md-on-tertiary-container); }
+.dep-branch.dep-kni { --dep-color: var(--md-secondary); --dep-container: var(--md-secondary-container); --dep-on-container: var(--md-on-secondary-container); }
+.dep-branch.dep-yf { --dep-color: var(--md-primary); --dep-container: var(--md-primary-container); --dep-on-container: var(--md-on-primary-container); }
+
+.dep-leaves-wrap {
+  margin-top: 14px;
+  padding-left: 12px;
+  border-left: 1px solid var(--md-outline-variant);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  width: 100%;
+}
+.dep-leaf {
+  position: relative;
+  font-family: 'Space Mono', monospace;
+  font-size: 10.5px;
+  color: var(--md-on-surface-variant);
+  background: var(--md-surface-container-low);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-shape-sm);
+  padding: 5px 8px;
+  text-align: center;
+}
+.dep-leaf::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  width: 12px;
+  height: 1px;
+  background: var(--md-outline-variant);
+}
+
+@media (max-width: 640px) {
+  .dep-branches { flex-direction: column; gap: 28px; margin-top: 24px; }
+  .dep-branches::before, .dep-branch::before { display: none; }
+  .dep-node { flex-direction: row; justify-content: flex-start; text-align: left; padding: 10px 14px; }
+  .dep-node-logo { width: 26px; height: 26px; }
+  .dep-leaves-wrap { flex-direction: row; flex-wrap: wrap; padding-left: 0; border-left: none; margin-left: 38px; }
+  .dep-leaf::before { display: none; }
+}
+
 /* ---------- QUE ES ---------- */
 .split {
   display: grid;
@@ -767,7 +886,7 @@ footer {
     <div class="hero-grid">
       <div>
         <span class="eyebrow">Filosofía</span>
-        <h1>Un híbrido entre<br>Game Framework y <em>Game Engine</em>.</h1>
+        <h1>Un hí<em>brido</em> entre<br>Game Framework y <em>Game Engine</em>.</h1>
         <p class="lede">Yotsuba Hybrid no te obliga a elegir entre el control granular de un framework como MonoGame y la comodidad visual de un engine tipo Unity o Godot. Te da ambos, sobre la misma base de código.</p>
         <div class="hero-ctas">
           <button type="button" class="btn btn-filled" onclick="openNotifyModal()">Notificame del Lanzamiento</button>
@@ -785,28 +904,68 @@ footer {
       <p>En un proyecto Yotsuba Hybrid escribes tu lógica de juego una sola vez y decides con qué backend se ejecuta: <strong>MonoGame</strong>, <strong>KNI</strong>, o nuestra propia reimplementación de alto rendimiento, <strong>Yotsuba Framework</strong>.</p>
     </div>
     
-    <div style="background: var(--md-surface-container); border: 1px solid var(--md-outline-variant); border-radius: var(--md-shape-xl); padding: 24px; box-shadow: 0 20px 40px -20px rgba(0,0,0,.5); max-width: 480px; width: 100%; justify-self: center; align-self: center;">
-      <div class="selector-label" style="font-family: 'Space Mono', monospace; font-size: 12px; color: var(--md-on-surface-variant); margin-bottom: 16px;">// ejecutar proyecto con:</div>
-      <div class="runtime-row active">
-        <div class="runtime-left">
-          <img src="monogame_logo.svg" alt="MonoGame" class="runtime-logo">
-          <span class="runtime-name">MonoGame</span>
-        </div>
-        <span class="runtime-tag">Open Source</span>
+    <div style="background: var(--md-surface-container); border: 1px solid var(--md-outline-variant); border-radius: var(--md-shape-xl); padding: 28px 22px; box-shadow: 0 20px 40px -20px rgba(0,0,0,.5); max-width: 560px; width: 100%; justify-self: center; align-self: center;">
+      <div class="selector-label" style="display:flex; align-items:center; gap:8px; margin-bottom:20px;">
+        <img src="Yotsuba Hybrid Logo.png" alt="Yotsuba Hybrid" style="height:20px; width:20px; object-fit:contain; display:block;">
+        <span style="font-family: 'Space Mono', monospace; font-weight:700; font-size: 13px; color: var(--md-on-surface);">Yotsuba Hybrid</span>
       </div>
-      <div class="runtime-row">
-        <div class="runtime-left">
-          <img src="kni.png" alt="KNI" class="runtime-logo">
-          <span class="runtime-name">KNI</span>
+
+      <div class="dep-tree">
+        <div class="dep-root">
+          <span class="dep-root-label">Librería Compartida</span>
+          <span class="dep-root-sub">(tu código)</span>
         </div>
-        <span class="runtime-tag">Open Source</span>
-      </div>
-      <div class="runtime-row">
-        <div class="runtime-left">
-          <img src="Yotsuba Framework Logo.png" alt="Yotsuba Framework" class="runtime-logo">
-          <span class="runtime-name">Yotsuba Framework</span>
+
+        <div class="dep-connector"></div>
+
+        <div class="dep-engine">
+          <img src="Yotsuba Hybrid Logo.png" alt="Yotsuba Hybrid" class="dep-engine-logo">
+          <span class="dep-engine-label">Yotsuba Engine</span>
         </div>
-        <span class="runtime-tag">Premium · Próximamente</span>
+
+        <div class="dep-branches">
+          <div class="dep-branch dep-mono">
+            <div class="dep-node">
+              <img src="monogame_logo.svg" alt="MonoGame" class="dep-node-logo">
+              <span class="dep-node-name">MonoGame</span>
+              <span class="dep-node-tag">Open Source</span>
+            </div>
+            <div class="dep-leaves-wrap">
+              <div class="dep-leaf">Android</div>
+              <div class="dep-leaf">iOS</div>
+              <div class="dep-leaf">Desktop</div>
+              <div class="dep-leaf">Consolas</div>
+            </div>
+          </div>
+
+          <div class="dep-branch dep-kni">
+            <div class="dep-node">
+              <img src="kni.png" alt="KNI" class="dep-node-logo">
+              <span class="dep-node-name">KNI</span>
+              <span class="dep-node-tag">Open Source</span>
+            </div>
+            <div class="dep-leaves-wrap">
+              <div class="dep-leaf">Android</div>
+              <div class="dep-leaf">iOS</div>
+              <div class="dep-leaf">Desktop</div>
+              <div class="dep-leaf">Web</div>
+            </div>
+          </div>
+
+          <div class="dep-branch dep-yf">
+            <div class="dep-node">
+              <img src="Yotsuba Framework Logo.png" alt="Yotsuba Framework" class="dep-node-logo">
+              <span class="dep-node-name">Yotsuba Framework</span>
+              <span class="dep-node-tag">Premium · Próx.</span>
+            </div>
+            <div class="dep-leaves-wrap">
+              <div class="dep-leaf">Android</div>
+              <div class="dep-leaf">iOS</div>
+              <div class="dep-leaf">Desktop</div>
+              <div class="dep-leaf">Web</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -873,39 +1032,6 @@ footer {
   <span class="eyebrow">Plataformas</span>
   <h2 style="font-size:clamp(32px,4.5vw,48px); max-width:720px;">Las plataformas se suman, no se reparten.</h2>
   <p style="color:var(--md-on-surface-variant); max-width:640px; margin-top:16px; font-size:16px;">Como puedes elegir entre MonoGame, KNI o Yotsuba Framework para ejecutar tu juego, todas las plataformas soportadas por cualquiera de los tres quedan disponibles para tu proyecto Yotsuba Hybrid. Tú no gestionas nada: Yotsuba decide con qué compilar según lo que necesites en cada momento.</p>
-
-  <div class="platform-table">
-    <div class="pt-row head">
-      <div class="pt-cell">Plataforma</div>
-      <div class="pt-cell platform-name">MonoGame</div>
-      <div class="pt-cell platform-name">KNI</div>
-      <div class="pt-cell union">Yotsuba Hybrid</div>
-    </div>
-    <div class="pt-row">
-      <div class="pt-cell">Windows / macOS / Linux</div>
-      <div class="pt-cell"><span class="check">✓</span></div>
-      <div class="pt-cell"><span class="check">✓</span></div>
-      <div class="pt-cell union"><span class="check">✓</span></div>
-    </div>
-    <div class="pt-row">
-      <div class="pt-cell">iOS / Android</div>
-      <div class="pt-cell"><span class="check">✓</span></div>
-      <div class="pt-cell"><span class="check">✓</span></div>
-      <div class="pt-cell union"><span class="check">✓</span></div>
-    </div>
-    <div class="pt-row">
-      <div class="pt-cell">Consolas (Xbox / PlayStation / Switch)</div>
-      <div class="pt-cell"><span class="check">✓</span></div>
-      <div class="pt-cell"><span class="dash">—</span></div>
-      <div class="pt-cell union"><span class="check">✓</span></div>
-    </div>
-    <div class="pt-row">
-      <div class="pt-cell">Web (WebAssembly)</div>
-      <div class="pt-cell"><span class="dash">—</span></div>
-      <div class="pt-cell"><span class="check">✓</span></div>
-      <div class="pt-cell union"><span class="check">✓</span></div>
-    </div>
-  </div>
 
   <div class="union-callout">
     <div class="big">Σ</div>
@@ -1083,7 +1209,6 @@ footer {
         <div class="price-feat"><span class="ok">✓</span> Salto de rendimiento significativo frente a MonoGame</div>
         <div class="price-feat"><span class="ok">✓</span> Lenguaje de shaders Slang en lugar de fx</div>
         <div class="price-feat"><span class="ok">✓</span> Decisiones arquitectónicas pensadas para estudios</div>
-        <div class="price-feat"><span class="ok">✓</span> Desarrollar con Yotsuba Framework no tiene costo</div>
       </div>
       <a href="#" class="btn btn-accent" style="width:100%; text-align:center;">En desarrollo</a>
     </div>
@@ -1097,7 +1222,7 @@ footer {
   <div class="compare-table">
     <div class="ct-row head">
       <div class="ct-cell">Característica</div>
-      <div class="ct-cell">MonoGame</div>
+      <div class="ct-cell">MonoGame / KNI</div>
       <div class="ct-cell">Yotsuba Framework</div>
     </div>
     <div class="ct-row">
