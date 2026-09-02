@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yotsuba Hybrid — Framework + Engine, en uno solo</title>
 <meta name="description" id="metaDescription" content="Crea juegos y aplicaciones en C# y .NET con un editor visual integrado y cuatro backends gratuitos y open source: MonoGame, KNI, FNA y Yotsuba Framework.">
+<meta name="theme-color" content="#0B0B0E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Yotsuba Hybrid — Framework + Engine, en uno solo">
+<meta property="og:description" content="Una sola lógica de juego en C#/.NET. Cuatro backends y un editor visual integrado en modo DEBUG.">
+<meta property="og:image" content="hero_bg.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <script>
   (function () {
     const supportedLanguages = ['es', 'en'];
@@ -98,6 +104,23 @@ body {
   overflow-x: hidden;
 }
 
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 500;
+  padding: 10px 16px;
+  border-radius: var(--md-shape-full);
+  background: var(--md-tertiary);
+  color: var(--md-on-tertiary);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-160%);
+  transition: transform .2s var(--ease-std);
+}
+.skip-link:focus { transform: translateY(0); }
+
 h1, h2, h3, .display {
   font-family: 'Fraunces', serif;
   font-optical-sizing: auto;
@@ -170,10 +193,10 @@ nav {
   font-weight: 500;
   color: var(--md-on-surface-variant);
 }
-.navlinks a { color: inherit; text-decoration: none; transition: color .2s var(--ease-std); }
+.navlinks a { color: inherit; text-decoration: none; transition: color .2s var(--ease-std); white-space: nowrap; }
 .navlinks a:hover { color: var(--md-on-surface); }
 .navlinks a { display: none; }
-@media (min-width: 760px) { .navlinks a { display: inline; } }
+@media (min-width: 1050px) { .navlinks a { display: inline; } }
 .nav-actions {
   display: flex;
   align-items: center;
@@ -433,6 +456,189 @@ nav {
   margin-bottom: 36px;
 }
 .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 56px; }
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 18px;
+  padding: 7px 12px;
+  border: 1px solid rgba(242,183,5,.38);
+  border-radius: var(--md-shape-full);
+  background: rgba(58,43,6,.58);
+  color: #FFE8A3;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+.status-chip::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--md-accent);
+  box-shadow: 0 0 0 4px rgba(242,183,5,.12);
+}
+
+.backend-console {
+  padding: 28px;
+  border-radius: var(--md-shape-xl);
+  background: var(--md-surface-container-low);
+  box-shadow: 0 1px 3px rgba(0,0,0,.5);
+}
+.backend-console-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.backend-console-head strong {
+  display: block;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+.backend-console-head p {
+  margin-top: 3px;
+  color: var(--md-on-surface-variant);
+  font-size: 12px;
+  line-height: 18px;
+}
+.backend-tech-chip {
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  border-radius: var(--md-shape-sm);
+  background: var(--md-tertiary-container);
+  color: var(--md-on-tertiary-container);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .03em;
+}
+.backend-stack { display: grid; gap: 8px; }
+.backend-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 64px;
+  padding: 8px 14px 8px 10px;
+  border: 0;
+  border-radius: var(--md-shape-lg);
+  background: var(--md-surface-container);
+  color: var(--md-on-surface);
+  font-family: 'Inter', sans-serif;
+  text-align: left;
+  cursor: pointer;
+  transition: background .2s var(--ease-std), box-shadow .15s var(--ease-std);
+}
+.backend-option:hover {
+  box-shadow: inset 0 0 0 999px rgba(243,241,247,.08);
+}
+.backend-option:focus-visible {
+  outline: 2px solid var(--md-primary);
+  outline-offset: 2px;
+}
+.backend-option.selected {
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+}
+.backend-option.selected:hover {
+  box-shadow: inset 0 0 0 999px rgba(255,212,231,.08);
+}
+.backend-identity { display: flex; align-items: center; gap: 11px; min-width: 0; }
+.backend-logo-wrap {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border-radius: var(--md-shape-md);
+  background: var(--md-surface-container-highest);
+}
+.selected .backend-logo-wrap { background: rgba(255,212,231,.12); }
+.backend-identity img { width: 34px; height: 34px; object-fit: contain; border-radius: 7px; display: block; }
+.backend-identity img.backend-wide { width: 38px; height: 28px; border-radius: 2px; }
+.backend-identity > span { font-size: 14px; line-height: 20px; font-weight: 600; }
+.backend-trailing { display: flex; align-items: center; gap: 12px; }
+.backend-kind {
+  padding: 4px 8px;
+  border-radius: var(--md-shape-sm);
+  background: var(--md-surface-container-highest);
+  color: var(--md-on-surface-variant);
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.selected .backend-kind {
+  background: rgba(255,212,231,.12);
+  color: var(--md-on-primary-container);
+}
+.backend-radio {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  border: 2px solid var(--md-outline);
+  border-radius: 50%;
+}
+.selected .backend-radio { border-color: var(--md-primary); }
+.selected .backend-radio::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--md-primary);
+}
+@media (max-width: 899px) {
+  .backend-console { max-width: 620px; }
+}
+@media (max-width: 440px) {
+  .backend-console { padding: 22px 18px; }
+  .backend-console-head { align-items: center; }
+  .backend-console-head p { display: none; }
+  .backend-kind { display: none; }
+  .backend-identity > span { font-size: 13px; }
+}
+
+.project-status {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: start;
+  margin-top: 36px;
+  padding: 20px 22px;
+  border: 1px solid rgba(242,183,5,.28);
+  border-radius: var(--md-shape-lg);
+  background: linear-gradient(110deg, rgba(58,43,6,.42), var(--md-surface-container-low));
+}
+.project-status-mark {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--md-accent);
+  color: var(--md-on-accent);
+  font-family: 'Fraunces', serif;
+  font-size: 21px;
+  font-weight: 700;
+}
+.project-status strong { display: block; margin-bottom: 4px; font-size: 14px; }
+.project-status p { color: var(--md-on-surface-variant); font-size: 13px; }
+
+.editor-preview {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 1.52 / 1;
+  object-fit: cover;
+  object-position: top center;
+}
 
 .hero-highlights {
   display: grid;
@@ -941,6 +1147,22 @@ footer {
   flex-wrap: wrap;
   gap: 12px;
 }
+
+.footer-handle {
+  color: var(--md-on-surface-variant);
+  text-decoration: none;
+  transition: color .2s var(--ease-std);
+}
+.footer-handle:hover { color: var(--md-primary); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
 .footer-social {
   display: flex;
   align-items: center;
@@ -990,12 +1212,20 @@ footer {
   </defs>
 </svg>
 
-<nav>
+<a class="skip-link" href="#contenido" data-i18n="a11y.skip">Saltar al contenido</a>
+
+<nav aria-label="Navegación principal" data-i18n-aria="nav.label">
   <div class="nav-left">
-    <a href="#" class="logo">
+    <a href="#inicio" class="logo" aria-label="Yotsuba Hybrid — Inicio" data-i18n-aria="nav.home">
       <img src="Yotsuba Hybrid Logo.png" alt="Yotsuba Hybrid Logo">
       <span class="logo-wordmark">YOTSUBA <span>HYBRID</span></span>
     </a>
+  </div>
+  <div class="navlinks">
+    <a href="#que-es" data-i18n="nav.what">Qué es</a>
+    <a href="#como-funciona" data-i18n="nav.editor">Editor</a>
+    <a href="#plataformas" data-i18n="nav.platforms">Plataformas</a>
+    <a href="#precio" data-i18n="nav.openSource">Open source</a>
   </div>
   <div class="nav-actions">
     <button type="button" class="language-toggle" id="languageToggle" aria-label="Cambiar idioma a inglés" title="Cambiar idioma a inglés">
@@ -1007,11 +1237,13 @@ footer {
 </nav>
 
 <!-- HERO / COVER -->
-<section class="hero">
+<main id="contenido">
+<section class="hero" id="inicio">
   <div class="section" style="padding-top:0; padding-bottom:0;">
     <div class="hero-grid">
       <div>
         <span class="eyebrow" data-i18n="hero.eyebrow">Filosofía</span>
+        <div class="status-chip" data-i18n="hero.status">En desarrollo · Próximamente</div>
         <h1 data-i18n-html="hero.title">Un hí<em>brido</em> entre<br>Game Framework y <em>Game Engine</em>.</h1>
         <p class="lede" data-i18n="hero.lede">Yotsuba Hybrid no te obliga a elegir entre el control granular de un framework como MonoGame y la comodidad visual de un engine tipo Unity o Godot. Te da ambos, sobre la misma base de código.</p>
         <div class="hero-ctas">
@@ -1033,6 +1265,45 @@ footer {
           </div>
         </div>
       </div>
+      <aside class="backend-console" aria-label="Backends de Yotsuba Hybrid" data-i18n-aria="backend.label">
+        <div class="backend-console-head">
+          <div>
+            <strong data-i18n="backend.title">Elige cómo ejecutarlo</strong>
+            <p data-i18n="backend.helper">La lógica de tu juego permanece igual.</p>
+          </div>
+          <span class="backend-tech-chip">C# · .NET</span>
+        </div>
+        <div class="backend-stack" role="listbox" aria-label="Seleccionar backend" data-i18n-aria="backend.listLabel">
+          <button class="backend-option" type="button" role="option" aria-selected="false">
+            <div class="backend-identity">
+              <span class="backend-logo-wrap"><img src="monogame.jpg" alt=""></span>
+              <span>MonoGame</span>
+            </div>
+            <span class="backend-trailing"><span class="backend-kind" data-i18n="backend.openSource">Open source</span><span class="backend-radio" aria-hidden="true"></span></span>
+          </button>
+          <button class="backend-option" type="button" role="option" aria-selected="false">
+            <div class="backend-identity">
+              <span class="backend-logo-wrap"><img src="kni.png" alt=""></span>
+              <span>KNI</span>
+            </div>
+            <span class="backend-trailing"><span class="backend-kind" data-i18n="backend.openSource">Open source</span><span class="backend-radio" aria-hidden="true"></span></span>
+          </button>
+          <button class="backend-option" type="button" role="option" aria-selected="false">
+            <div class="backend-identity">
+              <span class="backend-logo-wrap"><img src="FNA logo.png" alt="" class="backend-wide"></span>
+              <span>FNA</span>
+            </div>
+            <span class="backend-trailing"><span class="backend-kind" data-i18n="backend.openSource">Open source</span><span class="backend-radio" aria-hidden="true"></span></span>
+          </button>
+          <button class="backend-option selected" type="button" role="option" aria-selected="true">
+            <div class="backend-identity">
+              <span class="backend-logo-wrap"><img src="Yotsuba Framework Logo.png" alt=""></span>
+              <span>Yotsuba Framework</span>
+            </div>
+            <span class="backend-trailing"><span class="backend-kind" data-i18n="backend.own">Propio</span><span class="backend-radio" aria-hidden="true"></span></span>
+          </button>
+        </div>
+      </aside>
     </div>
   </div>
 </section>
@@ -1137,7 +1408,7 @@ footer {
       <div class="mockup-dot"></div><div class="mockup-dot"></div><div class="mockup-dot"></div>
       <span class="title" data-i18n="how.mockupTitle">mi-juego.exe — modo debug</span>
     </div>
-    <img src="img editor.jpeg" alt="Editor visual de Yotsuba Hybrid" data-i18n-alt="how.editorAlt" style="width: 100%; height: auto; display: block;">
+    <img id="editorPreview" class="editor-preview" src="img editor.jpeg" alt="Editor visual de Yotsuba Hybrid" data-i18n-alt="how.editorAlt">
   </div>
 
   <div class="steps-row" style="margin-top:48px;">
@@ -1192,6 +1463,13 @@ footer {
   <div class="union-callout">
     <div class="big">Σ</div>
     <p data-i18n="platforms.callout">Todas las plataformas de MonoGame + KNI + FNA + Yotsuba Framework, disponibles desde una sola base de código. Sin trabajo extra de tu parte al cambiar de implementación. En consolas se requiere acceso a los programas, licencias y requisitos del fabricante.</p>
+  </div>
+  <div class="project-status" role="note">
+    <div class="project-status-mark">!</div>
+    <div>
+      <strong data-i18n="platforms.statusTitle">Capacidades anunciadas, proyecto en desarrollo</strong>
+      <p data-i18n="platforms.statusDescription">La cobertura indicada representa los objetivos y capacidades anunciados del proyecto y de sus backends; no implica que todos los destinos estén disponibles hoy en una versión estable. Las consolas requieren aprobación, licencias y herramientas de cada fabricante.</p>
+    </div>
   </div>
 </section>
 
@@ -1379,18 +1657,20 @@ footer {
 
 <!-- CTA -->
 <section class="cta-section">
-  <span class="eyebrow" data-i18n="cta.eyebrow">Empieza hoy</span>
+  <span class="eyebrow" data-i18n="cta.eyebrow">Sigue el desarrollo</span>
   <h2 data-i18n-html="cta.title">Un código.<br>Todas las plataformas.</h2>
-  <p data-i18n="cta.description">Yotsuba Hybrid y Yotsuba Framework son gratis y open source. Sin trucos, sin letra pequeña.</p>
-  <a href="#" class="btn btn-filled" style="padding:16px 32px; font-size:15px;" data-i18n="cta.download">Descargar Yotsuba Hybrid</a>
+  <p data-i18n="cta.description">Yotsuba Hybrid y Yotsuba Framework serán gratis y open source. Déjanos avisarte cuando llegue la primera versión pública.</p>
+  <button type="button" class="btn btn-filled" style="padding:16px 32px; font-size:15px;" data-i18n="cta.download" onclick="openNotifyModal()">Avísame cuando esté listo</button>
 </section>
+</main>
 
 <footer>
-  <a href="#" class="logo">
+  <a href="#inicio" class="logo">
     <img src="Yotsuba Hybrid Logo.png" alt="Yotsuba Hybrid Logo" style="height: 38px;">
     <span style="font-size: 16px;">YOTSUBA <span>HYBRID</span></span>
   </a>
   <div data-i18n="footer.copyright">© 2026 Yotsuba Hybrid. Framework + Engine.</div>
+  <a href="https://www.instagram.com/yotsubahybrid.official/" target="_blank" rel="noopener" class="footer-handle" aria-label="Yotsuba Hybrid en Instagram" data-i18n-aria="social.instagram">@yotsubahybrid.official</a>
   <div class="footer-social">
     <a href="https://www.youtube.com/@YTBHybrid" target="_blank" rel="noopener" class="social-icon" aria-label="Yotsuba Hybrid en YouTube" data-i18n-aria="social.youtube">
       <svg><use href="#ic-youtube"/></svg>
@@ -1452,12 +1732,27 @@ footer {
       'page.description': 'Build games and apps in C# and .NET with an integrated visual editor and four free, open-source backends: MonoGame, KNI, FNA, and Yotsuba Framework.',
       'language.switchToEnglish': 'Switch language to English',
       'language.switchToSpanish': 'Switch language to Spanish',
+      'a11y.skip': 'Skip to content',
+      'nav.label': 'Main navigation',
+      'nav.home': 'Yotsuba Hybrid — Home',
+      'nav.what': 'What it is',
+      'nav.editor': 'Editor',
+      'nav.platforms': 'Platforms',
+      'nav.openSource': 'Open source',
       'nav.notify': 'Notify me',
       'hero.eyebrow': 'Philosophy',
+      'hero.status': 'In development · Coming soon',
       'hero.title': 'A hy<em>brid</em> between<br>a Game Framework and a <em>Game Engine</em>.',
       'hero.lede': "Yotsuba Hybrid doesn't make you choose between the granular control of a framework like MonoGame and the visual convenience of an engine like Unity or Godot. It gives you both on the same codebase.",
       'hero.notify': 'Notify me at launch',
       'hero.donate': 'Donate',
+      'backend.label': 'Yotsuba Hybrid backends',
+      'backend.title': 'Choose how it runs',
+      'backend.helper': 'Your game logic stays exactly the same.',
+      'backend.listLabel': 'Select a backend',
+      'backend.openSource': 'Open source',
+      'backend.available': 'BACKEND',
+      'backend.own': 'In-house',
       'social.discord': 'Yotsuba Hybrid on Discord',
       'social.youtube': 'Yotsuba Hybrid on YouTube',
       'social.email': 'Email Yotsuba Hybrid',
@@ -1489,6 +1784,8 @@ footer {
       'platforms.title': 'Platforms add up—they are not divided.',
       'platforms.description': 'Because you can run your game with MonoGame, KNI, FNA, or Yotsuba Framework, every platform supported by any of the four is available to your Yotsuba Hybrid project. You manage nothing extra: Yotsuba chooses the right implementation for each build.',
       'platforms.callout': 'All MonoGame + KNI + FNA + Yotsuba Framework platforms, available from one codebase. No extra work when you switch implementations. Console releases require access to the manufacturer programs, licenses, and requirements.',
+      'platforms.statusTitle': 'Announced capabilities, project in development',
+      'platforms.statusDescription': 'The coverage shown represents the project’s announced goals and the capabilities of its backends; it does not mean that every target is available today in a stable release. Consoles require approval, licenses, and tools from each manufacturer.',
       'coverage.eyebrow': 'Coverage',
       'coverage.title': 'Build today. Ship <span style="color:var(--md-primary);">everywhere</span>.',
       'coverage.description': 'Yotsuba Hybrid lets you build once and take your game or app to multiple platforms with maximum native performance. Modern backends, native APIs, and a consistent experience on every device.',
@@ -1529,10 +1826,10 @@ footer {
       'pricing.frameworkFeatureTwo': 'Slang shader language instead of fx',
       'pricing.frameworkFeatureThree': 'High-performance architecture designed for studios',
       'pricing.callout': '<strong style="color:var(--md-on-surface);">Yotsuba Hybrid and all four backends are completely free and open source.</strong> Choose MonoGame, KNI, FNA, or Yotsuba Framework based on the compatibility and performance your project needs, always from the same codebase.',
-      'cta.eyebrow': 'Start today',
+      'cta.eyebrow': 'Follow the development',
       'cta.title': 'One codebase.<br>Every platform.',
-      'cta.description': 'Yotsuba Hybrid and Yotsuba Framework are free and open source. No tricks, no fine print.',
-      'cta.download': 'Download Yotsuba Hybrid',
+      'cta.description': 'Yotsuba Hybrid and Yotsuba Framework will be free and open source. Leave your details and we’ll tell you when the first public release arrives.',
+      'cta.download': 'Tell me when it is ready',
       'footer.copyright': '© 2026 Yotsuba Hybrid. Framework + Engine.',
       'modal.close': 'Close',
       'modal.eyebrow': 'Launch · Coming soon',
@@ -1558,6 +1855,8 @@ footer {
   const languageToggle = document.getElementById('languageToggle');
   const languageCode = document.getElementById('languageCode');
   const metaDescription = document.getElementById('metaDescription');
+  const editorPreview = document.getElementById('editorPreview');
+  const backendOptions = Array.from(document.querySelectorAll('.backend-option'));
   let currentLanguage = supportedLanguages.includes(window.__YOTSUBA_INITIAL_LANGUAGE__)
     ? window.__YOTSUBA_INITIAL_LANGUAGE__
     : 'es';
@@ -1634,6 +1933,9 @@ footer {
     document.documentElement.dataset.language = currentLanguage;
     document.title = t('page.title');
     metaDescription.setAttribute('content', t('page.description'));
+    document.querySelector('meta[property="og:title"]').setAttribute('content', t('page.title'));
+    document.querySelector('meta[property="og:description"]').setAttribute('content', t('page.description'));
+    editorPreview.src = currentLanguage === 'en' ? 'img editor.jpeg' : 'img editor2.jpeg';
 
     const nextLanguage = currentLanguage === 'es' ? 'en' : 'es';
     const switchLabel = t(nextLanguage === 'en'
@@ -1679,6 +1981,28 @@ footer {
 
   window.addEventListener('languagechange', function () {
     if (!manualLanguageSelected) applyLanguage(detectBrowserLanguage());
+  });
+
+  function selectBackend(option) {
+    backendOptions.forEach(function (candidate) {
+      const isSelected = candidate === option;
+      candidate.classList.toggle('selected', isSelected);
+      candidate.setAttribute('aria-selected', String(isSelected));
+    });
+  }
+
+  backendOptions.forEach(function (option, index) {
+    option.addEventListener('click', function () { selectBackend(option); });
+    option.addEventListener('keydown', function (event) {
+      const forward = event.key === 'ArrowDown' || event.key === 'ArrowRight';
+      const backward = event.key === 'ArrowUp' || event.key === 'ArrowLeft';
+      if (!forward && !backward) return;
+      event.preventDefault();
+      const offset = forward ? 1 : -1;
+      const nextOption = backendOptions[(index + offset + backendOptions.length) % backendOptions.length];
+      selectBackend(nextOption);
+      nextOption.focus();
+    });
   });
 
   function openNotifyModal() {
