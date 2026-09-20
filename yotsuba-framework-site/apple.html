@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#03122f" />
+  <meta name="description" content="Yotsuba Framework — an XNA-based framework for running MonoGame games with Metal on Apple platforms." />
+  <title>Yotsuba Framework — MonoGame on Metal</title>
+  <link rel="icon" href="assets/yotsuba-framework-logo.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page-grid" aria-hidden="true"></div>
+
+  <header class="site-header" data-reveal>
+    <a class="brand" href="#top" aria-label="Yotsuba Framework home">
+      <img src="assets/yotsuba-framework-logo.png" alt="" />
+      <span>
+        <strong>YOTSUBA</strong>
+        <small>FRAMEWORK</small>
+      </span>
+    </a>
+
+    <nav class="nav" id="primary-navigation" aria-label="Primary navigation">
+      <a href="docs.html">Documentation</a>
+      <a href="capabilities.html">Capabilities</a>
+    </nav>
+    <button class="nav-menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primary-navigation">
+      <span></span><span></span><span></span>
+    </button>
+
+    <a class="header-cta" href="#support">
+      Support Yotsuba
+      <span aria-hidden="true">♡</span>
+    </a>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy" data-reveal>
+        <p class="eyebrow"><span>01</span> XNA lineage / Apple-native path</p>
+
+        <h1>
+          MonoGame.
+          <em>Metal-native.</em>
+          On Apple.
+        </h1>
+
+        <p class="hero-lede">
+          Yotsuba Framework is an XNA-based refactor of FNA built to run
+          MonoGame games through Metal on macOS, iPadOS and iOS — while keeping
+          your existing MonoGame libraries in play.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#compatibility">See compatibility</a>
+          <a class="text-link" href="#architecture">How it works <span>→</span></a>
+        </div>
+
+        <div class="hero-meta" aria-label="Key framework facts">
+          <div>
+            <span class="meta-index">A</span>
+            <strong>MonoGame libraries</strong>
+            <small>Reference and execute without recompiling for Yotsuba.</small>
+          </div>
+          <div>
+            <span class="meta-index">B</span>
+            <strong>MGCB</strong>
+            <small>DesktopGL content pipeline compatibility.</small>
+          </div>
+          <div>
+            <span class="meta-index">C</span>
+            <strong>MGFX / .fx</strong>
+            <small>DesktopVK shader profile support.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-mark" aria-label="Yotsuba Framework visual mark" data-reveal>
+        <div class="mark-stage">
+          <div class="orbit orbit-a"></div>
+          <div class="orbit orbit-b"></div>
+          <div class="crosshair crosshair-x"></div>
+          <div class="crosshair crosshair-y"></div>
+
+          <img src="assets/yotsuba-framework-logo.png" alt="Yotsuba Framework butterfly and brush logo" />
+
+          <span class="tech-label label-top">METAL / APPLE</span>
+          <span class="tech-label label-right">MGFX</span>
+          <span class="tech-label label-bottom">XNA / FNA</span>
+          <span class="tech-label label-left">MGCB</span>
+        </div>
+
+        <div class="hero-caption">
+          <span>YF / 00</span>
+          <p>Keep the XNA workflow.<br />Change the path to the GPU.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="ticker" aria-label="Supported technologies">
+      <div class="ticker-track">
+        <span>XNA</span><b>✦</b>
+        <span>MONOGAME</span><b>✦</b>
+        <span>METAL</span><b>✦</b>
+        <span>MGCB / DESKTOPGL</span><b>✦</b>
+        <span>MGFX / DESKTOPVK</span><b>✦</b>
+        <span>MACOS</span><b>✦</b>
+        <span>IPADOS</span><b>✦</b>
+        <span>IOS</span><b>✦</b>
+        <span>XNA</span><b>✦</b>
+        <span>MONOGAME</span><b>✦</b>
+        <span>METAL</span><b>✦</b>
+      </div>
+    </section>
+
+    <section class="statement" id="compatibility">
+      <div class="section-number">02 / COMPATIBILITY</div>
+      <div class="statement-copy" data-reveal>
+        <p class="kicker">USE WHAT YOU ALREADY HAVE</p>
+        <h2>
+          Your MonoGame ecosystem
+          <span>doesn’t need a rewrite.</span>
+        </h2>
+        <p>
+          Reference libraries compiled for MonoGame and run them from Yotsuba
+          Framework without rebuilding those libraries specifically for Yotsuba.
+          The framework is designed around compatibility at the boundary, not
+          around forcing an ecosystem reset.
+        </p>
+      </div>
+
+      <div class="compat-flow" data-reveal>
+        <div class="flow-node">
+          <small>INPUT</small>
+          <strong>MonoGame game</strong>
+          <span>Existing game code</span>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">
+          <small>REFERENCE</small>
+          <strong>MonoGame libraries</strong>
+          <span>No Yotsuba recompile</span>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node active">
+          <small>RUNTIME</small>
+          <strong>Yotsuba Framework</strong>
+          <span>XNA-compatible layer</span>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node metal">
+          <small>APPLE GPU</small>
+          <strong>Metal</strong>
+          <span>macOS · iPadOS · iOS</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="apple-section" id="apple">
+      <div class="apple-intro" data-reveal>
+        <p class="eyebrow"><span>03</span> The Apple path</p>
+        <h2>One XNA-shaped API.<br /><em>Three Apple targets.</em></h2>
+      </div>
+
+      <div class="apple-grid">
+        <article class="device-card device-mac" data-reveal>
+          <div class="device-index">01</div>
+          <div class="device-glyph" aria-hidden="true">
+            <div class="screen"><span></span></div>
+            <div class="stand"></div>
+          </div>
+          <div>
+            <p>DESKTOP</p>
+            <h3>macOS</h3>
+            <span>MonoGame game → Yotsuba → Metal</span>
+          </div>
+        </article>
+
+        <article class="device-card device-ipad" data-reveal>
+          <div class="device-index">02</div>
+          <div class="device-glyph tablet" aria-hidden="true"><span></span></div>
+          <div>
+            <p>TABLET</p>
+            <h3>iPadOS</h3>
+            <span>The same framework philosophy on iPad.</span>
+          </div>
+        </article>
+
+        <article class="device-card device-iphone" data-reveal>
+          <div class="device-index">03</div>
+          <div class="device-glyph phone" aria-hidden="true"><span></span></div>
+          <div>
+            <p>MOBILE</p>
+            <h3>iOS</h3>
+            <span>An Apple-native rendering path for iPhone.</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="toolchain" id="toolchain">
+      <div class="section-heading" data-reveal>
+        <p class="eyebrow"><span>04</span> Toolchain</p>
+        <h2>Keep the pipeline familiar.</h2>
+        <p>
+          Yotsuba is not trying to replace the MonoGame workflow that already
+          works. It keeps the pieces developers depend on and gives Apple
+          platforms a Metal-focused runtime path.
+        </p>
+      </div>
+
+      <div class="spec-list" data-reveal>
+        <article>
+          <div class="spec-no">01</div>
+          <div class="spec-title">
+            <small>CONTENT</small>
+            <h3>MGCB</h3>
+          </div>
+          <div class="spec-value">Profile: <strong>DesktopGL</strong></div>
+          <div class="spec-note">Build content with the familiar MonoGame Content Builder workflow.</div>
+        </article>
+
+        <article>
+          <div class="spec-no">02</div>
+          <div class="spec-title">
+            <small>SHADERS</small>
+            <h3>MGFX / .fx</h3>
+          </div>
+          <div class="spec-value">Profile: <strong>DesktopVK</strong></div>
+          <div class="spec-note">Use effects authored in the MonoGame shader workflow.</div>
+        </article>
+
+        <article>
+          <div class="spec-no">03</div>
+          <div class="spec-title">
+            <small>LIBRARIES</small>
+            <h3>MonoGame DLLs</h3>
+          </div>
+          <div class="spec-value"><strong>Direct reference</strong></div>
+          <div class="spec-note">Consume compatible MonoGame libraries without a Yotsuba-specific rebuild.</div>
+        </article>
+
+        <article>
+          <div class="spec-no">04</div>
+          <div class="spec-title">
+            <small>RENDERING</small>
+            <h3>Metal</h3>
+          </div>
+          <div class="spec-value"><strong>Apple platforms</strong></div>
+          <div class="spec-note">A modern native graphics path for Mac, iPad and iPhone.</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="architecture" id="architecture">
+      <div class="architecture-copy" data-reveal>
+        <p class="eyebrow"><span>05</span> Architecture</p>
+        <h2>FNA roots.<br /><span>Yotsuba direction.</span></h2>
+        <p>
+          Yotsuba Framework is a refactor of FNA with a different compatibility
+          goal: preserve the XNA model, interoperate with the MonoGame ecosystem,
+          and make Metal a first-class destination on Apple hardware.
+        </p>
+      </div>
+
+      <div class="arch-diagram" data-reveal aria-label="Yotsuba Framework architecture diagram">
+        <div class="arch-row arch-source">
+          <span>GAME CODE</span>
+          <strong>MonoGame / XNA-style project</strong>
+        </div>
+        <div class="arch-line"><span></span></div>
+        <div class="arch-row arch-runtime">
+          <span>FRAMEWORK</span>
+          <strong>Yotsuba Framework</strong>
+          <small>refactored from FNA</small>
+        </div>
+        <div class="arch-split">
+          <div>
+            <span>CONTENT</span>
+            <strong>MGCB</strong>
+            <small>DesktopGL</small>
+          </div>
+          <div>
+            <span>SHADERS</span>
+            <strong>MGFX</strong>
+            <small>DesktopVK</small>
+          </div>
+          <div class="accent">
+            <span>GRAPHICS</span>
+            <strong>Metal</strong>
+            <small>Apple</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="support" id="support">
+      <div class="support-copy" data-reveal>
+        <p class="eyebrow"><span>06</span> Support the project</p>
+        <h2>Help Yotsuba<br /><em>keep moving.</em></h2>
+        <p>
+          Yotsuba Framework is built as open-source infrastructure for developers
+          who want the XNA workflow with a modern Apple graphics path. If the
+          project is useful to you, sponsorship helps fund development, maintenance
+          and documentation.
+        </p>
+      </div>
+
+      <div class="support-panel" data-reveal>
+        <div class="support-signal" aria-hidden="true">
+          <span>YF</span>
+          <strong>+</strong>
+          <span>YOU</span>
+        </div>
+
+        <div class="support-details">
+          <p class="support-label">OPEN SOURCE / COMMUNITY FUNDED</p>
+          <h3>Become part of the runway.</h3>
+          <p>
+            Every contribution gives the project more room to improve compatibility,
+            tooling and the Apple runtime path.
+          </p>
+
+          <div class="support-actions">
+            <a class="btn btn-support" href="https://github.com/sponsors/Yotsuba-Hybrid" target="_blank" rel="noreferrer">
+              Sponsor the project ↗
+            </a>
+            <a class="support-source" href="https://github.com/Yotsuba-Hybrid" target="_blank" rel="noreferrer">
+              View on GitHub <span>→</span>
+            </a>
+          </div>
+
+          <small class="support-footnote">Monthly or one-time support can be configured through the project funding profile.</small>
+        </div>
+      </div>
+    </section>
+
+    <section class="start" id="start" data-reveal>
+      <div>
+        <p class="eyebrow"><span>07</span> Yotsuba Framework</p>
+        <h2>Build like XNA.<br />Ship through Metal.</h2>
+      </div>
+      <div class="start-side">
+        <p>
+          A framework identity built around compatibility, control and a
+          deliberate Apple graphics path.
+        </p>
+        <a href="#top" class="btn btn-light">Back to top ↑</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-brand">
+      <img src="assets/yotsuba-framework-logo.png" alt="" />
+      <strong>YOTSUBA FRAMEWORK</strong>
+    </div>
+    <p>XNA lineage / MonoGame compatibility / Metal on Apple</p>
+    <span>YF — FRAMEWORK SITE CONCEPT</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
