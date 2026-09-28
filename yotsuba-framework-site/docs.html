@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#03122f" />
+  <meta name="description" content="Yotsuba Framework documentation — setup, compatibility and rendering workflow." />
+  <title>Documentation — Yotsuba Framework</title>
+  <link rel="icon" href="assets/yotsuba-framework-logo.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="docs.css" />
+</head>
+<body class="docs-page" data-content-source="content/documentation.csv">
+  <div class="page-grid" aria-hidden="true"></div>
+
+  <header class="site-header" data-reveal>
+    <a class="brand" href="index.html" aria-label="Yotsuba Framework home">
+      <img src="assets/yotsuba-framework-logo.png" alt="" />
+      <span><strong>YOTSUBA</strong><small>FRAMEWORK</small></span>
+    </a>
+    <nav class="nav" id="primary-navigation" aria-label="Primary navigation">
+      <a class="nav-active" href="docs.html">Documentation</a>
+      <a href="capabilities.html">Capabilities</a>
+    </nav>
+    <button class="nav-menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primary-navigation">
+      <span></span><span></span><span></span>
+    </button>
+    <a class="header-cta" href="index.html#support">Support Yotsuba <span aria-hidden="true">♡</span></a>
+  </header>
+
+  <main id="top">
+    <section class="docs-hero">
+      <div>
+        <p class="eyebrow"><span>DOCS / 00</span> Developer reference</p>
+        <h1>Build with<br /><em>the familiar shape.</em></h1>
+        <p class="docs-lede">A practical starting point for bringing an XNA or MonoGame project to Yotsuba Framework — from the first reference to the Metal render path.</p>
+      </div>
+      <div class="docs-status" aria-label="Documentation status">
+        <span class="status-dot"></span><strong>EARLY DOCUMENTATION</strong>
+        <p>API names and setup commands will evolve as the framework matures.</p>
+        <span class="status-code">YF / DOCS / 001</span>
+      </div>
+    </section>
+
+    <div class="docs-layout">
+      <aside class="docs-sidebar" aria-label="Documentation navigation">
+        <p class="sidebar-label">On this page</p>
+        <nav>
+          <a class="sidebar-active" href="#quickstart"><span>01</span> Quick start</a>
+          <a href="#project-shape"><span>02</span> Project shape</a>
+          <a href="#content-pipeline"><span>03</span> Content pipeline</a>
+          <a href="#rendering-path"><span>04</span> Rendering path</a>
+          <a href="#platforms"><span>05</span> Platforms</a>
+        </nav>
+        <div class="sidebar-note">
+          <span>NEED HELP?</span>
+          <p>Open an issue or start a discussion in the project repository.</p>
+          <a href="https://github.com/Yotsuba-Hybrid" target="_blank" rel="noreferrer">GitHub ↗</a>
+        </div>
+      </aside>
+
+      <div class="docs-content">
+        <section class="doc-section" id="quickstart" data-reveal>
+          <p class="doc-index">01 / QUICK START</p>
+          <h2>Get a project running.</h2>
+          <p>Yotsuba is designed to sit where an XNA-shaped game framework sits: your game owns the loop and content, while the framework supplies the platform and graphics implementation.</p>
+          <div class="terminal-block" aria-label="Quick start commands">
+            <div class="terminal-bar"><span></span><span></span><span></span><small>TERMINAL / SETUP</small></div>
+            <pre><code><span class="code-muted"># Add the framework to your game project</span>
+dotnet add package Yotsuba.Framework
+
+<span class="code-muted"># Build content with the MonoGame pipeline</span>
+dotnet mgcb /@:Content/Content.mgcb
+
+<span class="code-muted"># Run the Apple target</span>
+dotnet run --project Platforms/Apple</code></pre>
+          </div>
+          <p class="doc-note"><strong>Note:</strong> Package names and CLI entry points are placeholders while the public distribution is being finalized.</p>
+        </section>
+
+        <section class="doc-section" id="project-shape" data-reveal>
+          <p class="doc-index">02 / PROJECT SHAPE</p>
+          <h2>Keep the game portable.</h2>
+          <p>Put game logic and shared assets in the core project. Keep the platform host thin, so the same code can move between desktop, mobile and future Yotsuba backends.</p>
+          <div class="file-tree" aria-label="Suggested project structure">
+            <div><span class="tree-mark">◆</span><strong>MyGame/</strong></div>
+            <div class="tree-indent"><span>├─</span> MyGame.Core/ <small>shared game code</small></div>
+            <div class="tree-indent"><span>├─</span> Content/ <small>MGCB source and assets</small></div>
+            <div class="tree-indent"><span>├─</span> Platforms/Apple/ <small>Metal host</small></div>
+            <div class="tree-indent"><span>└─</span> MyGame.sln</div>
+          </div>
+        </section>
+
+        <section class="doc-section" id="content-pipeline" data-reveal>
+          <p class="doc-index">03 / CONTENT PIPELINE</p>
+          <h2>Use the tools you know.</h2>
+          <div class="doc-table" role="table" aria-label="Supported workflow pieces">
+            <div class="table-row table-head" role="row"><span>Piece</span><span>Profile</span><span>Purpose</span></div>
+            <div class="table-row" role="row"><strong>MGCB</strong><span>DesktopGL</span><span>Build textures, fonts and models.</span></div>
+            <div class="table-row" role="row"><strong>MGFX / .fx</strong><span>DesktopVK</span><span>Author effects using the MonoGame shader workflow.</span></div>
+            <div class="table-row" role="row"><strong>MonoGame DLLs</strong><span>Direct reference</span><span>Reuse compatible libraries without a Yotsuba rebuild.</span></div>
+          </div>
+        </section>
+
+        <section class="doc-section" id="rendering-path" data-reveal>
+          <p class="doc-index">04 / RENDERING PATH</p>
+          <h2>One API. A native destination.</h2>
+          <div class="path-diagram" aria-label="Yotsuba rendering path">
+            <div><small>GAME</small><strong>Draw calls</strong></div><i>→</i>
+            <div class="path-active"><small>FRAMEWORK</small><strong>Yotsuba</strong></div><i>→</i>
+            <div><small>BACKEND</small><strong>Metal</strong></div>
+          </div>
+          <p>The compatibility layer preserves the mental model of XNA and MonoGame while the backend translates the work into an Apple-native graphics path.</p>
+        </section>
+
+        <section class="doc-section" id="platforms" data-reveal>
+          <p class="doc-index">05 / PLATFORMS</p>
+          <h2>Choose your target.</h2>
+          <div class="platform-list">
+            <div><span>01</span><strong>macOS</strong><small>Desktop / Metal</small></div>
+            <div><span>02</span><strong>iPadOS</strong><small>Tablet / Metal</small></div>
+            <div><span>03</span><strong>iOS</strong><small>Mobile / Metal</small></div>
+          </div>
+        </section>
+
+        <div class="docs-next">
+          <span>MORE REFERENCE COMING AS THE API SETTLES</span>
+          <a href="capabilities.html">Explore capabilities <b>→</b></a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-brand"><img src="assets/yotsuba-framework-logo.png" alt="" /><strong>YOTSUBA FRAMEWORK</strong></div>
+    <p>Documentation / Compatibility / Metal on Apple</p>
+    <span>YF — DOCUMENTATION</span>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

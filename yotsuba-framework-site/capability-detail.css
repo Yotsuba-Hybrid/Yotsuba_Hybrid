@@ -1,0 +1,97 @@
+.article-shell {
+  width: min(calc(100% - (var(--pad) * 2)), 1040px);
+  margin: 0 auto;
+  padding: 58px 0 120px;
+}
+.back-link {
+  display: inline-block;
+  margin-bottom: 70px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 5px;
+}
+.back-link:hover { color: var(--blue); border-color: var(--blue); }
+.capability-article {
+  scroll-margin-top: 30px;
+  padding-bottom: 112px;
+  margin-bottom: 112px;
+  border-bottom: 1px solid var(--line);
+}
+.capability-article:last-child { margin-bottom: 0; }
+.article-header { max-width: 760px; }
+.article-header h1 {
+  margin: 0;
+  font-size: clamp(64px, 9vw, 128px);
+  line-height: .82;
+  letter-spacing: -.08em;
+  font-weight: 900;
+}
+.article-header h1 em {
+  display: block;
+  color: var(--blue);
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+}
+.article-intro {
+  max-width: 640px;
+  margin: 34px 0 0;
+  color: #4a586f;
+  font-size: 20px;
+  line-height: 1.55;
+}
+.article-cover {
+  width: 100%;
+  margin-top: 54px;
+  aspect-ratio: 1.72 / 1;
+  object-fit: cover;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+}
+.article-body {
+  max-width: 700px;
+  margin: 56px auto 0;
+}
+.article-body p {
+  color: #4a586f;
+  font-size: 16px;
+  line-height: 1.8;
+}
+.article-body .article-lead {
+  color: var(--ink);
+  font-size: 24px;
+  line-height: 1.45;
+  letter-spacing: -.02em;
+}
+.article-body h2 {
+  margin: 55px 0 0;
+  font-size: 38px;
+  line-height: 1;
+  letter-spacing: -.06em;
+}
+.article-callout {
+  margin: 42px 0;
+  padding: 25px 28px;
+  display: grid;
+  gap: 14px;
+  border-left: 4px solid var(--blue);
+  background: #e7edf0;
+}
+.article-callout span, .article-tags {
+  color: var(--blue);
+  font: 900 10px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: .14em;
+}
+.article-callout strong { max-width: 570px; font-size: 19px; line-height: 1.35; }
+.article-tags { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 34px; }
+.article-tags span { padding: 9px 11px; border: 1px solid var(--line); }
+.article-body code { padding: 2px 5px; background: var(--paper-2); color: var(--ink); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9em; }
+@media (max-width: 620px) {
+  .article-shell { padding-top: 36px; padding-bottom: 80px; }
+  .back-link { margin-bottom: 52px; }
+  .article-header h1 { font-size: clamp(56px, 17vw, 86px); }
+  .article-intro { font-size: 17px; }
+  .article-body { margin-top: 38px; }
+  .article-body .article-lead { font-size: 21px; }
+}

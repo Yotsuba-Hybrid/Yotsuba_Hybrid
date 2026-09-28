@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title id="docTitle">Yotsuba — Un motor. Tres puertas.</title>
+<meta name="description" id="docDesc" content="Framework, Hybrid y Engine: tres herramientas para hacer videojuegos en C# sobre el mismo núcleo. Pago único, sin regalías.">
+<meta name="theme-color" content="#F4EDDE">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Yotsuba — Un motor. Tres puertas.">
+<meta property="og:description" content="Escribe tu juego en C#. Elige cuánto motor quieres encima. Framework, Hybrid y Engine comparten el mismo núcleo.">
+<meta property="og:image" content="../assets/enuma.webp">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/webp" href="../assets/hybrid-logo.webp">
+<link rel="preload" as="image" href="../assets/enuma.webp" type="image/webp">
+<script>
+  (function () {
+    var langs = ['es', 'en'], saved = null;
+    try { saved = localStorage.getItem('yotsuba-language'); } catch (_) {}
+    var prefs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language];
+    var det = prefs.map(function (l) { return String(l || '').toLowerCase().split(/[-_]/)[0]; })
+                   .filter(function (l) { return langs.indexOf(l) > -1; })[0];
+    var lang = langs.indexOf(saved) > -1 ? saved : (det || 'es');
+    document.documentElement.lang = lang;
+    window.__LANG__ = lang;
+  }());
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=JetBrains+Mono:wght@400;500;700&family=Kaushan+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="yotsuba.css">
+</head>
+<body>
+
+<!-- ===== iconos ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><ellipse cx="12" cy="12" rx="4.2" ry="9.5"/><line x1="2.5" y1="12" x2="21.5" y2="12"/></symbol>
+  <symbol id="i-discord" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 5.2C6.9 5.6 5.5 6.2 4.2 7c-1.7 3.4-2.3 6.9-2 10.4 1.6 1.2 3.1 1.9 4.6 2.4l1-1.6"/><path d="M15.5 5.2c1.6.4 3 1 4.3 1.8 1.7 3.4 2.3 6.9 2 10.4-1.6 1.2-3.1 1.9-4.6 2.4l-1-1.6"/><path d="M6.2 17.4c3.7 1.7 8 1.7 11.7 0"/><circle cx="9" cy="13" r="1.4" fill="currentColor" stroke="none"/><circle cx="15" cy="13" r="1.4" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-youtube" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="3.5"/><polygon points="10.3,9 15,12 10.3,15" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.2"/><path d="M3.2 5.8l8.8 7 8.8-7"/></symbol>
+  <symbol id="i-insta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-github" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.8a10.2 10.2 0 0 0-3.2 19.9c.5.1.7-.2.7-.5v-1.9c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 3 .8.1-.6.3-1.1.6-1.4-2.2-.2-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.8-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.2 10.2 0 0 0 12 1.8z"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="4" x2="12" y2="19"/><polyline points="5.5,12.5 12,19 18.5,12.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4,12.5 9.5,18 20,6"/></symbol>
+  <symbol id="i-reg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="7"/><line x1="12" y1="0" x2="12" y2="24"/><line x1="0" y1="12" x2="24" y2="12"/></symbol>
+</svg>
+
+<a class="skip" href="#main" data-t="a11y.skip">Saltar al contenido</a>
+
+<!-- ===== NAV ===== -->
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="Yotsuba">
+    <span class="brand-mark" aria-hidden="true">
+      <img src="../assets/framework-logo.webp" alt="" class="m m1">
+      <img src="../assets/engine-logo-neon.webp" alt="" class="m m2">
+      <img src="../assets/hybrid-logo.webp" alt="" class="m m3">
+    </span>
+    <span class="brand-word"><b>YOTSUBA</b><i data-t="nav.tag">el taller</i></span>
+  </a>
+  <nav class="nav-links" aria-label="Navegación principal" data-ta="aria-label:nav.label">
+    <a href="#nucleo" data-t="nav.core">El núcleo</a>
+    <a href="#framework" data-t="nav.fw">Framework</a>
+    <a href="#hybrid" data-t="nav.hy">Hybrid</a>
+    <a href="#engine" data-t="nav.en">Engine</a>
+    <a href="#comparar" data-t="nav.compare">Comparar</a>
+    <a href="#precio" data-t="nav.price">Precios</a>
+  </nav>
+  <div class="nav-right">
+    <button type="button" class="lang" id="langBtn" data-ta="aria-label:nav.langTo">
+      <svg aria-hidden="true"><use href="#i-globe"/></svg><span id="langCode">EN</span>
+    </button>
+    <a class="btn sm seal" href="#precio" data-t="nav.buy">Comprar</a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ================================================================== HERO -->
+<section class="hero" id="top" data-p="fw">
+  <div class="hero-grid">
+
+    <div class="hero-copy">
+      <p class="eyebrow"><i class="dot"></i><span data-t="hero.eyebrow">Tres herramientas · un mismo núcleo en C#</span></p>
+      <span class="kick brush" data-t="hero.kick">el taller de Yotsuba</span>
+      <h1 class="display" aria-label="Un motor. Tres puertas.">
+        <span class="l" data-t="hero.h1a" aria-hidden="true">Un motor.</span>
+        <span class="l fill" data-t="hero.h1b" aria-hidden="true">Tres puertas.</span>
+      </h1>
+      <p class="lede" data-th="hero.lede">Framework, Hybrid y Engine comparten el mismo motor por dentro. Entra por la puerta que va con tu forma de trabajar y cámbiate cuando quieras, <b>sin reescribir tu juego</b>.</p>
+      <div class="cta-row">
+        <a class="btn" href="#elige"><span data-t="hero.cta1">Elige tu puerta</span><svg aria-hidden="true"><use href="#i-down"/></svg></a>
+        <a class="btn paper" href="#precio" data-t="hero.cta2">Ver precios</a>
+      </div>
+      <ul class="stamps">
+        <li data-t="hero.s1">C# / .NET de verdad</li>
+        <li data-t="hero.s2">2D + 3D</li>
+        <li data-t="hero.s3">Vulkan · Metal · DX12</li>
+        <li class="hot" data-t="hero.s4">Pago único · sin regalías</li>
+      </ul>
+    </div>
+
+    <div class="hero-plate">
+      <div class="plate" id="plate">
+        <div class="plate-in">
+          <img class="art" src="../assets/enuma.webp" alt="Enuma Elish: una figura alada desciende sobre un mar de tormenta mientras dos viajeros con capa y un tigre blanco miran desde la orilla" data-ta="alt:hero.art" width="2000" height="3000" fetchpriority="high">
+          <div class="lens" id="lens" aria-hidden="true">
+            <img class="lens-art" src="../assets/enuma.webp" alt="">
+            <div class="lens-skin skin-fw">
+              <svg class="mesh" aria-hidden="true"><defs><pattern id="tri" width="46" height="39.8" patternUnits="userSpaceOnUse"><path d="M0 0H46M0 39.8H46M0 39.8L23 0L46 39.8M23 39.8L46 0M-23 39.8L0 0" fill="none" stroke="#9fe4ff" stroke-opacity=".6" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(#tri)"/></svg>
+            </div>
+            <div class="lens-skin skin-hy">
+              <svg class="grid" aria-hidden="true"><defs><pattern id="sq2" width="44" height="44" patternUnits="userSpaceOnUse"><path d="M44 0H0V44" fill="none" stroke="#ff8fb4" stroke-opacity=".32" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(#sq2)"/></svg>
+              <svg class="boxes" viewBox="0 0 1333 2000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                <g><rect x="265" y="360" width="840" height="850"/><text x="277" y="398">Angel · SpriteComponent2D</text></g>
+                <g><rect x="235" y="1440" width="320" height="390"/><text x="247" y="1478">Hero_L · Transform</text></g>
+                <g><rect x="760" y="1440" width="350" height="410"/><text x="772" y="1478">Hero_R · Transform</text></g>
+                <g><rect x="650" y="1630" width="240" height="300"/><text x="662" y="1668">Tiger · Animation</text></g>
+                <g><rect x="545" y="60" width="570" height="330"/><text x="557" y="98">Storm · Light2D · VFX</text></g>
+                <g><rect x="1015" y="700" width="265" height="500"/><text x="1027" y="738">Maw · Collider</text></g>
+                <g><rect x="80" y="700" width="230" height="620"/><text x="92" y="738">Cliff · Sprite</text></g>
+                <g><rect x="1120" y="1290" width="200" height="560"/><text x="1132" y="1328">Palm · Sprite</text></g>
+                <g class="gz" transform="translate(685 780)"><path d="M0 0H190"/><path d="M0 0V-190"/><path d="M170 -18L196 0L170 18Z"/><path d="M-18 -170L0 -196L18 -170Z"/><circle r="12"/></g>
+              </svg>
+            </div>
+            <div class="lens-skin skin-en">
+              <svg class="grid" aria-hidden="true"><defs><pattern id="sq" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M50 0H0V50" fill="none" stroke="#39CAEC" stroke-opacity=".55" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(#sq)"/></svg>
+              <div class="insp-card">
+                <b>Inspector</b>
+                <span>Transform <u>x 0 · y 0 · z 1</u></span>
+                <span>Sprite <u>Angel.png</u></span>
+                <span>Script <u>Descend.cs</u></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="lens-ring" id="lensRing" aria-hidden="true">
+          <span class="lens-tag" id="lensTag">COMPUTE</span>
+          <pre class="lens-code" id="lensCode"></pre>
+        </div>
+        <span class="plate-tag"><b data-t="hero.tagA">PINTADO</b> · CPU &nbsp;/&nbsp; <b data-t="hero.tagB">CALCULADO</b> · GPU</span>
+      </div>
+
+      <div class="hint" id="hint" aria-hidden="true">
+        <span class="brush" data-t="hero.hint">¡Mueve el cursor!</span>
+        <svg viewBox="0 0 90 70" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M80 6C60 6 30 14 20 50"/><path d="M8 36l12 16 15-12"/></svg>
+      </div>
+
+      <div class="doorbar" role="tablist" data-ta="aria-label:hero.doors">
+        <button role="tab" data-door="fw" aria-selected="true"><img src="../assets/framework-logo.webp" alt=""><b>Framework</b><small data-t="door.fw">solo código</small></button>
+        <button role="tab" data-door="hy" aria-selected="false"><img src="../assets/hybrid-logo.webp" alt=""><b>Hybrid</b><small data-t="door.hy">código + editor</small></button>
+        <button role="tab" data-door="en" aria-selected="false"><img src="../assets/engine-logo-neon.webp" alt=""><b>Engine</b><small data-t="door.en">app de editor</small></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== tira de credenciales ===== -->
+<div class="ticker" aria-hidden="true"><div class="ticker-in" id="ticker"></div></div>
+
+<!-- ============================================================== EL NÚCLEO -->
+<section class="sec core" id="nucleo" data-torn="top">
+  <div class="wrap">
+    <header class="sec-head">
+      <span class="folio">00<i data-t="core.folio">el núcleo</i></span>
+      <h2 class="h" data-th="core.h">Por fuera son tres.<br><em>Por dentro son uno.</em></h2>
+      <p class="sub" data-t="core.sub">Las tres herramientas se apoyan en el mismo motor escrito en C#. Lo que aprendes en una te sirve en las otras, y un proyecto puede subir o bajar de puerta sin empezar de nuevo.</p>
+    </header>
+
+    <div class="stack" id="stack">
+      <div class="stack-rail" aria-hidden="true"><span data-t="core.yours">lo tuyo</span><i></i><span data-t="core.ours">lo nuestro</span></div>
+      <ol class="stack-body">
+        <li class="lay you"><b data-t="core.l0">Tu juego</b><span>C# · .NET · tus clases, tu arquitectura</span></li>
+        <li class="lay doors">
+          <span class="lay-label" data-t="core.doorsL">Tu puerta</span>
+          <div class="door-row">
+            <a href="#framework" data-p="fw"><img src="../assets/framework-logo.webp" alt=""><b>Framework</b><small data-t="core.d1">solo biblioteca</small></a>
+            <a href="#hybrid" data-p="hy"><img src="../assets/hybrid-logo.webp" alt=""><b>Hybrid</b><small data-t="core.d2">editor dentro del juego</small></a>
+            <a href="#engine" data-p="en"><img src="../assets/engine-logo-neon.webp" alt=""><b>Engine</b><small data-t="core.d3">app de editor</small></a>
+          </div>
+        </li>
+        <li class="lay core-lay"><b data-t="core.l2">Núcleo Yotsuba</b><span data-t="core.l2d">ECS · escenas · render · física · entrada · audio</span></li>
+        <li class="lay"><b data-t="core.l3">Adaptador XNA</b><span>MonoGame · KNI · FNA</span></li>
+        <li class="lay gpu"><b data-t="core.l4">Gráficos nativos</b><span>Vulkan · Metal · DirectX 12 · WebGPU · OpenGL</span></li>
+      </ol>
+    </div>
+
+    <div class="core-prose">
+      <p><b data-t="core.n1t">Un solo aprendizaje.</b> <span data-t="core.n1d">La misma API con forma de XNA en las tres. Lo que sabes de MonoGame, FNA o KNI entra directo, y los tutoriales de siempre te siguen sirviendo.</span></p>
+      <p><b data-t="core.n2t">Sin callejón sin salida.</b> <span data-t="core.n2d">Si el editor se te queda corto, bajas a Hybrid o a Framework y te llevas el proyecto entero. Nadie tiene que empezar de cero por haber elegido mal al principio.</span></p>
+      <p><b data-t="core.n3t">Tu código sigue siendo tuyo.</b> <span data-t="core.n3d">Un proyecto es .NET normal. Ábrelo en Visual Studio, Rider o VS Code, usa cualquier paquete de NuGet y mételo en el control de versiones que ya usas.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ ELIGE PUERTA -->
+<section class="sec pick" id="elige">
+  <div class="wrap">
+    <header class="sec-head sm">
+      <span class="folio">01<i data-t="pick.folio">cuál es la tuya</i></span>
+      <h2 class="h" data-t="pick.h">¿Cómo te gusta trabajar?</h2>
+      <p class="sub" data-t="pick.sub">Responde una sola cosa. Te decimos por dónde empezar — y ninguna respuesta te deja encerrado.</p>
+    </header>
+
+    <div class="pick-box">
+      <div class="opts" role="radiogroup" data-ta="aria-label:pick.aria">
+        <button role="radio" aria-checked="false" data-k="fw"><b data-t="pick.o1">Escribo todo en código</b><small data-t="pick.o1d">Quiero una biblioteca y mi IDE. Nada más.</small></button>
+        <button role="radio" aria-checked="false" data-k="hy"><b data-t="pick.o2">Quiero tocar mientras corre</b><small data-t="pick.o2d">Ajustar valores con el juego en marcha, sin salir de la ventana.</small></button>
+        <button role="radio" aria-checked="false" data-k="en"><b data-t="pick.o3">Quiero abrir el editor y dar Play</b><small data-t="pick.o3d">Escena, jerarquía, inspector, exportar. Lo clásico.</small></button>
+      </div>
+      <div class="pick-out" id="pickOut" data-p="fw" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================= ACTO I -->
+<section class="act" id="framework" data-p="fw">
+  <header class="act-open" data-torn="top bottom">
+    <img class="act-plate" src="../assets/enuma.webp" alt="" loading="lazy">
+    <span class="act-tint" aria-hidden="true"></span>
+    <span class="act-shade" aria-hidden="true"></span>
+    <div class="wrap act-open-in">
+      <span class="act-num" aria-hidden="true">I</span>
+      <div class="act-open-t">
+        <p class="act-for" data-t="fw.for">Para quien escribe todo en código</p>
+        <h2 class="act-title"><b>YOTSUBA</b><span class="brush">Framework</span></h2>
+      </div>
+      <img class="act-logo" src="../assets/framework-logo.webp" alt="" loading="lazy">
+    </div>
+    <span class="act-folio">PLIEGO I</span>
+  </header>
+  <div class="wrap">
+    <div class="act-lead">
+      <p class="act-claim" data-th="fw.claim">El único framework con linaje XNA que <b>modernizó entera su arquitectura gráfica</b>: compute shaders, Vulkan, Metal, DirectX&nbsp;12, WebGPU y siete lenguajes de shader.</p>
+      <dl class="spec">
+        <div><dt data-t="fw.r1">Compute shaders</dt><dd data-t="fw.r1d">Trabajo masivamente paralelo en la GPU dentro de un framework con forma de XNA.</dd></div>
+        <div><dt data-t="fw.r2">Siete lenguajes</dt><dd data-t="fw.r2d">MGFX, FNAFX, Slang, HLSL, GLSL, MSL y SPIR-V directo. Compilación en tiempo de ejecución.</dd></div>
+        <div><dt data-t="fw.r3">Rutas nativas</dt><dd data-t="fw.r3d">Vulkan en Android y Linux, Metal en Apple, DirectX 12 en Windows, WebGPU en el navegador.</dd></div>
+        <div><dt data-t="fw.r4">Compatible con MonoGame</dt><dd data-t="fw.r4d">Reutiliza tus bibliotecas y tu flujo MGCB/MGFX sin recompilar para Yotsuba.</dd></div>
+    </dl>
+    </div>
+
+    <!-- enrutador de APIs -->
+    <div class="router">
+      <div class="router-head">
+        <span class="eyebrow" data-t="fw.routerE">Enrutador de gráficos</span>
+        <h3 data-th="fw.routerH">El mismo código. <em>Solo cambia el destino.</em></h3>
+        <p data-t="fw.routerD">Yotsuba mantiene una superficie de tipo XNA y manda el trabajo de render a la API que le toca a cada plataforma. Elige un destino y sigue la señal.</p>
+      </div>
+      <div class="targets" id="targets" role="radiogroup" data-ta="aria-label:fw.targets"></div>
+      <div class="flow" aria-live="polite">
+        <div class="node"><small data-t="fw.n1">Tu juego</small><b>C# · XNA</b><span data-t="fw.n1d">Draw calls</span></div>
+        <i class="wire"></i>
+        <div class="node mid"><small data-t="fw.n2">Framework</small><img src="../assets/framework-logo.webp" alt=""><b>Yotsuba</b></div>
+        <i class="wire"></i>
+        <div class="node api"><small id="apiKind">Backend</small><div class="apilogo" id="apiLogo"></div><b id="apiName">Vulkan</b></div>
+        <i class="wire"></i>
+        <div class="node"><small data-t="fw.n4">Hardware</small><b>GPU</b><span id="gpuLine">—</span></div>
+      </div>
+      <p class="flow-desc" id="apiDesc"></p>
+      <pre class="code plain" aria-label="El mismo código en todos los destinos"><span class="c" data-t="fw.codeC">// El mismo código en todos los destinos</span>
+spriteBatch.<span class="t">Begin</span>();
+spriteBatch.<span class="t">Draw</span>(hero, position, Color.<span class="n">White</span>);
+spriteBatch.<span class="t">End</span>();</pre>
+    </div>
+
+    <!-- capacidades -->
+    <div class="caps">
+      <div class="caps-head">
+        <span class="eyebrow" data-t="fw.capsE">Capacidades</span>
+        <h3 data-th="fw.capsH">Nueve cosas que <em>ningún otro XNA</em> tiene juntas.</h3>
+      </div>
+      <div class="caps-feature">
+        <article class="feat">
+          <div class="feat-t"><span class="ix">01</span>
+            <h4 data-t="fw.c1">Compute shaders</h4>
+            <p data-t="fw.c1d">Simulación de partículas, generación procedural, proceso de imagen, iluminación y física, ejecutados en paralelo sobre la GPU.</p></div>
+          <figure class="feat-art is-film">
+            <video controls muted loop playsinline preload="none" poster="../assets/video/webgpu-poster.webp" data-autoplay data-ta="aria-label:fw.f1v"><source src="../assets/video/webgpu.mp4" type="video/mp4"></video>
+            <figcaption><b>WEBGPU</b><span data-t="fw.f1c">Captura real de una escena corriendo en el navegador por WebGPU.</span></figcaption>
+          </figure>
+        </article>
+        <article class="feat alt">
+          <div class="feat-t"><span class="ix">02</span>
+            <h4 data-t="fw.c2">Siete lenguajes de shader</h4>
+            <p data-t="fw.c2d">MGFX, FNAFX, Slang, HLSL, GLSL, MSL y entrada directa de SPIR-V. MGFX, Slang, GLSL y HLSL también son compatibles con WebGPU.</p></div>
+          <figure class="feat-art is-specimen">
+            <ol aria-hidden="true">
+              <li><i>01</i>MGFX<em>WebGPU</em></li>
+              <li><i>02</i>Slang<em>WebGPU</em></li>
+              <li><i>03</i>HLSL<em>WebGPU</em></li>
+              <li><i>04</i>GLSL<em>WebGPU</em></li>
+              <li><i>05</i>MSL</li>
+              <li><i>06</i>FNAFX</li>
+              <li><i>07</i>SPIR-V<em class="bin">binario</em></li>
+            </ol>
+            <figcaption data-t="fw.f2c">Siete formas de escribir el mismo efecto. Cuatro viajan también a WebGPU.</figcaption>
+          </figure>
+        </article>
+      </div>
+      <ol class="cap-index">
+        <li><span class="ix">03</span><div><span class="ci-t"><h4 data-t="fw.c3">MGCB y MGFX con perfil DesktopVK</h4></span><p data-t="fw.c3d">Sigue usando el pipeline que ya conoces. Los efectos de MonoGame compilados con DesktopVK corren en Apple por Metal.</p></div></li>
+        <li><span class="ix">04</span><div><span class="ci-t"><h4 data-t="fw.c4">DirectX 12 en Windows</h4></span><p data-t="fw.c4d">Ruta nativa de render para GPUs de escritorio modernas, sin abandonar el modelo XNA.</p></div></li>
+        <li><span class="ix">05</span><div><span class="ci-t"><h4 data-t="fw.c5">Metal en Apple</h4></span><p data-t="fw.c5d">macOS, iPadOS e iOS por una ruta Metal nativa, con el mismo código.</p></div></li>
+        <li><span class="ix">06</span><div><span class="ci-t"><h4 data-t="fw.c6">Vulkan en Android</h4></span><p data-t="fw.c6d">El mismo flujo de trabajo en Android sobre una ruta Vulkan pensada para GPUs móviles.</p></div></li>
+        <li><span class="ix">07</span><div><span class="ci-t"><h4 data-t="fw.c7">WebGPU en el navegador</h4> <em class="pill" data-t="tag.roadmap">EN RUTA</em></span><p data-t="fw.c7d">El navegador traduce WebGPU a Vulkan, DirectX 12 o Metal según la plataforma. Tus shaders MGFX, Slang, GLSL y HLSL viajan con él.</p></div></li>
+        <li><span class="ix">08</span><div><span class="ci-t"><h4 data-t="fw.c8">Modelos 3D animados</h4></span><p data-t="fw.c8d">Carga y reproducción de animación con datos de modelo, esqueletos y clips, por el flujo de contenido de siempre.</p></div></li>
+        <li><span class="ix">09</span><div><span class="ci-t"><h4 data-t="fw.c9">Ilustraciones de Krita (.kra)</h4></span><p data-t="fw.c9d">Arte por capas directo del .kra dentro del pipeline visual. La pintura de esta página es una de ellas.</p></div></li>
+      </ol>
+    </div>
+
+    <!-- shaders -->
+    <div class="shaders">
+      <div class="sh-head">
+        <span class="eyebrow" data-t="fw.shE">Sistema de shaders</span>
+        <h3 data-th="fw.shH">El mismo efecto, <em>en siete idiomas.</em></h3>
+        <p data-t="fw.shD">En vez de obligarte a un solo lenguaje en todas partes, eliges el que le queda a cada plataforma.</p>
+      </div>
+      <div class="sh-tabs" id="shTabs" role="tablist" data-ta="aria-label:fw.shTabs"></div>
+      <div class="sh-grid">
+        <div class="codebox"><div class="win-h"><span id="shName">Ripple.fx</span><span data-t="fw.shSame">el mismo efecto · todos los lenguajes</span></div><pre class="code" id="shCode" tabindex="0"></pre></div>
+        <div class="sh-side"><h4 id="shTitle">MGFX</h4><p id="shDesc"></p><span class="badge" id="shBadge"></span><button class="btn sm paper" type="button" id="shCopy" data-t="fw.copy">Copiar fuente</button></div>
+      </div>
+    </div>
+
+    <div class="act-foot">
+      <a class="btn" href="#precio"><span data-t="fw.buy">Comprar Framework</span> <b class="price" data-price="framework"></b></a>
+      <a class="btn paper" href="../../yotsuba-framework-site/docs.html" data-t="fw.docs">Leer la documentación</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================ ACTO II -->
+<section class="act" id="hybrid" data-p="hy">
+  <header class="act-open" data-torn="top bottom">
+    <img class="act-plate" src="../assets/enuma.webp" alt="" loading="lazy">
+    <span class="act-tint" aria-hidden="true"></span>
+    <span class="act-shade" aria-hidden="true"></span>
+    <div class="wrap act-open-in">
+      <span class="act-num" aria-hidden="true">II</span>
+      <div class="act-open-t">
+        <p class="act-for" data-t="hy.for">Para quien quiere las dos cosas</p>
+        <h2 class="act-title"><b>YOTSUBA</b><span class="brush">Hybrid</span></h2>
+      </div>
+      <img class="act-logo" src="../assets/hybrid-logo.webp" alt="" loading="lazy">
+    </div>
+    <span class="act-folio">PLIEGO II</span>
+  </header>
+  <div class="wrap">
+    <div class="act-lead">
+      <p class="act-claim" data-th="hy.claim">El editor visual <b>vive dentro de la ventana de tu juego</b>, no en una app aparte. En <code>DEBUG</code> aparece; al compilar en <code>RELEASE</code> desaparece del binario y solo queda tu juego.</p>
+      <dl class="spec">
+        <div><dt data-t="hy.r1">Editor en la ventana</dt><dd data-t="hy.r1d">Nada de cambiar de app ni de perder el contexto. Editas mientras el juego corre.</dd></div>
+        <div><dt data-t="hy.r2">RELEASE sin editor</dt><dd data-t="hy.r2d">Las directivas de compilación se llevan el editor entero. Tu binario no carga con él.</dd></div>
+        <div><dt data-t="hy.r3">Cuatro backends</dt><dd data-t="hy.r3d">MonoGame, KNI, FNA y Yotsuba Framework. Las plataformas se suman, no se reparten.</dd></div>
+        <div><dt data-t="hy.r4">Se convierte en C#</dt><dd data-t="hy.r4d">Lo que decides en el editor se compila a código: menos JSON que leer al arrancar, cargas más rápidas.</dd></div>
+    </dl>
+    </div>
+
+    <!-- demo interactiva -->
+    <div class="demo-head">
+      <div>
+        <span class="eyebrow" data-t="hy.demoE">Pruébalo · sin instalar nada</span>
+        <h3 data-th="hy.demoH">Mueve algo. <em>Mira nacer el código.</em></h3>
+        <p data-t="hy.demoD">Arrastra una entidad, cambia sus valores, y pasa a RELEASE para ver cómo el editor se esfuma.</p>
+      </div>
+      <p class="note" data-t="hy.demoN">Maqueta interactiva que corre en tu navegador. El software real sigue en desarrollo y los nombres de API que ves son ilustrativos.</p>
+    </div>
+
+    <div class="ide" id="ide" data-mode="debug">
+      <div class="ide-bar">
+        <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="ide-title" id="ideTitle">my-game.exe — debug</span>
+        <div class="seg" role="group" data-ta="aria-label:hy.mode">
+          <button type="button" data-mode="debug" aria-pressed="true">DEBUG</button>
+          <button type="button" data-mode="release" aria-pressed="false">RELEASE</button>
+        </div>
+      </div>
+      <div class="ide-be" role="radiogroup" data-ta="aria-label:hy.backend">
+        <span data-t="hy.backend">Backend</span>
+        <button type="button" role="radio" aria-checked="false" data-be="monogame"><img src="../assets/monogame.webp" alt="">MonoGame</button>
+        <button type="button" role="radio" aria-checked="false" data-be="kni"><img src="../assets/kni.webp" alt="">KNI</button>
+        <button type="button" role="radio" aria-checked="false" data-be="fna"><img src="../assets/fna.webp" alt="">FNA</button>
+        <button type="button" role="radio" aria-checked="true" data-be="yotsuba"><img src="../assets/framework-logo.webp" alt="">Yotsuba Framework</button>
+      </div>
+      <div class="ide-body">
+        <aside class="pane left" data-ta="aria-label:hy.scene">
+          <div class="pane-h"><span data-t="hy.scene">Escena</span><span id="entCount">4</span></div>
+          <ul class="ents" id="entList"></ul>
+          <button type="button" class="add" id="addEnt" data-t="hy.add">＋ Entidad</button>
+        </aside>
+        <div class="stage" id="stage">
+          <canvas id="game" tabindex="0" data-ta="aria-label:hy.canvas"></canvas>
+          <div class="stage-tags"><span class="chip hot" id="chipMode">DEBUG</span><span class="chip" id="chipBe">Yotsuba Framework</span></div>
+          <span class="stage-hint" id="stageHint"></span>
+        </div>
+        <aside class="pane right" data-ta="aria-label:hy.inspector">
+          <div class="pane-h"><span data-t="hy.inspector">Inspector</span></div>
+          <div class="insp-name"><small data-t="hy.entity">Entidad</small><span id="inName">Clover</span></div>
+          <div class="fld xy">
+            <div><label for="inX">X <output id="oX"></output></label><input id="inX" type="number" step="1"></div>
+            <div><label for="inY">Y <output id="oY"></output></label><input id="inY" type="number" step="1"></div>
+          </div>
+          <div class="fld"><label for="inR"><span data-t="hy.rot">Rotación</span> <output id="oR"></output></label><input id="inR" type="range" min="-180" max="180" step="1"></div>
+          <div class="fld"><label for="inS"><span data-t="hy.scale">Escala</span> <output id="oS"></output></label><input id="inS" type="range" min="0.3" max="2.6" step="0.05"></div>
+          <div class="comp"><b>TransformComponent</b><b>SpriteComponent2D</b><small data-t="hy.comps">2 componentes</small></div>
+        </aside>
+      </div>
+      <div class="ide-foot">
+        <div class="code-box">
+          <div class="foot-h"><span data-t="hy.code">C# generado</span><span class="diff" id="diff"></span><button type="button" id="copyCode" data-t="hy.copy">Copiar C#</button></div>
+          <pre class="code"><code id="codeOut"></code></pre>
+        </div>
+        <div class="log-box">
+          <div class="foot-h"><span data-t="hy.console">Consola</span></div>
+          <div class="log" id="log" role="log" aria-live="off"></div>
+        </div>
+      </div>
+      <p class="release-note" id="releaseNote"><b>RELEASE</b> · <span data-th="hy.releaseN">el editor <s>#if DEBUG</s> no forma parte del binario. Solo queda tu juego.</span></p>
+    </div>
+
+    <!-- matriz de plataformas por backend -->
+    <div class="matrix-block">
+      <div class="mx-head">
+        <span class="eyebrow" data-t="hy.mxE">Alcance</span>
+        <h3 data-th="hy.mxH">Cuatro backends. <em>Las plataformas se suman.</em></h3>
+        <p data-t="hy.mxD">Como puedes correr tu juego con cualquiera de los cuatro backends, todo lo que soporte cualquiera de ellos queda disponible para tu proyecto. Enciende y apaga backends y mira crecer tu alcance.</p>
+      </div>
+      <div class="matrix" id="matrix" data-ta="aria-label:hy.mxAria"></div>
+      <p class="fine" data-t="hy.mxNote">Lo mostrado son los objetivos anunciados del proyecto y las capacidades de sus backends; no significa que cada destino esté hoy en una versión estable. Las consolas exigen aprobación, licencias y herramientas de cada fabricante.</p>
+    </div>
+
+    <figure class="film">
+      <div class="film-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>my-game.exe — debug</span><b>DEBUG</b></div>
+      <video controls muted loop playsinline preload="none" poster="../assets/video/editor-poster.webp" data-autoplay data-ta="aria-label:hy.video"><source src="../assets/video/editor.mp4" type="video/mp4"></video>
+      <figcaption data-t="hy.videoC">Grabación real del editor de Yotsuba Hybrid en funcionamiento.</figcaption>
+    </figure>
+
+    <div class="act-foot">
+      <a class="btn" href="#precio"><span data-t="hy.buy">Comprar Hybrid</span> <b class="price" data-price="hybrid"></b></a>
+      <a class="btn paper" href="#comparar" data-t="hy.cmp">Compararlo con las otras dos</a>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================================== ACTO III -->
+<section class="act" id="engine" data-p="en">
+  <header class="act-open" data-torn="top bottom">
+    <img class="act-plate" src="../assets/enuma.webp" alt="" loading="lazy">
+    <span class="act-tint" aria-hidden="true"></span>
+    <span class="act-shade" aria-hidden="true"></span>
+    <div class="wrap act-open-in">
+      <span class="act-num" aria-hidden="true">III</span>
+      <div class="act-open-t">
+        <p class="act-for" data-t="en.for">Para quien quiere abrir, dar Play y exportar</p>
+        <h2 class="act-title"><b>YOTSUBA</b><span class="brush">Engine</span></h2>
+      </div>
+      <img class="act-logo" src="../assets/engine-logo-neon.webp" alt="" loading="lazy">
+    </div>
+    <span class="act-folio">PLIEGO III</span>
+  </header>
+  <div class="wrap">
+    <div class="act-lead">
+      <p class="act-claim" data-th="en.claim">Un motor de escritorio completo con escena, jerarquía, inspector y exportación en un clic — donde el guion sigue siendo <b>C# de verdad</b>, abierto en tu IDE, con tu depurador y tus paquetes de NuGet.</p>
+      <dl class="spec">
+        <div><dt data-t="en.r1">Tu IDE, tu depurador</dt><dd data-t="en.r1d">Los guiones son clases de C#. Visual Studio, Rider o VS Code, y cualquier paquete de NuGet.</dd></div>
+        <div><dt data-t="en.r2">Los dos mundos</dt><dd data-t="en.r2d">Sprites, tilemaps, animación glTF, materiales PBR, partículas y física.</dd></div>
+        <div><dt data-t="en.r3">Proyecto legible</dt><dd data-t="en.r3d">Código .NET normal más archivos .ytb, que son JSON que puedes abrir y leer.</dd></div>
+        <div><dt data-t="en.r4">No es un callejón</dt><dd data-t="en.r4d">Mismo motor que Hybrid y Framework. Baja de capa cuando quieras.</dd></div>
+    </dl>
+    </div>
+
+    <div class="demo-head">
+      <div>
+        <span class="eyebrow" data-t="en.demoE">Prueba el editor</span>
+        <h3 data-th="en.demoH">Dale a <em>Play.</em></h3>
+        <p data-t="en.demoD">Arrastra los sprites, cambia el inspector, dale Play y luego Exportar. Treinta segundos para sentir cómo es el motor.</p>
+      </div>
+      <p class="note" data-t="en.demoN">Boceto interactivo. Es una maqueta del editor previsto, no la build final. El editor real nace del que ya tiene Yotsuba Hybrid.</p>
+    </div>
+
+    <div class="ed" id="ed">
+      <div class="ed-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ed-title">Yotsuba Engine — <b>MyGame.ytb</b></span><span class="chip" id="edChip">EDIT</span></div>
+      <div class="ed-tools">
+        <button class="tool play" id="playBtn" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z" fill="currentColor"/></svg><span data-t="en.play">Play</span></button>
+        <button class="tool" id="resetBtn" data-t="en.reset">Reiniciar</button>
+        <span class="sep"></span>
+        <label class="sel"><span data-t="en.backend">Backend</span><select id="edBackend"><option>Vulkan</option><option>Metal</option><option>DirectX 12</option><option>WebGPU</option></select></label>
+        <span class="sep"></span>
+        <button class="tool exp" id="exportBtn" data-t="en.export">Compilar y exportar…</button>
+        <span class="fps" id="fps">— fps</span>
+      </div>
+      <div class="ed-body">
+        <aside class="pane hier" data-ta="aria-label:en.hier"><h4 data-t="en.sceneT">Escena: Level_1</h4><ul id="hier" role="listbox" data-ta="aria-label:en.ents"></ul><button class="add" id="edAdd" data-t="en.add">+ Entidad</button></aside>
+        <div class="vp" id="vp" data-ta="aria-label:en.vp">
+          <img class="vp-art" src="../assets/engine-enuma.webp" alt="" draggable="false" loading="lazy">
+          <canvas id="fx" aria-hidden="true"></canvas>
+          <div id="sprites"></div>
+          <span class="vp-tag" id="vpTag">Perspective · Level_1</span>
+        </div>
+        <aside class="pane insp" data-ta="aria-label:en.insp"><h4 data-t="en.inspT">Inspector</h4><div id="edInsp"></div></aside>
+      </div>
+      <div class="ed-bottom">
+        <div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-tab="console" data-t="en.tab1">Consola</button><button role="tab" aria-selected="false" data-tab="content" data-t="en.tab2">Contenido</button><button role="tab" aria-selected="false" data-tab="build" data-t="en.tab3">Compilación</button></div>
+        <div class="tabbody" id="tab-console"><ol id="edLog"></ol></div>
+        <div class="tabbody" id="tab-content" hidden><ul class="assets"><li><img src="../assets/hybrid-logo.webp" alt="">Clover.png</li><li><img src="../assets/framework-logo.webp" alt="">Framework.png</li><li><img src="../assets/engine-enuma.webp" alt="">Enuma.png</li><li><span>3D</span>Dragon.glb</li><li><span>♪</span>Theme.ogg</li><li><span>fx</span>Water.fx</li><li><span>C#</span>Spin.cs</li><li><span>map</span>Beach.tmx</li></ul></div>
+        <div class="tabbody" id="tab-build" hidden><p class="bnote" data-th="en.bnote">Elige un destino y pulsa <b>Compilar y exportar…</b> en la barra.</p></div>
+      </div>
+    </div>
+    <dialog class="dlg" id="dlg">
+      <form method="dialog">
+        <h3 data-t="en.dlgT">Compilar y exportar</h3>
+        <ul id="edTargets"></ul>
+        <div class="prog" aria-hidden="true"><i id="progBar"></i></div>
+        <p id="progTxt" role="status" data-t="en.dlgP">Simulado en esta demo.</p>
+        <div class="row"><button class="btn sm" id="goExport" type="button" data-t="en.dlgGo">Exportar</button><button class="btn sm paper" value="cancel" data-t="en.dlgX">Cerrar</button></div>
+      </form>
+    </dialog>
+
+    <div class="box-cols">
+      <div class="mx-head"><span class="eyebrow" data-t="en.boxE">En la caja</span><h3 data-th="en.boxH">Todo esto <em>ya está construido.</em></h3></div>
+      <div class="cols">
+        <div class="col"><h4>2D</h4><ul>
+          <li data-t="en.b2a">Sprites, transformadas y cámara 2D con zoom</li>
+          <li data-t="en.b2b">Orden por profundidad y descarte fuera de pantalla</li>
+          <li data-t="en.b2c">Animación, fuentes, texto y botones</li>
+          <li data-t="en.b2d">Tilemaps con Tiled (TMX) y hojas de TexturePacker</li>
+          <li data-t="en.b2e">Física 2D integrada con dibujo de depuración</li></ul></div>
+        <div class="col"><h4>3D</h4><ul>
+          <li data-t="en.b3a">Cámaras, primitivas y sprites 2.5D</li>
+          <li data-t="en.b3b">Modelos glTF con animación esquelética</li>
+          <li data-t="en.b3c">Materiales PBR y shaders propios</li>
+          <li data-t="en.b3d">Física 3D con fase amplia espacial</li>
+          <li data-t="en.b3e">Partículas, VFX y consultas de oclusión por hardware</li></ul></div>
+        <div class="col"><h4 data-t="en.bwT">Flujo</h4><ul>
+          <li data-t="en.bwa">ECS con escenas, entidades, componentes y sistemas</li>
+          <li data-t="en.bwb">Editor: escenas, consola, historial, selector de color, editor de modelos 3D</li>
+          <li data-t="en.bwc">Guiones con tus propios sistemas</li>
+          <li data-t="en.bwd">Teclado, ratón, mando, táctil y gestos</li>
+          <li data-t="en.bwe">Audio con canales de efectos y música</li></ul></div>
+      </div>
+      <p class="fine" data-t="en.boxFine">Proyecto en etapa temprana: la API todavía puede cambiar. Todo lo de arriba existe en la base de código de Yotsuba Hybrid sobre la que se construye el Engine.</p>
+    </div>
+
+    <div class="act-foot">
+      <a class="btn" href="#precio"><span data-t="en.buy">Comprar Engine</span> <b class="price" data-price="engine"></b></a>
+      <a class="btn paper" href="#plataformas" data-t="en.plat">Ver plataformas y estado</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== COMPARADOR -->
+<section class="sec compare" id="comparar">
+  <div class="wrap">
+    <header class="sec-head sm">
+      <span class="folio">02<i data-t="cmp.folio">lado a lado</i></span>
+      <h2 class="h" data-t="cmp.h">Las tres, lado a lado.</h2>
+      <p class="sub" data-t="cmp.sub">Lo que cambia entre puertas es el editor y cuánto te acerca al metal. El motor de abajo es el mismo.</p>
+    </header>
+    <div class="cmp-scroll"><table class="cmp" id="cmpTable"></table></div>
+  </div>
+</section>
+
+<!-- ================================================================= PRECIO -->
+<section class="sec price" id="precio" data-torn="top bottom">
+  <div class="wrap">
+    <header class="sec-head">
+      <span class="folio">03<i data-t="pr.folio">precio</i></span>
+      <h2 class="h" data-th="pr.h">Lo pagas una vez.<br><em>Es tuyo para siempre.</em></h2>
+      <p class="sub" data-th="pr.sub">Sin regalías sobre lo que vendas. Sin cuota por puesto. Sin una factura que llega el día que a tu juego le va bien.</p>
+    </header>
+
+    <div class="tickets" id="tickets"></div>
+
+    <div class="bundle" id="bundle"></div>
+
+    <div class="versus">
+      <div class="versus-say">
+        <h3 data-th="pr.vsH">Lo que <em>no</em> vas a pagar</h3>
+        <p data-t="pr.vsD">Esta es la factura que te llega cada año por hacer tu juego en otro motor. Con Yotsuba, todas estas líneas están tachadas antes de empezar.</p>
+      </div>
+      <div class="receipt" role="group" data-ta="aria-label:pr.rcAria">
+        <div class="rc-head">
+          <b data-t="pr.rcT">FACTURA ANUAL</b>
+          <span data-t="pr.rcS">estudio indie · 3 personas · un juego publicado</span>
+        </div>
+        <ul class="rc-lines">
+          <li class="void"><span data-t="pr.v1">Regalías por ingresos</span><b data-t="pr.v1a">% de todo lo que vendas</b><small data-t="pr.v1d">Un porcentaje de cada copia, cada mes, para siempre.</small></li>
+          <li class="void"><span data-t="pr.v2">Cuota por puesto</span><b data-t="pr.v2a">× persona × año</b><small data-t="pr.v2d">Un pago recurrente por cada persona del equipo.</small></li>
+          <li class="void"><span data-t="pr.v3">Cobro por instalación</span><b data-t="pr.v3a">× cada descarga</b><small data-t="pr.v3d">Una tarifa que sube justo cuando al juego le va bien.</small></li>
+          <li class="void"><span data-t="pr.v5">Pantalla de marca obligatoria</span><b data-t="pr.v5a">× tu primera impresión</b><small data-t="pr.v5d">El logo de otro delante del tuyo, cada vez que alguien abre tu juego.</small></li>
+        </ul>
+        <div class="rc-total">
+          <span data-t="pr.rcTot">Total al año con Yotsuba</span>
+          <b>0<i data-t="pr.rcCur">USD</i></b>
+        </div>
+        <ul class="rc-terms">
+          <li data-t="pr.a1">Licencia perpetua: la versión que compras es tuya aunque dejes de actualizar.</li>
+          <li data-t="pr.a3">Uso comercial desde el primer día, sin límite de facturación ni de tamaño de estudio.</li>
+          <li data-t="pr.a4">Tu pantalla de arranque es tuya. No metemos la nuestra delante.</li>
+        </ul>
+        <span class="rc-stamp" data-t="pr.rcStamp">pagado una sola vez</span>
+      </div>
+    </div>
+    <p class="fine center" data-t="pr.fine">Precios en dólares estadounidenses, impuestos no incluidos. El proyecto está en desarrollo: al comprar entras en el acceso anticipado y recibes cada versión nueva de la línea que adquiriste.</p>
+  </div>
+</section>
+
+<!-- ============================================================ PLATAFORMAS -->
+<section class="sec plat" id="plataformas">
+  <div class="wrap">
+    <header class="sec-head sm">
+      <span class="folio">04<i data-t="pl.folio">a dónde llega</i></span>
+      <h2 class="h" data-t="pl.h">Dónde corre, y en qué estado.</h2>
+      <p class="sub" data-t="pl.sub">La columna de estado es a propósito. Preferimos decirte qué es experimental antes que sorprenderte después.</p>
+    </header>
+    <div class="cmp-scroll"><table class="cmp plat-tbl" id="platTable"></table></div>
+    <p class="fine" data-t="pl.fine">Cada fila es un proyecto anfitrión dentro del repositorio. Todavía no garantizamos paridad de características entre destinos. Las consolas requieren aprobación, licencias y herramientas de cada fabricante.</p>
+  </div>
+</section>
+
+<!-- ==================================================================== FAQ -->
+<section class="sec faq" id="faq">
+  <div class="wrap">
+    <header class="sec-head sm">
+      <span class="folio">05<i data-t="fq.folio">dudas</i></span>
+      <h2 class="h" data-t="fq.h">Lo que todo el mundo pregunta primero.</h2>
+    </header>
+    <div class="faq-list" id="faqList"></div>
+  </div>
+</section>
+
+<!-- ============================================================== COMUNIDAD -->
+<section class="sec cta" id="comunidad" data-torn="top">
+  <div class="wrap cta-in">
+    <div>
+      <span class="eyebrow gold" data-t="co.eyebrow">Comunidad Yotsuba</span>
+      <h2 class="h" data-th="co.h">Constrúyelo<br><em>con nosotros.</em></h2>
+      <p class="sub" data-t="co.sub">El camino está abierto. Ayúdanos a afinar el editor, los backends y la documentación que conecta a toda la familia.</p>
+      <ul class="co-points">
+        <li data-t="co.f1">Reporta problemas y propón ideas en GitHub.</li>
+        <li data-t="co.f2">Sigue el desarrollo de cerca y prueba las versiones tempranas.</li>
+        <li data-t="co.f3">Conecta con gente que hace juegos en C#.</li>
+        <li data-t="co.f4">Propón cambios al código, a la web y a la documentación.</li>
+      </ul>
+      <div class="co-links">
+        <a class="btn paper sm" href="https://github.com/Yotsuba-Hybrid" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-github"/></svg><span data-t="co.gh">Ver GitHub</span></a>
+        <a class="co-docs" href="../../yotsuba-framework-site/docs.html" data-t="co.docs">Leer la documentación</a>
+        <div class="socials">
+          <a class="social" href="https://discord.gg/35M8e8fE3Q" target="_blank" rel="noopener" aria-label="Discord"><svg aria-hidden="true"><use href="#i-discord"/></svg></a>
+          <a class="social" href="https://www.youtube.com/@YTBHybrid" target="_blank" rel="noopener" aria-label="YouTube"><svg aria-hidden="true"><use href="#i-youtube"/></svg></a>
+          <a class="social" href="https://www.instagram.com/yotsubahybrid.official/" target="_blank" rel="noopener" aria-label="Instagram"><svg aria-hidden="true"><use href="#i-insta"/></svg></a>
+          <a class="social" href="mailto:yotsubahybrid.official@outlook.com" aria-label="Email"><svg aria-hidden="true"><use href="#i-mail"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+    <form class="form" id="notifyForm" novalidate>
+      <span class="form-seal" aria-hidden="true"><svg><use href="#i-reg"/></svg></span>
+      <h3 data-t="fo.title">Avísame del lanzamiento</h3>
+      <p data-t="fo.desc">Te escribimos cuando abra la venta y cuando salga cada versión. Sin spam.</p>
+      <label for="fName" data-t="fo.name">Nombre</label>
+      <input id="fName" name="nombre" type="text" autocomplete="name" required data-ta="placeholder:fo.nameP" placeholder="Tu nombre">
+      <label for="fMail" data-t="fo.email">Correo</label>
+      <input id="fMail" name="correo" type="email" autocomplete="email" required data-ta="placeholder:fo.emailP" placeholder="tu@correo.com">
+      <label for="fTel"><span data-t="fo.phone">Celular</span> <small data-t="fo.opt">(opcional)</small></label>
+      <input id="fTel" name="celular" type="tel" inputmode="numeric" autocomplete="tel" placeholder="8091234567">
+      <fieldset class="want">
+        <legend data-t="fo.want">Me interesa</legend>
+        <label><input type="checkbox" value="Framework" checked><span>Framework</span></label>
+        <label><input type="checkbox" value="Hybrid"><span>Hybrid</span></label>
+        <label><input type="checkbox" value="Engine"><span>Engine</span></label>
+      </fieldset>
+      <button class="btn seal" type="submit" id="fSubmit" data-t="fo.submit">Avísame</button>
+      <div class="msg" id="fMsg" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <a class="brand" href="#top" aria-label="Yotsuba">
+      <span class="brand-mark" aria-hidden="true"><img src="../assets/hybrid-logo.webp" alt="" class="m m3"></span>
+      <span class="brand-word"><b>YOTSUBA</b><i data-t="nav.tag">el taller</i></span>
+    </a>
+    <nav aria-label="Pie">
+      <a href="#framework">Framework</a><a href="#hybrid">Hybrid</a><a href="#engine">Engine</a>
+      <a href="#precio" data-t="nav.price">Precios</a><a href="#faq">FAQ</a>
+      <a href="https://github.com/Yotsuba-Hybrid" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <span class="foot-c" data-t="foot.copy">© 2026 Yotsuba. Hecho a mano, en C#.</span>
+  </div>
+</footer>
+
+<script src="copy.js"></script>
+<script src="yotsuba.js"></script>
+</body>
+</html>

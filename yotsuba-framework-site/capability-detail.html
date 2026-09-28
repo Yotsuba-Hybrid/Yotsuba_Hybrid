@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#03122f" />
+  <meta name="description" content="Yotsuba Framework capability notes — Compute Shaders, DirectX 12, MGFX, Shader Languages, Metal, Vulkan and animated 3D models." />
+  <title>Capability Notes — Yotsuba Framework</title>
+  <link rel="icon" href="assets/yotsuba-framework-logo.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="capability-detail.css" />
+</head>
+<body class="capability-detail-page" data-content-source="content/capability-detail.csv" data-content-directory="content/capability-articles">
+  <div class="page-grid" aria-hidden="true"></div>
+
+  <header class="site-header" data-reveal>
+    <a class="brand" href="index.html" aria-label="Yotsuba Framework home">
+      <img src="assets/yotsuba-framework-logo.png" alt="" />
+      <span><strong>YOTSUBA</strong><small>FRAMEWORK</small></span>
+    </a>
+    <nav class="nav" id="primary-navigation" aria-label="Primary navigation">
+      <a href="docs.html">Documentation</a>
+      <a href="capabilities.html">Capabilities</a>
+    </nav>
+    <button class="nav-menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primary-navigation">
+      <span></span><span></span><span></span>
+    </button>
+    <a class="header-cta" href="index.html#support">Support Yotsuba <span aria-hidden="true">♡</span></a>
+  </header>
+
+  <main>
+    <div class="article-shell">
+      <a class="back-link" href="capabilities.html">← Back to capabilities</a>
+
+      <article class="capability-article" id="compute">
+        <header class="article-header">
+          <p class="eyebrow"><span>CAPABILITY / 01</span> GPU workloads</p>
+          <h1>Compute<br /><em>Shaders</em></h1>
+          <p class="article-intro">Push parallel work closer to the GPU without leaving the structure of an XNA-style framework.</p>
+        </header>
+        <img class="article-cover" src="assets/compute.png" alt="Compute Shaders capability overview" />
+        <div class="article-body">
+          <p class="article-lead">Yotsuba Framework extends the familiar XNA programming model with modern GPU compute capabilities.</p>
+          <p>Compute shaders make it possible to process large amounts of data in parallel. That opens a practical path for effects, particle systems, procedural generation, image processing, lighting and physics calculations.</p>
+          <div class="article-callout"><span>01 / WHY IT MATTERS</span><strong>Massively parallel workloads, expressed through a familiar framework.</strong></div>
+          <h2>Designed for demanding work</h2>
+          <p>Use a native compute capability when a workload benefits from thousands of parallel operations, while keeping the rest of the game code readable and portable.</p>
+          <div class="article-tags"><span>GPU COMPUTE</span><span>PARALLEL WORKLOADS</span><span>SHADERS</span></div>
+        </div>
+      </article>
+
+      <article class="capability-article" id="directx12">
+        <header class="article-header">
+          <p class="eyebrow"><span>CAPABILITY / 02</span> Windows rendering</p>
+          <h1>DirectX 12<br /><em>on Windows</em></h1>
+          <p class="article-intro">Bring the familiar Yotsuba Framework workflow to Windows through a native DirectX 12 rendering path.</p>
+        </header>
+        <img class="article-cover" src="assets/Windows DirectX 12.png" alt="Yotsuba Framework running DirectX 12 on Windows" />
+        <div class="article-body">
+          <p class="article-lead">Yotsuba Framework targets modern Windows graphics hardware through DirectX 12.</p>
+          <p>The Windows backend provides an explicit, modern graphics path while the framework preserves the XNA-shaped API, MonoGame compatibility and shader workflows developers already know.</p>
+          <div class="article-callout"><span>02 / WHY IT MATTERS</span><strong>A native Windows graphics path without giving up the familiar framework model.</strong></div>
+          <h2>Modern desktop rendering</h2>
+          <p>Build Windows games around a DirectX 12 backend designed to share project structure, content and rendering concepts with Yotsuba's other target platforms.</p>
+          <div class="article-tags"><span>DIRECTX 12</span><span>WINDOWS</span><span>DESKTOP GPU</span></div>
+        </div>
+      </article>
+
+      <article class="capability-article" id="mgfx">
+        <header class="article-header">
+          <p class="eyebrow"><span>CAPABILITY / 03</span> Shader compatibility</p>
+          <h1>MGCB and MGFX support<br /><em>with DesktopVK Profile</em></h1>
+          <p class="article-intro">Keep the shader workflow you already know while Yotsuba handles the platform-specific graphics backend underneath.</p>
+        </header>
+        <img class="article-cover" src="assets/mgfx.png?rev=2" alt="MGCB and MGFX support with DesktopVK Profile" />
+        <div class="article-body">
+          <p class="article-lead">Yotsuba Framework supports MonoGame effects compiled with the DesktopVK profile on Apple platforms through the Metal backend.</p>
+          <p>This gives existing projects a familiar content path: author effects in the MGFX and <code>.fx</code> workflow, build them through MGCB, and let Yotsuba provide the runtime translation to the target graphics API.</p>
+          <div class="article-callout"><span>03 / WHY IT MATTERS</span><strong>Preserve your content pipeline while changing the rendering destination.</strong></div>
+          <h2>Compatibility at the boundary</h2>
+          <p>The framework is designed to keep game code and content libraries useful across targets. Your project can continue to think in MonoGame terms while the backend focuses on delivering a native Metal path for Apple hardware.</p>
+          <div class="article-tags"><span>MGFX</span><span>DESKTOPVK</span><span>METAL</span></div>
+        </div>
+      </article>
+
+      <article class="capability-article" id="shader-languages">
+        <header class="article-header">
+          <p class="eyebrow"><span>CAPABILITY / 04</span> Shader system</p>
+          <h1>Support for 7<br /><em>Shader Languages</em></h1>
+          <p class="article-intro">Use the shader authoring language that best fits your project and target platform.</p>
+        </header>
+        <img class="article-cover" src="assets/shaders.png?rev=2" alt="Yotsuba Framework shader languages support" />
+        <div class="article-body">
+          <p class="article-lead">Yotsuba Framework supports multiple shader paths instead of forcing one language everywhere.</p>
+          <p>Author shaders with MGFX, FNAFX, Slang, native HLSL, GLSL or MSL, and use direct SPIR-V input when your pipeline already produces compiled shader binaries.</p>
+          <div class="article-callout"><span>04 / WHY IT MATTERS</span><strong>Choose the shader language that fits the platform without changing the framework model.</strong></div>
+          <h2>One pipeline, many inputs</h2>
+          <p>Keep existing effect workflows where they make sense and introduce newer shader languages when a project needs broader language features or platform-specific control.</p>
+          <div class="article-tags"><span>MGFX</span><span>SLANG</span><span>HLSL</span><span>GLSL</span><span>SPIR-V</span></div>
+        </div>
+      </article>
+
+      <article class="capability-article" id="metal">
+        <header class="article-header">
+          <p class="eyebrow"><span>CAPABILITY / 05</span> Apple rendering</p>
+          <h1>Metal<br /><em>on Apple</em></h1>
+          <p class="article-intro">Run your MonoGame games with a native Metal path across Apple platforms while keeping the workflow familiar.</p>
+        </header>
+        <img class="article-cover" src="assets/metal.png" alt="Yotsuba Framework running MonoGame with Metal on Apple" />
+        <div class="article-body">
+          <p class="article-lead">Yotsuba Framework gives MonoGame projects a direct route to Metal on macOS, iPadOS and iOS.</p>
+          <p>The framework keeps the XNA-shaped API and the content pipeline developers already understand, while the Apple backend handles the platform-specific rendering work underneath.</p>
+          <div class="article-callout"><span>05 / WHY IT MATTERS</span><strong>Same code, more performance — with Apple hardware as a first-class destination.</strong></div>
+          <h2>One framework, three Apple targets</h2>
+          <p>Build around a shared game project and target Mac, iPad and iPhone through an Apple-native graphics path. The result is a focused workflow for bringing existing MonoGame ideas to Apple devices without abandoning the framework model.</p>
+          <div class="article-tags"><span>METAL</span><span>MACOS</span><span>IPADOS</span><span>IOS</span></div>
+        </div>
+      </article>
+
+      <article class="capability-article" id="android-vulkan">
+        <header class="article-header">
+          <p class="eyebrow"><span>CAPABILITY / 06</span> Android rendering</p>
+          <h1>Vulkan<br /><em>on Android</em></h1>
+          <p class="article-intro">Take the familiar Yotsuba Framework workflow to Android with a native Vulkan path for modern mobile GPUs.</p>
+        </header>
+        <img class="article-cover" src="assets/vulkan android.png" alt="Yotsuba Framework running Vulkan on Android" />
+        <div class="article-body">
+          <p class="article-lead">Yotsuba Framework brings Android into the same modern graphics architecture through Vulkan.</p>
+          <p>Android Vulkan provides a direct route to the graphics hardware while keeping the XNA-shaped API and MonoGame-oriented development model familiar. This gives mobile projects a focused backend for current Android devices and their GPU workloads.</p>
+          <div class="article-callout"><span>06 / WHY IT MATTERS</span><strong>One framework workflow, extended to modern Android graphics hardware.</strong></div>
+          <h2>Built for mobile GPUs</h2>
+          <p>Use a native Vulkan rendering path on Android while sharing game logic, assets and shader workflows across the wider Yotsuba target matrix.</p>
+          <div class="article-tags"><span>VULKAN</span><span>ANDROID</span><span>MOBILE GPU</span></div>
+        </div>
+      </article>
+
+      <article class="capability-article" id="animated-models">
+        <header class="article-header">
+          <p class="eyebrow"><span>CAPABILITY / 07</span> 3D content</p>
+          <h1>Animated 3D<br /><em>Models Support</em></h1>
+          <p class="article-intro">Bring animated 3D assets into an XNA-shaped framework with a familiar content workflow.</p>
+        </header>
+        <img class="article-cover" src="assets/animation models.png?rev=2" alt="Yotsuba Framework animated 3D models support" />
+        <div class="article-body">
+          <p class="article-lead">Yotsuba Framework supports animated 3D models as part of its game content pipeline.</p>
+          <p>Load model data, skeletons and animation clips through a workflow designed to feel familiar to XNA and MonoGame developers, then use those assets in the same cross-platform game project.</p>
+          <div class="article-callout"><span>07 / WHY IT MATTERS</span><strong>Build richer 3D scenes without abandoning the framework workflow you already know.</strong></div>
+          <h2>From asset to animation</h2>
+          <p>Keep model content organized with the rest of the project and give gameplay systems access to animated characters and articulated 3D assets.</p>
+          <div class="article-tags"><span>3D MODELS</span><span>ANIMATION</span><span>MGCB</span></div>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-brand"><img src="assets/yotsuba-framework-logo.png" alt="" /><strong>YOTSUBA FRAMEWORK</strong></div>
+    <p>Capability notes / Compute / DirectX 12 / MGFX / Shader Languages / Metal / Android Vulkan / Animated 3D Models</p>
+    <span>YF — CAPABILITY NOTES</span>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

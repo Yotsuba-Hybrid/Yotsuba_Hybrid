@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yotsuba Hybrid — Framework × Engine, en uno solo</title>
+<meta name="description" id="metaDescription" content="Crea juegos y aplicaciones en C# y .NET con un editor visual integrado y cuatro backends gratuitos y open source: MonoGame, KNI, FNA y Yotsuba Framework.">
+<meta name="theme-color" content="#F3ECDD">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Yotsuba Hybrid — Framework × Engine, en uno solo">
+<meta property="og:description" content="Una sola lógica de juego en C#/.NET. Cuatro backends y un editor visual integrado en modo DEBUG.">
+<meta property="og:image" content="../assets/hybrid-hero.webp">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/webp" href="../assets/hybrid-logo.webp">
+<link rel="preload" as="image" href="../assets/hybrid-hero.webp" type="image/webp">
+<script>
+  // Idioma inicial antes de pintar (misma clave que el sitio original).
+  (function () {
+    var langs = ['es', 'en'], saved = null;
+    try { saved = localStorage.getItem('yotsuba-language'); } catch (_) {}
+    var prefs = Array.isArray(navigator.languages) && navigator.languages.length ? navigator.languages : [navigator.language];
+    var det = prefs.map(function (l) { return String(l || '').toLowerCase().split(/[-_]/)[0]; }).find(function (l) { return langs.indexOf(l) > -1; });
+    var lang = langs.indexOf(saved) > -1 ? saved : (det || 'es');
+    document.documentElement.lang = lang;
+    window.__LANG__ = lang;
+  }());
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=JetBrains+Mono:wght@400;500;700&family=Kaushan+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hybrid.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><ellipse cx="12" cy="12" rx="4.2" ry="9.5"/><line x1="2.5" y1="12" x2="21.5" y2="12"/></symbol>
+  <symbol id="i-discord" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 5.2C6.9 5.6 5.5 6.2 4.2 7c-1.7 3.4-2.3 6.9-2 10.4 1.6 1.2 3.1 1.9 4.6 2.4l1-1.6"/><path d="M15.5 5.2c1.6.4 3 1 4.3 1.8 1.7 3.4 2.3 6.9 2 10.4-1.6 1.2-3.1 1.9-4.6 2.4l-1-1.6"/><path d="M6.2 17.4c3.7 1.7 8 1.7 11.7 0"/><circle cx="9" cy="13" r="1.4" fill="currentColor" stroke="none"/><circle cx="15" cy="13" r="1.4" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-youtube" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="3.5"/><polygon points="10.3,9 15,12 10.3,15" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.2"/><path d="M3.2 5.8l8.8 7 8.8-7"/></symbol>
+  <symbol id="i-insta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.2s-7.8-4.9-10.3-9.6C.4 7.6 1.7 4.3 4.8 3.3c2-.6 4.1.1 5.4 1.8l1.8 2.3 1.8-2.3c1.3-1.7 3.4-2.4 5.4-1.8 3.1 1 4.4 4.3 3.1 7.3-2.5 4.7-10.3 9.6-10.3 9.6z"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.7 3.3C12.4 3.2 6.7 5.6 4.1 10.2c-2.3 4.1-.2 8.7 3.9 8.7 4.8 0 8.9-5.3 9.1-10.6"/><path d="M3.3 20.7c3.1-4.4 6.8-7.5 11.2-10.1"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><line x1="12" y1="11" x2="12" y2="17"/><circle cx="12" cy="7.6" r="1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="4" x2="12" y2="19"/><polyline points="5.5,12.5 12,19 18.5,12.5"/></symbol>
+</svg>
+
+<a class="skip" href="#contenido" data-i="a11y.skip">Saltar al contenido</a>
+
+<header class="nav" id="nav">
+  <a class="brand" href="#inicio" aria-label="Yotsuba Hybrid" data-ia="aria-label:nav.home">
+    <img src="../assets/hybrid-logo.webp" alt="" width="46" height="46">
+    <span class="brand-word"><b>YOTSUBA</b><span class="brush">Hybrid</span></span>
+  </a>
+  <nav class="nav-links" aria-label="Navegación principal" data-ia="aria-label:nav.label">
+    <a href="#pruebalo" data-i="nav.try">Pruébalo</a>
+    <a href="#hojas" data-i="nav.leaves">Las cuatro hojas</a>
+    <a href="#plataformas" data-i="nav.platforms">Plataformas</a>
+    <a href="#gratis" data-i="nav.free">Gratis</a>
+    <a href="#avisame" data-i="nav.community">Comunidad</a>
+  </nav>
+  <div class="nav-right">
+    <button type="button" class="lang" id="langBtn" aria-label="Cambiar idioma a inglés">
+      <svg aria-hidden="true"><use href="#i-globe"/></svg><span id="langCode">EN</span>
+    </button>
+    <a class="btn sm" href="#avisame" data-i="nav.notify">Notifícame</a>
+  </div>
+</header>
+
+<main id="contenido">
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="inicio">
+  <div class="plate" id="plate">
+    <div class="plate-in" id="plateIn" data-torn="left bottom">
+      <div class="art-box"><img class="art" src="../assets/hybrid-hero.webp" alt="Yotsuba Hybrid: un trébol de cuatro hojas pintado en acuarela, con un pincel en la esquina" data-ia="alt:hero.alt" width="2200" height="1200" fetchpriority="high"></div>
+      <div class="lens" id="lens" aria-hidden="true">
+        <div class="art-box">
+          <img class="lens-img" src="../assets/hybrid-hero.webp" alt="">
+          <div class="lens-grid"></div>
+          <svg class="wire" viewBox="0 0 900 491" preserveAspectRatio="none">
+            <g transform="translate(238 118) rotate(48)"><ellipse class="hit" rx="131" ry="75"/><rect class="box" x="-131" y="-75" width="262" height="150"/><circle class="h" cx="-131" cy="-75" r="4.5"/><circle class="h" cx="131" cy="-75" r="4.5"/><circle class="h" cx="-131" cy="75" r="4.5"/><circle class="h" cx="131" cy="75" r="4.5"/></g>
+            <g transform="translate(412 122) rotate(-47)"><ellipse class="hit" rx="127" ry="75"/><rect class="box" x="-127" y="-75" width="254" height="150"/><circle class="h" cx="-127" cy="-75" r="4.5"/><circle class="h" cx="127" cy="-75" r="4.5"/><circle class="h" cx="-127" cy="75" r="4.5"/><circle class="h" cx="127" cy="75" r="4.5"/></g>
+            <g transform="translate(212 302) rotate(-38)"><ellipse class="hit" rx="142" ry="80"/><rect class="box" x="-142" y="-80" width="284" height="160"/><circle class="h" cx="-142" cy="-80" r="4.5"/><circle class="h" cx="142" cy="-80" r="4.5"/><circle class="h" cx="-142" cy="80" r="4.5"/><circle class="h" cx="142" cy="80" r="4.5"/></g>
+            <g transform="translate(402 327) rotate(55)"><ellipse class="hit" rx="136" ry="75"/><rect class="box" x="-136" y="-75" width="272" height="150"/><circle class="h" cx="-136" cy="-75" r="4.5"/><circle class="h" cx="136" cy="-75" r="4.5"/><circle class="h" cx="-136" cy="75" r="4.5"/><circle class="h" cx="136" cy="75" r="4.5"/></g>
+            <line class="axis-x" x1="325" y1="215" x2="395" y2="215"/><line class="axis-y" x1="325" y1="215" x2="325" y2="145"/>
+            <text x="52" y="52">Petal_A  · TransformComponent</text>
+            <text x="500" y="52">Petal_B  · TransformComponent</text>
+            <text x="40" y="452">Petal_C  · SpriteComponent2D</text>
+            <text x="470" y="452">Petal_D  · SpriteComponent2D</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="lens-ring" id="lensRing" aria-hidden="true">
+      <span class="lens-tag">DEBUG</span>
+      <div class="lens-code"><i>var</i> clover = <i>new</i> Entity(<u>"Clover"</u>);
+clover.Add(<i>new</i> TransformComponent());
+clover.Add(<i>new</i> SpriteComponent2D());</div>
+    </div>
+    <span class="plate-tag"><b>RELEASE</b> · <span data-i="hero.tag">sin editor</span></span>
+  </div>
+
+  <div class="hint" id="hint" aria-hidden="true">
+    <span class="brush" data-i="hero.hint">¡Mueve el cursor!</span>
+    <svg viewBox="0 0 90 70" fill="none" stroke="#15110d" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M80 6C60 6 30 14 20 50"/><path d="M8 36l12 16 15-12"/></svg>
+  </div>
+
+  <div class="hero-copy">
+    <p class="status" data-i="hero.status">En desarrollo · Próximamente</p>
+    <h1 class="title" aria-label="Framework × Engine">
+      <span class="l" aria-hidden="true">Framework</span>
+      <span class="l w-en" data-t="Engine" aria-hidden="true">Engine<span class="w-x">×</span></span>
+    </h1>
+    <p class="lede" data-ih="hero.lede">Yotsuba Hybrid no te obliga a elegir entre el <b>control</b> de un framework como MonoGame y la <b>comodidad visual</b> de un engine tipo Unity o Godot. Te da ambos, sobre la misma base de código.</p>
+    <div class="hero-cta">
+      <a class="btn" href="#pruebalo"><span data-i="hero.try">Pruébalo en el navegador</span><svg aria-hidden="true"><use href="#i-down"/></svg></a>
+      <a class="btn paper" href="#avisame" data-i="hero.notify">Notifícame del lanzamiento</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRUÉBALO ================= -->
+<section class="try" id="pruebalo">
+  <div class="wrap">
+    <div class="try-head">
+      <div class="reveal">
+        <span class="eyebrow" data-i="try.eyebrow">Pruébalo · sin instalar nada</span>
+        <h2 class="h"><span data-i="try.t1">Mueve algo.</span> <em data-i="try.t2">Mira nacer el código.</em></h2>
+        <p class="sub" data-i="try.desc">Así se siente Yotsuba Hybrid: el editor vive dentro de la ventana de tu juego, y lo que haces con las manos se convierte en C#. Arrastra una entidad, cambia sus valores o pasa a RELEASE para ver cómo el editor desaparece.</p>
+      </div>
+      <p class="sim-note reveal"><svg aria-hidden="true"><use href="#i-info"/></svg><span data-i="try.note">Maqueta interactiva que corre en tu navegador. El software real sigue en desarrollo; los nombres de API mostrados son ilustrativos.</span></p>
+    </div>
+
+    <div class="ide reveal" id="ide" data-mode="debug">
+      <div class="ide-bar">
+        <div class="ide-title"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span id="ideTitle">my-game.exe — debug</span></div>
+        <div class="seg" role="group" aria-label="Modo de compilación" data-ia="aria-label:ide.mode">
+          <button type="button" data-mode="debug" aria-pressed="true">DEBUG</button>
+          <button type="button" data-mode="release" aria-pressed="false">RELEASE</button>
+        </div>
+        <div class="be" role="radiogroup" aria-label="Backend" data-ia="aria-label:ide.backend">
+          <span class="be-label" data-i="ide.backend">Backend</span>
+          <button type="button" role="radio" aria-checked="false" data-be="monogame"><img src="../assets/monogame.webp" alt="">MonoGame</button>
+          <button type="button" role="radio" aria-checked="false" data-be="kni"><img src="../assets/kni.webp" alt="">KNI</button>
+          <button type="button" role="radio" aria-checked="false" data-be="fna"><img src="../assets/fna.webp" alt="">FNA</button>
+          <button type="button" role="radio" aria-checked="true" data-be="yotsuba"><img src="../assets/framework-logo.webp" alt="">Yotsuba Framework</button>
+        </div>
+      </div>
+
+      <div class="ide-body">
+        <aside class="panel left" aria-label="Escena" data-ia="aria-label:ide.scene">
+          <div class="panel-h"><span data-i="ide.scene">Escena</span><span id="entCount">5</span></div>
+          <ul class="ents" id="entList"></ul>
+          <button type="button" class="add" id="addEnt"><span data-i="ide.add">＋ Entidad</span></button>
+        </aside>
+
+        <div class="stage" id="stage">
+          <canvas id="game" tabindex="0" aria-label="Escena del juego: arrastra las entidades" data-ia="aria-label:ide.canvas"></canvas>
+          <div class="stage-tags"><span class="chip gold" id="chipMode">DEBUG</span><span class="chip" id="chipBe">Yotsuba Framework</span></div>
+          <div class="stage-hint"><span id="stageHint">Arrastra una entidad · flechas para afinar</span></div>
+        </div>
+
+        <aside class="panel right" aria-label="Inspector" data-ia="aria-label:ide.inspector">
+          <div class="panel-h"><span data-i="ide.inspector">Inspector</span></div>
+          <div class="insp-name"><small data-i="ide.entity">Entidad</small><span id="inName">Hybrid</span></div>
+          <div class="field xy">
+            <div><label for="inX">X <output id="oX"></output></label><input id="inX" type="number" step="1"></div>
+            <div><label for="inY">Y <output id="oY"></output></label><input id="inY" type="number" step="1"></div>
+          </div>
+          <div class="field"><label for="inR"><span data-i="ide.rot">Rotación</span> <output id="oR"></output></label><input id="inR" type="range" min="-180" max="180" step="1"></div>
+          <div class="field"><label for="inS"><span data-i="ide.scale">Escala</span> <output id="oS"></output></label><input id="inS" type="range" min="0.3" max="2.6" step="0.05"></div>
+          <div class="comp"><b>TransformComponent</b><b>SpriteComponent2D</b><small data-i="ide.comps">2 componentes</small></div>
+        </aside>
+      </div>
+
+      <div class="ide-foot">
+        <div class="code-box">
+          <div class="foot-h"><span data-i="ide.code">C# generado</span><span class="diff" id="diff">MyGame.Core · 0 líneas cambiadas</span><button type="button" id="copyCode" data-i="ide.copy">Copiar C#</button></div>
+          <pre class="code"><code id="codeOut"></code></pre>
+        </div>
+        <div>
+          <div class="foot-h"><span data-i="ide.console">Consola</span></div>
+          <div class="log" id="log" role="log" aria-live="off"></div>
+        </div>
+      </div>
+      <div class="release-note" id="releaseNote"><b>RELEASE</b> · <span data-ih="ide.release">el editor <s>#if DEBUG</s> no forma parte del binario. Solo queda tu juego.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LAS CUATRO HOJAS ================= -->
+<section class="leaves" id="hojas" data-torn="top bottom">
+  <div class="wrap">
+    <div class="leaves-head reveal">
+      <span class="eyebrow" data-i="leaves.eyebrow">Yotsuba = «cuatro hojas»</span>
+      <h2 class="h"><span data-i="leaves.t1">Cada hoja es</span> <em data-i="leaves.t2">un pilar.</em></h2>
+    </div>
+    <div class="leaves-grid">
+      <div class="leaves-sticky">
+        <div class="clover" id="clover" data-on="1" aria-hidden="true">
+          <img class="base" src="../assets/hybrid-logo.webp" alt="">
+          <img class="q q1" src="../assets/hybrid-logo.webp" alt="">
+          <img class="q q2" src="../assets/hybrid-logo.webp" alt="">
+          <img class="q q3" src="../assets/hybrid-logo.webp" alt="">
+          <img class="q q4" src="../assets/hybrid-logo.webp" alt="">
+        </div>
+        <ol class="leaf-nav" id="leafNav">
+          <li data-go="1" style="--c:var(--rose)"><a href="#hoja1"><b>1</b><span class="t" data-i="p1.nav">Portabilidad</span></a></li>
+          <li data-go="2" style="--c:var(--violet)"><a href="#hoja2"><b>2</b><span class="t" data-i="p2.nav">Calidad en arquitectura</span></a></li>
+          <li data-go="3" style="--c:var(--teal)"><a href="#plataformas"><b>3</b><span class="t" data-i="p3.nav">Una base, muchos destinos</span></a></li>
+          <li data-go="4" style="--c:var(--gold)"><a href="#gratis"><b>4</b><span class="t" data-i="p4.nav">Gratis y open source</span></a></li>
+        </ol>
+      </div>
+
+      <div class="leaves-flow">
+        <article class="pillar" id="hoja1" data-leaf="1">
+          <span class="num">01</span>
+          <h3 data-i="p1.title">El editor vive dentro de tu juego, no al lado.</h3>
+          <p data-i="p1.d1">En modo debug, Yotsuba Hybrid abre un editor visual dentro de la misma ventana donde se renderiza tu juego, no en una app externa. Trabajas desde tu IDE favorito, ejecutas, y editas mientras corre en tiempo real.</p>
+          <ul class="steps">
+            <li><div><b data-i="p1.s1t">Escribe tu juego</b><span data-i="p1.s1d">Código normal, sin ataduras a un editor propietario. Tu arquitectura sigue siendo tuya.</span></div></li>
+            <li><div><b data-i="p1.s2t">Ejecuta en debug</b><span data-i="p1.s2d">El editor aparece dentro de la ventana del juego: nada de apps aparte, nada de contexto perdido.</span></div></li>
+            <li><div><b data-i="p1.s3t">Compila para release</b><span data-i="p1.s3d">Las directivas de compilación quitan el editor por completo. Solo queda tu juego, en el backend que elegiste.</span></div></li>
+          </ul>
+          <figure class="frame">
+            <div class="bar"><span class="dots" aria-hidden="true" style="display:flex;gap:6px"><i style="width:10px;height:10px;border-radius:50%;background:#f2467f"></i><i style="width:10px;height:10px;border-radius:50%;background:#f6b72b"></i><i style="width:10px;height:10px;border-radius:50%;background:#22c7b5"></i></span><span data-i="p1.frame">my-game.exe — debug</span><em>DEBUG</em></div>
+            <video class="editor-film" controls muted loop playsinline preload="none" poster="../assets/video/editor-poster.webp" data-autoplay-video aria-label="Grabación del editor de Yotsuba en funcionamiento">
+              <source src="../assets/video/editor.mp4" type="video/mp4">
+              Tu navegador no puede reproducir este video del editor.
+            </video>
+            <figcaption class="film-caption" data-i="p1.video">Grabación real del editor de Yotsuba Hybrid.</figcaption>
+          </figure>
+        </article>
+
+        <article class="pillar" id="hoja2" data-leaf="2">
+          <span class="num">02</span>
+          <h3 data-i="p2.title">Dos capas. Cada una con su trabajo.</h3>
+          <p data-ih="p2.d1"><b>Yotsuba Framework</b> es una reimplementación moderna de XNA, hecha desde cero, con renderizado paralelo, shaders en Slang y visibilidad/oclusión automáticas. <b>Yotsuba Engine</b> se apoya encima: entidades, componentes, sistemas, escenas, scripting y editor.</p>
+          <div class="stack" role="img" aria-label="Capas de Yotsuba Hybrid" data-ia="aria-label:p2.stack">
+            <div class="g"><b data-i="p2.l1">Tu juego</b><small data-i="p2.l1d">C# / .NET — escrito una sola vez</small></div>
+            <div class="e"><b>Yotsuba Engine</b><small data-i="p2.l2d">entidades · componentes · sistemas · escenas · scripting · editor</small></div>
+            <div class="row4"><span><img src="../assets/monogame.webp" alt="">MonoGame</span><span><img src="../assets/kni.webp" alt="">KNI</span><span><img src="../assets/fna.webp" alt="">FNA</span><span class="me"><img src="../assets/framework-logo.webp" alt="">Yotsuba Framework</span></div>
+            <div class="f"><b data-i="p2.l3">Backends nativos de Yotsuba</b><small>Vulkan · Metal · WebGPU · DirectX 12</small></div>
+          </div>
+          <p data-i="p2.d2">Lo que decides en el editor se convierte en código C# al compilar: menos JSON que leer al arrancar, cargas más rápidas, y contenido visual que convive con tu código. El Engine llega como un proyecto C# editable dentro de tu solución: si quieres cambiar cómo funciona algo, lo cambias.</p>
+        </article>
+
+        <article class="pillar" id="plataformas" data-leaf="3">
+          <span class="num">03</span>
+          <h3 data-i="p3.title">Las plataformas se suman, no se reparten.</h3>
+          <p data-i="p3.d1">Como puedes ejecutar tu juego con MonoGame, KNI, FNA o Yotsuba Framework, todas las plataformas que soporte cualquiera de los cuatro están disponibles para tu proyecto. Activa y desactiva backends y mira cómo crece tu alcance.</p>
+          <div class="matrix" id="matrix" role="group" aria-label="Matriz de plataformas por backend" data-ia="aria-label:p3.matrix"></div>
+          <div class="legend"><span><i>●</i><span data-i="p3.lg1">objetivo previsto</span></span><span><i class="l">◐</i><span data-i="p3.lg2">requiere licencias del fabricante</span></span><span data-i="p3.lg3">Toca un backend para activarlo o quitarlo.</span></div>
+          <p class="mx-note" data-i="p3.note">La cobertura mostrada son los objetivos anunciados del proyecto y las capacidades de sus backends; no significa que cada destino esté disponible hoy en una versión estable. Las consolas requieren aprobación, licencias y herramientas de cada fabricante.</p>
+        </article>
+
+        <article class="pillar" id="gratis" data-leaf="4">
+          <span class="num">04</span>
+          <h3 data-i="p4.title">Gratis y open source. Sin techo.</h3>
+          <p data-i="p4.d1">Yotsuba Hybrid, Yotsuba Engine y Yotsuba Framework serán gratuitos y open source, igual que MonoGame, KNI y FNA. Puedes crear y publicar tu juego con cualquiera de los cuatro backends sin pagar licencias, sin límites por el tamaño o el éxito de tu proyecto.</p>
+          <div class="ticket" role="group" aria-label="Precio" data-ia="aria-label:p4.ticket">
+            <div class="big">$0<small data-i="p4.forever">para siempre</small></div>
+            <ul>
+              <li><span>Yotsuba Hybrid</span><b>$0</b></li>
+              <li><span>Yotsuba Engine</span><b>$0</b></li>
+              <li><span>Yotsuba Framework</span><b>$0</b></li>
+              <li><span>MonoGame · KNI · FNA</span><b>$0</b></li>
+            </ul>
+            <span class="st" data-i="p4.status">Open source · próximamente</span>
+          </div>
+          <ul class="list">
+            <li data-i="p4.f1">Editor visual integrado en modo debug.</li>
+            <li data-i="p4.f2">Cambia de backend sin fricción, según lo que tu proyecto necesite: compatibilidad o rendimiento.</li>
+            <li data-i="p4.f3">Para hobbistas, indies y estudios profesionales.</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="cta community" id="avisame" data-torn="top">
+  <div class="wrap cta-in community-in">
+    <div>
+      <span class="eyebrow" style="color:var(--gold)" data-i="community.eyebrow">Yotsuba Open Source</span>
+      <h2><span data-i="community.t1">Construyamos</span> <em data-i="community.t2">Yotsuba juntos.</em></h2>
+      <p class="d" data-i="community.desc">El código está abierto y el camino también. Ayúdanos a mejorar el editor integrado, los backends y la documentación que conecta a toda la familia Yotsuba.</p>
+      <ul class="community-points">
+        <li><svg aria-hidden="true"><use href="#i-leaf"/></svg><span data-i="community.f1">Editor, Framework y Hybrid abiertos para inspeccionar y mejorar.</span></li>
+        <li><svg aria-hidden="true"><use href="#i-leaf"/></svg><span data-i="community.f2">Explora el código, reporta problemas y comparte ideas en GitHub.</span></li>
+        <li><svg aria-hidden="true"><use href="#i-leaf"/></svg><span data-i="community.f3">Conecta con la comunidad y sigue el desarrollo de cerca.</span></li>
+        <li><svg aria-hidden="true"><use href="#i-leaf"/></svg><span data-i="community.f4">Propón cambios para el código, la web y la documentación.</span></li>
+      </ul>
+      <div class="cta-links">
+        <a class="btn gold sm" href="https://github.com/sponsors/Yotsuba-Hybrid" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-heart"/></svg><span data-i="community.support">Apoyar el proyecto</span></a>
+        <a class="btn paper sm" href="https://github.com/Yotsuba-Hybrid" target="_blank" rel="noopener" data-i="community.github">Ver GitHub</a>
+        <a class="community-docs" href="../../yotsuba-framework-site/docs.html" data-i="community.docs">Leer la documentación</a>
+        <div class="socials">
+          <a class="social" href="https://discord.gg/35M8e8fE3Q" target="_blank" rel="noopener" aria-label="Discord"><svg aria-hidden="true"><use href="#i-discord"/></svg></a>
+          <a class="social" href="https://www.youtube.com/@YTBHybrid" target="_blank" rel="noopener" aria-label="YouTube"><svg aria-hidden="true"><use href="#i-youtube"/></svg></a>
+          <a class="social" href="https://www.instagram.com/yotsubahybrid.official/" target="_blank" rel="noopener" aria-label="Instagram"><svg aria-hidden="true"><use href="#i-insta"/></svg></a>
+          <a class="social" href="mailto:yotsubahybrid.official@outlook.com" aria-label="Email"><svg aria-hidden="true"><use href="#i-mail"/></svg></a>
+        </div>
+      </div>
+    </div>
+    <div class="community-art community-family" aria-hidden="true">
+      <div class="family-node"><img src="../assets/framework-logo.webp" alt=""><span>Framework</span></div>
+      <div class="family-node"><img src="../assets/engine-logo-yotsuba.webp" alt=""><span>Engine</span></div>
+      <div class="family-node is-current"><img src="../assets/hybrid-logo.webp" alt=""><span>Hybrid</span></div>
+      <span class="community-stamp">YOTSUBA FAMILY · OPEN SOURCE</span>
+      <code class="community-code">git clone yotsuba<br><b>contribute()</b></code>
+    </div>
+    <form class="form" id="notifyForm" novalidate>
+      <h3 data-i="form.title">Notifícame del lanzamiento</h3>
+      <p data-i="form.desc">Te avisamos apenas Yotsuba Hybrid esté disponible. Sin spam.</p>
+      <label for="fName" data-i="form.name">Nombre</label>
+      <input id="fName" name="nombre" type="text" autocomplete="name" required placeholder="Tu nombre" data-ia="placeholder:form.nameP">
+      <label for="fMail" data-i="form.email">Correo</label>
+      <input id="fMail" name="correo" type="email" autocomplete="email" required placeholder="tu@correo.com" data-ia="placeholder:form.emailP">
+      <label for="fTel"><span data-i="form.phone">Celular</span> <small data-i="form.opt">(opcional)</small></label>
+      <input id="fTel" name="celular" type="tel" inputmode="numeric" autocomplete="tel" placeholder="8091234567">
+      <button class="btn" type="submit" id="fSubmit" data-i="form.submit">Notificarme</button>
+      <div class="msg" id="fMsg" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span data-i="foot.copy">© 2026 Yotsuba Hybrid. Framework + Engine.</span>
+    <a class="sib" href="../framework/index.html" data-i="foot.fw">¿Buscas solo el framework? Yotsuba Framework →</a>
+    <a class="sib" href="../engine/index.html" data-i="foot.engine">¿Prefieres un editor aparte? Yotsuba Engine →</a>
+  </div>
+</footer>
+
+<script src="hybrid.js"></script>
+</body>
+</html>

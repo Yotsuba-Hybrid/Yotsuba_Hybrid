@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yotsuba Framework — Next Gen XNA: Compute, Vulkan, Metal, DX12 & WebGPU</title>
+<meta name="description" content="Yotsuba Framework — an XNA-based framework with Compute Shaders, native Vulkan, DirectX 12, Metal and WebGPU backends, MonoGame library compatibility and a multi-language shader pipeline.">
+<meta name="theme-color" content="#02050c">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Yotsuba Framework — Next Gen XNA">
+<meta property="og:description" content="Compute Shaders, Vulkan on Android, Metal on Apple, DirectX 12 on Windows, WebGPU on the web — with MonoGame compatibility and seven shader languages.">
+<meta property="og:image" content="../assets/enuma.webp">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/webp" href="../assets/framework-logo.webp">
+<link rel="preload" as="image" href="../assets/enuma.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,100..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="framework.css">
+</head>
+<body>
+
+<canvas id="sea" aria-hidden="true"></canvas>
+<div class="sea-fallback" aria-hidden="true"></div>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top" id="top">
+  <a class="brand" href="#surface" aria-label="Yotsuba Framework home">
+    <img src="../assets/framework-logo.webp" alt="" width="44" height="44">
+    <span><b>YOTSUBA</b><small>FRAMEWORK</small></span>
+  </a>
+  <nav class="nav" aria-label="Primary navigation">
+    <a href="#capabilities">Capabilities</a>
+    <a href="#apis">Graphics APIs</a>
+    <a href="#shaders">Shaders</a>
+    <a href="../../yotsuba-framework-site/docs.html">Docs</a>
+  </nav>
+  <div class="top-right">
+    <a class="btn sm hot" href="https://github.com/sponsors/Yotsuba-Hybrid" target="_blank" rel="noopener">Support Yotsuba ♡</a>
+  </div>
+</header>
+
+<!-- medidor de profundidad = navegación -->
+<nav class="gauge" id="gauge" aria-label="Sections">
+  <div class="g-rail"></div>
+  <a class="g-lab" data-sec="surface" href="#surface">Surface</a>
+  <a class="g-lab" data-sec="capabilities" href="#capabilities">Capabilities</a>
+  <a class="g-lab" data-sec="apis" href="#apis">Graphics APIs</a>
+  <a class="g-lab" data-sec="compat" href="#compat">MonoGame</a>
+  <a class="g-lab" data-sec="shaders" href="#shaders">Shaders</a>
+  <a class="g-lab" data-sec="shore" href="#shore">Shore</a>
+  <div class="g-read" id="gDepth">0000 m</div>
+  <div class="g-mark" id="gMark"></div>
+</nav>
+
+<main id="main">
+
+<!-- ================= SURFACE ================= -->
+<section class="hero" id="surface">
+  <div class="strike-hint" id="strikeHint" aria-hidden="true">Click the sky</div>
+  <div class="wrap">
+    <p class="eyebrow reveal"><b>01</b> XNA lineage / modern GPU architecture</p>
+    <h1 class="reveal"><span>Yotsuba</span><span>Framework.</span><span class="ng">Next Gen XNA.</span></h1>
+    <p class="lede reveal">Yotsuba Framework is the only XNA-based framework to completely modernize its graphics architecture, incorporating <b>Compute Shaders</b>, <b>Vulkan</b> on Android, <b>WebGPU</b> for the web and an ecosystem that supports <b>seven shader languages</b>. It also enables shader compilation at runtime.</p>
+    <div class="hero-cta reveal">
+      <a class="btn" href="#apis">Explore the backends</a>
+      <a class="txt" href="#shaders">Shader support →</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="readouts reveal" aria-label="Yotsuba Framework highlights">
+      <div><span>01 / COMPUTE</span><strong>Compute Shaders</strong><small>Modern GPU compute inside an XNA-shaped framework.</small></div>
+      <div><span>02 / ANDROID</span><strong>Vulkan backend</strong><small>Android and Linux target Vulkan directly.</small></div>
+      <div><span>03 / WEB</span><strong>WebGPU target</strong><small>The browser's modern GPU API, reached from the same XNA-shaped code.</small></div>
+      <div><span>04 / ECOSYSTEM</span><strong>MonoGame compatible</strong><small>Reuse libraries and MGFX workflows without rebuilding for Yotsuba.</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CAPABILITIES ================= -->
+<section class="caps-sec" id="capabilities">
+  <div class="wrap">
+    <div class="caps-head slab reveal">
+      <p class="eyebrow"><b>02</b> Capabilities</p>
+      <h2 class="h">Framework features,<br><em>XNA Next Generation</em></h2>
+      <p class="lead">The current capability set focuses on modern GPU workloads, shader compatibility and native graphics paths while preserving the familiar XNA and MonoGame development model.</p>
+    </div>
+
+    <ul class="caps reveal" id="caps">
+      <li class="on">
+        <button class="cap-btn" type="button" aria-expanded="true" aria-controls="cap1"><span class="n">01</span><span class="t">Compute Shaders</span><span class="k">GPU workloads</span></button>
+        <div class="cap-detail" id="cap1">
+          <figure><img src="../assets/cap-compute.webp" alt="Compute Shaders capability overview" width="1400" height="783"></figure>
+          <div class="cap-body">
+            <p>Run massively parallel workloads directly on the GPU for advanced effects, particle simulations, procedural generation, image processing, lighting and physics calculations.</p>
+            <div class="tags"><span>Parallel</span><span>GPU compute</span><span>Metal</span><span>WebGPU</span></div>
+            <div class="gpu-test">
+              <div class="row"><button class="btn sm" type="button" id="runCompute">Run a compute shader on my GPU</button><span id="computeState" class="mono" style="color:var(--mute)">1,048,576 elements · WGSL · WebGPU</span></div>
+              <div class="out" id="computeOut" role="status" aria-live="polite"></div>
+              <small>Runs directly on your browser's WebGPU — the same API the Web target builds on. A demonstration of compute on the GPU, not Yotsuba's runtime.</small>
+            </div>
+            <a class="more" href="../../yotsuba-framework-site/capability-detail.html#compute">Read the article →</a>
+          </div>
+        </div>
+      </li>
+      <li>
+        <button class="cap-btn" type="button" aria-expanded="false" aria-controls="cap2"><span class="n">02</span><span class="t">Support for 7 Shader Languages</span><span class="k">Shader system</span></button>
+        <div class="cap-detail" id="cap2">
+          <figure><img src="../assets/cap-shaders.webp" alt="Yotsuba Framework shader languages support" width="1400" height="778" loading="lazy"></figure>
+          <div class="cap-body">
+            <p>Choose the shader language that fits each platform, including MGFX, FNAFX, Slang, HLSL, GLSL, MSL and direct SPIR-V input. MGFX, Slang, GLSL and HLSL are also WebGPU-compatible.</p>
+            <div class="tags"><span>Slang</span><span>MGFX</span><span>SPIR-V</span><span>WebGPU</span></div>
+            <a class="more" href="#shaders">Try the Shader Lab →</a>
+          </div>
+        </div>
+      </li>
+      <li>
+        <button class="cap-btn" type="button" aria-expanded="false" aria-controls="cap3"><span class="n">03</span><span class="t">MGCB and MGFX with DesktopVK Profile</span><span class="k">Shader compat.</span></button>
+        <div class="cap-detail" id="cap3">
+          <figure><img src="../assets/cap-mgfx.webp" alt="MGCB and MGFX support with DesktopVK Profile" width="1400" height="785" loading="lazy"></figure>
+          <div class="cap-body">
+            <p>Keep using the familiar MGCB and MGFX pipeline. Existing MonoGame effects compiled with the DesktopVK profile can run on Apple platforms through the Metal backend, and MGFX will be compatible with WebGPU too.</p>
+            <div class="tags"><span>MGFX</span><span>DesktopVK</span><span>Metal</span><span>WebGPU</span></div>
+            <a class="more" href="../../yotsuba-framework-site/capability-detail.html#mgfx">Read the article →</a>
+          </div>
+        </div>
+      </li>
+      <li>
+        <button class="cap-btn" type="button" aria-expanded="false" aria-controls="cap4"><span class="n">04</span><span class="t">DirectX 12 on Windows</span><span class="k">Windows rendering</span></button>
+        <div class="cap-detail" id="cap4">
+          <figure><img src="../assets/cap-dx12.webp" alt="Yotsuba Framework running DirectX 12 on Windows" width="1400" height="785" loading="lazy"></figure>
+          <div class="cap-body">
+            <p>Use a native DirectX 12 rendering path on Windows for modern desktop GPUs while keeping the familiar XNA and MonoGame framework model.</p>
+            <div class="tags"><span>DirectX 12</span><span>Windows</span><span>Desktop GPU</span></div>
+            <a class="more" href="../../yotsuba-framework-site/capability-detail.html#directx12">Read the article →</a>
+          </div>
+        </div>
+      </li>
+      <li>
+        <button class="cap-btn" type="button" aria-expanded="false" aria-controls="cap5"><span class="n">05</span><span class="t">Metal on Apple</span><span class="k">Apple rendering</span></button>
+        <div class="cap-detail" id="cap5">
+          <figure><img src="../assets/cap-metal.webp" alt="Yotsuba Framework running MonoGame with Metal on Apple" width="1400" height="784" loading="lazy"></figure>
+          <div class="cap-body">
+            <p>Run MonoGame games through a native Metal path across macOS, iPadOS and iOS, keeping the same code and a familiar framework workflow.</p>
+            <div class="tags"><span>Metal</span><span>Apple</span><span>MonoGame</span></div>
+            <a class="more" href="../../yotsuba-framework-site/capability-detail.html#metal">Read the article →</a>
+          </div>
+        </div>
+      </li>
+      <li>
+        <button class="cap-btn" type="button" aria-expanded="false" aria-controls="cap6"><span class="n">06</span><span class="t">Vulkan on Android</span><span class="k">Android rendering</span></button>
+        <div class="cap-detail" id="cap6">
+          <figure><img src="../assets/cap-vulkan.webp" alt="Android Vulkan capability overview" width="1400" height="787" loading="lazy"></figure>
+          <div class="cap-body">
+            <p>Bring the same XNA-shaped framework workflow to Android through a native Vulkan rendering path built for modern mobile GPUs.</p>
+            <div class="tags"><span>Vulkan</span><span>Android</span><span>Mobile GPU</span></div>
+            <a class="more" href="../../yotsuba-framework-site/capability-detail.html#android-vulkan">Read the article →</a>
+          </div>
+        </div>
+      </li>
+      <li>
+        <button class="cap-btn" type="button" aria-expanded="false" aria-controls="cap7"><span class="n">07</span><span class="t">WebGPU on the Web <span class="pill">ROADMAP</span></span><span class="k">Browser rendering</span></button>
+        <div class="cap-detail" id="cap7">
+          <div class="wgpu-plate" role="img" aria-label="XNA-shaped code reaches the browser through WebGPU">
+            <div class="wm">Web<i>GPU</i></div>
+            <ol><li>XNA-shaped C#</li><li>Yotsuba</li><li>WebGPU</li><li>Vulkan · Metal · D3D12</li></ol>
+          </div>
+          <div class="cap-body">
+            <p>Take the same XNA-shaped workflow to the browser through WebGPU, the modern graphics and compute API of the web. Depending on the platform, the browser maps WebGPU onto Vulkan, DirectX 12 or Metal. MGFX, Slang, GLSL and HLSL shaders are WebGPU-compatible.</p>
+            <div class="tags"><span>WebGPU</span><span>Browser</span><span>Compute</span></div>
+            <div class="gpu-test"><div class="out" data-probe role="status" aria-live="polite">Checking this browser…</div><small>Live check of your browser's WebGPU support.</small></div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <button class="cap-btn" type="button" aria-expanded="false" aria-controls="cap8"><span class="n">08</span><span class="t">Animated 3D Models Support</span><span class="k">3D content</span></button>
+        <div class="cap-detail" id="cap8">
+          <figure><img src="../assets/cap-models.webp" alt="Yotsuba Framework animated 3D models support" width="1400" height="788" loading="lazy"></figure>
+          <div class="cap-body">
+            <p>Load and animate 3D models through a familiar content workflow, with support for model data, skeletons and animation playback.</p>
+            <div class="tags"><span>3D models</span><span>Animation</span><span>MGCB</span></div>
+            <a class="more" href="../../yotsuba-framework-site/capability-detail.html#animated-models">Read the article →</a>
+          </div>
+        </div>
+      </li>
+      <li>
+        <button class="cap-btn" type="button" aria-expanded="false" aria-controls="cap9"><span class="n">09</span><span class="t">Krita (.kra) illustrations are supported</span><span class="k">Art pipeline</span></button>
+        <div class="cap-detail" id="cap9">
+          <figure><img src="../assets/enuma.webp" alt="Enuma Elish: the layered Krita illustration behind this page" width="2000" height="3000" loading="lazy" style="object-position:50% 30%"></figure>
+          <div class="cap-body">
+            <p>Bring Krita illustrations directly into the project workflow and use layered .kra artwork as part of the visual pipeline. The painting behind this page is one of them.</p>
+            <div class="tags"><span>Krita</span><span>.kra</span><span>Layered art</span></div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= GRAPHICS APIS ================= -->
+<section class="api-sec" id="apis">
+  <div class="wrap">
+    <div class="slab reveal">
+      <p class="eyebrow"><b>03</b> Graphics APIs</p>
+      <h2 class="h">Native APIs for <em>every target.</em></h2>
+      <p class="lead">Yotsuba keeps a familiar XNA-style surface while routing rendering work to the graphics API that belongs on each platform. No single legacy backend has to define the whole framework. Pick a target and follow the signal.</p>
+
+      <div class="targets" id="targets" role="radiogroup" aria-label="Target platform"></div>
+
+      <div class="flow" aria-live="polite">
+        <div class="node"><small>Your game</small><b>XNA-shaped C#</b><span class="mono" style="font-size:11.5px;color:var(--mute)">Draw calls</span></div>
+        <div class="wire" aria-hidden="true"></div>
+        <div class="node"><small>Framework</small><b>Yotsuba</b><img src="../assets/framework-logo.webp" alt="" style="height:44px"></div>
+        <div class="wire" aria-hidden="true"></div>
+        <div class="node api"><small id="apiKind">Backend</small><div class="apilogo" id="apiLogo"></div><b id="apiName">Vulkan</b></div>
+        <div class="wire" aria-hidden="true"></div>
+        <div class="node"><small>Hardware</small><b>GPU</b><span class="mono" style="font-size:11.5px;color:var(--mute)" id="gpuLine">Native path</span></div>
+      </div>
+      <p class="api-desc" id="apiDesc"></p>
+<pre class="code" aria-label="The same code on every target"><span class="c">// The same code on every target</span>
+spriteBatch.<span class="t">Begin</span>();
+spriteBatch.<span class="t">Draw</span>(hero, position, Color.<span class="n">White</span>);
+spriteBatch.<span class="t">End</span>();</pre>
+      <p class="cap-cap">Same code. Only the destination changes.</p>
+      <p class="roadmap"><b>Roadmap:</b> the Web target on WebGPU is part of the announced roadmap. The live demos on this page are illustrative and run on your browser's own WebGL / WebGPU.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COMPATIBILITY ================= -->
+<section class="compat-sec" id="compat">
+  <div class="wrap">
+    <div class="slab reveal">
+      <div>
+        <p class="eyebrow"><b>04</b> MonoGame ecosystem compatibility</p>
+        <h2 class="h">Your libraries.<br><em>No recompilation.</em></h2>
+        <p class="lead">Use your existing MonoGame libraries directly from Yotsuba Framework without recompiling them specifically for Yotsuba. Keep the ecosystem you already depend on — including the familiar MGCB and MGFX workflow.</p>
+        <div class="dtab" role="table" aria-label="Supported workflow pieces">
+          <div role="row"><span>Piece</span><span>Profile</span><span>Purpose</span></div>
+          <div role="row"><strong>MGCB</strong><span>DesktopGL</span><span>Build textures, fonts and models.</span></div>
+          <div role="row"><strong>MGFX / .fx</strong><span>DesktopVK</span><span>Author effects using the MonoGame shader workflow.</span></div>
+          <div role="row"><strong>MonoGame DLLs</strong><span>Direct reference</span><span>Reuse compatible libraries without a Yotsuba rebuild.</span></div>
+        </div>
+        <div class="shore-cta"><a class="btn" href="../../yotsuba-framework-site/docs.html">Read the documentation</a><a class="btn line" href="#capabilities">See capabilities →</a></div>
+      </div>
+      <figure>
+        <img src="../assets/cap-nuget.webp" alt="MonoGame NuGet libraries supported by Yotsuba Framework" width="1200" height="675" loading="lazy">
+        <figcaption>MonoGame-compatible NuGet packages</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SHADER LAB ================= -->
+<section class="lab-sec" id="shaders">
+  <div class="wrap">
+    <div class="lab-head slab reveal" style="--b:var(--cyan)">
+      <p class="eyebrow"><b>05</b> Shader system</p>
+      <h2 class="h">Six shader languages.<br><em>Plus direct SPIR-V.</em></h2>
+      <p class="lead">Yotsuba Framework gives you multiple shader authoring paths instead of forcing one language everywhere. MGFX, FNAFX, Slang, native HLSL, GLSL or MSL — with direct SPIR-V support when that is the right input for your pipeline. MGFX, Slang, GLSL and HLSL are WebGPU-compatible.</p>
+    </div>
+
+    <div class="slab lab reveal" id="lab">
+      <div class="tabs" role="tablist" aria-label="Shader languages" id="labTabs"></div>
+      <div class="lab-body">
+        <div class="lab-code">
+          <div class="hd"><span id="codeName">ripple.frag</span><span id="codeMode"><b>EDITABLE</b> · runs live →</span></div>
+          <textarea id="glslEditor" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="GLSL source: edit to change the live preview"></textarea>
+          <pre id="staticCode" hidden tabindex="0"></pre>
+          <div class="lab-log" id="labLog" role="status" aria-live="polite">Compiled OK</div>
+        </div>
+        <div class="lab-view">
+          <div class="hd"><span>Live preview · WebGL</span><b id="fps">— fps</b></div>
+          <canvas id="labCanvas" aria-label="Live shader preview"></canvas>
+        </div>
+      </div>
+      <div class="lab-info">
+        <div><p id="langDesc"></p></div>
+        <div>
+          <p class="legend"><span class="gp">WEBGPU</span>also WebGPU-compatible. The same ripple effect is shown in every language; the live preview always runs the GLSL version in your browser's WebGL.</p>
+          <div class="lab-actions" style="margin-top:12px"><button type="button" id="labReset">Reset</button><button type="button" id="labCopy">Copy source</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SHORE ================= -->
+<section class="shore" id="shore">
+  <div class="wrap">
+    <div class="slab reveal">
+      <div>
+        <p class="eyebrow"><b>06</b> Yotsuba Framework</p>
+        <h2 class="h">Keep the XNA model.<br><em>Move the GPU forward.</em></h2>
+      </div>
+      <div>
+        <p class="lead">Modern backends, MonoGame ecosystem compatibility and a shader pipeline that adapts to the platform instead of forcing the platform to adapt to one shader language.</p>
+        <div class="shore-cta">
+          <a class="btn hot" href="../../yotsuba-framework-site/docs.html">Start with the docs</a>
+          <a class="btn line" href="https://github.com/Yotsuba-Hybrid" target="_blank" rel="noopener">GitHub ↗</a>
+          <a class="btn line" href="../hybrid/index.html">Yotsuba Hybrid →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <b>YOTSUBA FRAMEWORK</b>
+    <span>Compute / Vulkan / DirectX 12 / Metal / WebGPU / MonoGame / Multi-language shaders</span>
+    <span>YF — FRAMEWORK OVERVIEW</span>
+  </div>
+</footer>
+
+<!-- controles de la tormenta -->
+<div class="storm" id="storm">
+  <div class="storm-panel" id="stormPanel" role="group" aria-label="Storm controls">
+    <h4>This page is painted by a shader</h4>
+    <label>Lightning <output id="oL">1.0</output><input type="range" id="kL" min="0" max="1.5" step="0.05" value="1"></label>
+    <label>Refraction <output id="oR">1.0</output><input type="range" id="kR" min="0" max="2" step="0.05" value="1"></label>
+    <label>Marine snow <output id="oS">1.0</output><input type="range" id="kS" min="0" max="2" step="0.05" value="1"></label>
+    <label>Caustics <output id="oC">1.0</output><input type="range" id="kC" min="0" max="2" step="0.05" value="1"></label>
+    <p>Uniforms of the fragment shader that renders the Enuma Elish painting behind this page.</p>
+  </div>
+  <div class="storm-bar">
+    <button class="mini" type="button" id="stormBtn" aria-expanded="false" aria-controls="stormPanel">⚡ Tune the storm</button>
+    <button class="mini" type="button" id="srcBtn">View shader</button>
+  </div>
+</div>
+
+<dialog id="srcDlg" style="max-width:min(900px,94vw);width:100%;max-height:86vh;background:#030812;color:#c8d9ee;border:1px solid rgba(170,205,255,.36);padding:0;margin:auto">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-bottom:1px solid rgba(170,205,255,.18);font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#93abc4">
+    <span>sea.frag — the shader painting this page</span><button type="button" class="btn sm line" id="srcClose">Close ✕</button>
+  </div>
+  <pre id="srcPre" style="margin:0;padding:18px 20px;overflow:auto;max-height:72vh;font-family:var(--f-mono);font-size:12px;line-height:1.65;tab-size:2"></pre>
+</dialog>
+
+<script src="framework.js"></script>
+</body>
+</html>
