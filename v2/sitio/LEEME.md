@@ -158,10 +158,15 @@ Tres cosas que conviene tener presentes:
 * **El origen para la lista blanca de la API es `https://yotsuba-hybrid.github.io`** — sin
   la ruta. Es lo que hay que autorizar en Empresas → Claves de API → Formulario público
   para que funcione el formulario en producción. En local, `http://localhost:8000`.
-* **Jekyll está activo** (Pages de tipo *legacy*). Ignora todo lo que empiece por `_`, así
-  que `_generadores/` no se publica, que es justo lo que queremos. Ninguna página usa
-  sintaxis Liquid (`{{` o `{%`), así que no hay nada que se pueda romper. Si algún día
-  añades un archivo con llaves dobles, crea un `.nojekyll` en la raíz.
+* **Jekyll está desactivado** por el archivo `.nojekyll` de la raíz, y debe seguir así.
+  Pages de tipo *legacy* pasaba antes todo el repositorio por Jekyll, incluidos los `.md`,
+  y ahí reventaba: un par de llaves dobles escritas como ejemplo dentro de este mismo
+  archivo se interpretaban como una plantilla Liquid a medio cerrar y tumbaban la
+  compilación entera. Sin Jekyll, los archivos se publican tal cual, que es lo único que
+  necesita un sitio de HTML estático. El precio es que ya no se ignoran las carpetas que
+  empiezan por `_`, así que `_generadores/` sí queda publicado; son guiones de Python
+  inofensivos y ninguna página los enlaza, pero si prefieres que no estén, muévelos fuera
+  de `v2/sitio/`.
 * **Los vídeos `.mov` no están en el repositorio.** Pesan 336 y 276 MB y GitHub rechaza
   cualquier archivo de más de 100 MB. El sitio usa los `.mp4` comprimidos que están al
   lado; los `.mov` son el original de edición y hay que guardarlos aparte.
