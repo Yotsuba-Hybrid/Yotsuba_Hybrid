@@ -1,1 +1,11 @@
 ui.md
+tmp/
+
+# Basura de macOS
+.DS_Store
+**/.DS_Store
+
+# Vídeos fuente sin comprimir. GitHub rechaza cualquier archivo de más de 100 MB,
+# y estos pesan 336 y 276 MB. El sitio usa los .mp4 comprimidos que están al lado;
+# los .mov son el original de edición y se guardan fuera del repositorio.
+*.mov

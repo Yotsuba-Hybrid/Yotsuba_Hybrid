@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title id="pageTitle">Yotsuba Engine — The C# game engine you own</title>
+<meta name="description" id="metaDescription" content="Yotsuba Engine — a free, open-source C# game engine with a standalone editor: 2D and 3D, ECS, tilemaps, glTF, particles, and Vulkan, DirectX 12 and Metal backends. Early access.">
+<meta name="theme-color" content="#f3ecdd">
+<meta property="og:type" content="website">
+<meta property="og:title" id="ogTitle" content="Yotsuba Engine — Own your engine">
+<meta property="og:description" id="ogDescription" content="A free, open-source C# game engine with an editor app, Play button and native graphics backends. Early access.">
+<meta property="og:image" content="../assets/engine-enuma.webp">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/webp" href="../assets/engine-logo-neon.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script>
+  (function () {
+    var langs = ['es', 'en'], saved = null;
+    try { saved = localStorage.getItem('yotsuba-language'); } catch (_) {}
+    var prefs = Array.isArray(navigator.languages) && navigator.languages.length ? navigator.languages : [navigator.language];
+    var detected = prefs.map(function (l) { return String(l || '').toLowerCase().split(/[-_]/)[0]; }).find(function (l) { return langs.indexOf(l) > -1; });
+    var lang = langs.indexOf(saved) > -1 ? saved : (detected || 'es');
+    document.documentElement.lang = lang;
+    window.__LANG__ = lang;
+  }());
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=JetBrains+Mono:wght@400;500;700&family=Kaushan+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="engine-neon.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><ellipse cx="12" cy="12" rx="4.2" ry="9.5"/><line x1="2.5" y1="12" x2="21.5" y2="12"/></symbol>
+  <symbol id="i-discord" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 5.2C6.9 5.6 5.5 6.2 4.2 7c-1.7 3.4-2.3 6.9-2 10.4 1.6 1.2 3.1 1.9 4.6 2.4l1-1.6"/><path d="M15.5 5.2c1.6.4 3 1 4.3 1.8 1.7 3.4 2.3 6.9 2 10.4-1.6 1.2-3.1 1.9-4.6 2.4l-1-1.6"/><path d="M6.2 17.4c3.7 1.7 8 1.7 11.7 0"/><circle cx="9" cy="13" r="1.4" fill="currentColor" stroke="none"/><circle cx="15" cy="13" r="1.4" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-youtube" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="3.5"/><polygon points="10.3,9 15,12 10.3,15" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.2"/><path d="M3.2 5.8l8.8 7 8.8-7"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.2s-7.8-4.9-10.3-9.6C.4 7.6 1.7 4.3 4.8 3.3c2-.6 4.1.1 5.4 1.8l1.8 2.3 1.8-2.3c1.3-1.7 3.4-2.4 5.4-1.8 3.1 1 4.4 4.3 3.1 7.3-2.5 4.7-10.3 9.6-10.3 9.6z"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.7 3.3C12.4 3.2 6.7 5.6 4.1 10.2c-2.3 4.1-.2 8.7 3.9 8.7 4.8 0 8.9-5.3 9.1-10.6"/><path d="M3.3 20.7c3.1-4.4 6.8-7.5 11.2-10.1"/></symbol>
+</svg>
+<a class="skip" href="#main" data-i="a11y.skip">Skip to content</a>
+
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="Yotsuba Engine home">
+    <img src="../assets/engine-logo-neon.webp" alt="" width="46" height="46">
+    <span class="brand-word"><b>YOTSUBA</b><span class="brush">Engine</span></span>
+  </a>
+  <nav class="nav-links" aria-label="Primary navigation" data-ia="aria-label:nav.label">
+    <a href="#studio" data-i="nav.editor">Editor</a>
+    <a href="#why" data-i="nav.why">Why Engine</a>
+    <a href="#box" data-i="nav.box">In the box</a>
+    <a href="#family" data-i="nav.family">Family</a>
+    <a href="#ui" data-i="nav.roadmap">Roadmap</a>
+    <a href="#join" data-i="nav.community">Community</a>
+  </nav>
+  <div class="nav-right"><button type="button" class="lang" id="langBtn" aria-label="Switch language to Spanish"><svg aria-hidden="true"><use href="#i-globe"/></svg><span id="langCode">ES</span></button><a class="btn sm cape" href="#join" data-i="nav.early">Early access</a></div>
+</header>
+
+<main id="main">
+
+<section class="hero" id="top">
+  <div class="plate" id="plate">
+    <div class="plate-in" id="plateIn" data-torn="left bottom">
+      <div class="art-box"><img src="../assets/engine-enuma.webp" alt="Enuma Elish: a winged figure descends through a stormy sea while two caped travelers and a white tiger watch from the shore" width="2000" height="3000" fetchpriority="high"></div>
+      <div class="lens" id="lens" aria-hidden="true">
+        <div class="art-box"><img src="../assets/engine-enuma.webp" alt=""></div>
+        <div class="lens-tint"></div><div class="lens-tint2"></div>
+        <svg class="mesh" aria-hidden="true"><defs><pattern id="grd" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="#39CAEC" stroke-opacity=".5" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(#grd)"/></svg>
+        <div class="art-box ents-box"><svg class="ents" viewBox="0 0 1333 2000" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g><rect x="265" y="360" width="840" height="850"/><text x="275" y="394">Angel · SpriteComponent2D</text></g><g><rect x="235" y="1440" width="320" height="390"/><text x="245" y="1474">Hero_L · Sprite · Script</text></g><g><rect x="760" y="1440" width="350" height="410"/><text x="770" y="1474">Hero_R · Sprite · Script</text></g><g><rect x="650" y="1630" width="240" height="300"/><text x="660" y="1664">Tiger · Sprite · Animation</text></g><g><rect x="1015" y="700" width="265" height="500"/><text x="1025" y="734">Maw · Sprite · Collider</text></g><g><rect x="1120" y="1290" width="210" height="560"/><text x="1130" y="1324">Palm · Sprite</text></g><g><rect x="545" y="0" width="570" height="330"/><text x="555" y="34">Storm · Light2D · VFX</text></g><g class="gz" transform="translate(685 780)"><path d="M0 0H190" /><path d="M0 0V-190"/><path d="M170 -18L196 0L170 18Z"/><path d="M-18 -170L0 -196L18 -170Z"/><circle r="12"/></g></svg></div>
+      </div>
+    </div>
+    <div class="lens-ring" id="lensRing" aria-hidden="true">
+      <span class="lens-tag">EDIT MODE</span>
+      <div class="lens-code">Entity_2 <i>SpriteComponent2D</i>
+Transform { x: 0, y: 0, z: 1 }
+<u>[Play]</u> to run the scene</div>
+    </div>
+    <span class="plate-tag"><b>PLAY</b> · painted &nbsp;/&nbsp; <b>EDIT</b> · inspected</span>
+  </div>
+  <div class="hint" id="hint" aria-hidden="true">
+    <span class="brush">Move your cursor!</span>
+    <svg viewBox="0 0 90 70" fill="none" stroke="#0B0B2E" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M80 6C60 6 30 14 20 50"/><path d="M8 36l12 16 15-12"/></svg>
+  </div>
+  <div class="hero-copy">
+    <p class="status">Early access · in development</p>
+    <span class="kick brush">the C# game engine</span>
+    <h1 class="title" aria-label="Own your Engine"><span class="l" aria-hidden="true">Own your</span><span class="l g-fill" data-t="Engine." aria-hidden="true">Engine.</span></h1>
+    <p class="lede">Open the editor. Press <b>Play</b>. Ship to desktop and mobile. <b>Free and open source, no royalties</b>, and your project stays plain C# you can open in any IDE.</p>
+    <div class="hero-cta"><a class="btn" href="#join">Get early access</a><a class="btn paper" href="#studio">Press Play ↓</a></div>
+    <ul class="stamps" aria-label="Highlights"><li>Free &amp; open source</li><li>2D + 3D</li><li>Plain C# / .NET</li><li>Vulkan · Metal · DX12</li></ul>
+  </div>
+</section>
+
+<section class="readouts" aria-label="At a glance">
+  <div><span>01 / REAL C#</span><strong>Your IDE, your debugger</strong><small>Scripts are C# classes. Use Visual Studio, Rider or VS Code, and any NuGet package.</small></div>
+  <div><span>02 / 2D + 3D</span><strong>One engine, both worlds</strong><small>Sprites, tilemaps, glTF animation, PBR materials, particles and physics.</small></div>
+  <div><span>03 / ONE FAMILY</span><strong>Not a dead end</strong><small>Built on the same engine as Yotsuba Hybrid and Framework. Go deeper any time.</small></div>
+  <div><span>04 / FREE</span><strong>No royalties</strong><small>Free and open source. Nobody sends you an invoice for shipping your game.</small></div>
+</section>
+
+
+<!-- ================= STORY ================= -->
+<section class="story" id="story">
+  <div class="wrap story-in">
+    <div class="story-stage" id="stage" data-step="0">
+      <div class="sheet" data-torn="top bottom">
+        <div class="art-box"><img src="../assets/engine-enuma.webp" alt="" loading="lazy"></div>
+        <div class="ov ov1"><svg class="ents on" viewBox="0 0 1333 2000" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g><rect x="265" y="360" width="840" height="850"/><text x="275" y="394">Angel · SpriteComponent2D</text></g><g><rect x="235" y="1440" width="320" height="390"/><text x="245" y="1474">Hero_L · Sprite · Script</text></g><g><rect x="760" y="1440" width="350" height="410"/><text x="770" y="1474">Hero_R · Sprite · Script</text></g><g><rect x="650" y="1630" width="240" height="300"/><text x="660" y="1664">Tiger · Sprite · Animation</text></g><g><rect x="1015" y="700" width="265" height="500"/><text x="1025" y="734">Maw · Sprite · Collider</text></g><g><rect x="1120" y="1290" width="210" height="560"/><text x="1130" y="1324">Palm · Sprite</text></g><g><rect x="545" y="0" width="570" height="330"/><text x="555" y="34">Storm · Light2D · VFX</text></g><g class="gz" transform="translate(685 780)"><path d="M0 0H190" /><path d="M0 0V-190"/><path d="M170 -18L196 0L170 18Z"/><path d="M-18 -170L0 -196L18 -170Z"/><circle r="12"/></g></svg></div>
+        <canvas id="rain" class="ov ov3" aria-hidden="true"></canvas>
+        <div class="ov flash ov3" aria-hidden="true"></div>
+        <pre class="ov ov2"><code>[<u>Entity</u>("Angel")]
+<i>public class</i> Descend : BaseScript
+{
+    <i>public override void</i> Update(GameTime t)
+    {
+        Transform.Position.Y += 40f * t.Delta;
+    }
+}</code></pre>
+        <ul class="ov ov4"><li>Windows<small>DX12</small></li><li>Linux<small>Vulkan</small></li><li>macOS<small>Metal</small></li><li>Android<small>Vulkan</small></li><li class="ex">iOS<small>experimental</small></li><li class="ex">Web<small>preview</small></li></ul>
+        <span class="mode" id="modeTag">EDIT</span>
+      </div>
+    </div>
+    <div class="steps">
+      <article class="step" data-s="1"><span class="num">01</span><h3>Compose</h3><p>Every painted thing on the scene is an entity with components. Pick one, and the Inspector shows exactly what makes it tick.</p></article>
+      <article class="step" data-s="2"><span class="num">02</span><h3>Script</h3><p>Behavior is C#. Attach a script, open it in your own IDE, and use the debugger you already know.</p><p class="fine">Illustrative snippet.</p></article>
+      <article class="step" data-s="3"><span class="num">03</span><h3>Play</h3><p>One button runs the scene. Stop, and it returns to the exact edit state you left.</p></article>
+      <article class="step" data-s="4"><span class="num">04</span><h3>Ship</h3><p>Export to the platforms you target. Some are ready, some experimental, and we label every one.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STUDIO ================= -->
+<section class="studio" id="studio">
+  <div class="wrap">
+    <div class="try-head">
+      <div class="reveal"><span class="eyebrow">Try the editor</span><h2 class="h">Press <em>Play.</em></h2><p class="sub">Drag the sprites, change the Inspector, hit Play, then Export. It takes thirty seconds to see what the Engine feels like.</p></div>
+      <p class="sim-note reveal"><b>Interactive sketch.</b> This is a mock-up of the planned Engine editor, not the shipping build. The real one grows out of Yotsuba Hybrid's editor.</p>
+    </div>
+
+    <div class="ed" id="ed">
+      <div class="ed-bar">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <span class="ed-title">Yotsuba Engine — <b>MyGame.ytb</b></span>
+        <span class="chip" id="chipMode">EDIT</span>
+      </div>
+      <div class="ed-tools">
+        <button class="tool play" id="playBtn" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z" fill="currentColor"/></svg><span>Play</span></button>
+        <button class="tool" id="resetBtn" title="Reset the scene">Reset</button>
+        <span class="sep"></span>
+        <label class="sel">Backend
+          <select id="backend"><option value="Vulkan">Vulkan</option><option value="Metal">Metal</option><option value="DirectX 12">DirectX 12</option><option value="WebGPU">WebGPU (roadmap)</option></select>
+        </label>
+        <span class="sep"></span>
+        <button class="tool exp" id="exportBtn">Build &amp; Export…</button>
+        <span class="fps" id="fps">— fps</span>
+      </div>
+      <div class="ed-body">
+        <aside class="pane hier" aria-label="Hierarchy">
+          <h3>Scene: Level_1</h3>
+          <ul id="hier" role="listbox" aria-label="Entities"></ul>
+          <button class="add" id="addBtn">+ Entity</button>
+        </aside>
+        <div class="vp" id="vp" aria-label="Scene viewport">
+          <div class="vp-art"><img src="../assets/engine-enuma.webp" alt="" draggable="false"></div>
+          <canvas id="fx" aria-hidden="true"></canvas>
+          <div id="sprites"></div>
+          <span class="vp-tag" id="vpTag">Perspective · Level_1</span>
+        </div>
+        <aside class="pane insp" aria-label="Inspector">
+          <h3>Inspector</h3>
+          <div id="insp"></div>
+        </aside>
+      </div>
+      <div class="ed-bottom">
+        <div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-tab="console">Console</button><button role="tab" aria-selected="false" data-tab="content">Content</button><button role="tab" aria-selected="false" data-tab="build">Build</button></div>
+        <div class="tabbody" id="tab-console"><ol id="log"></ol></div>
+        <div class="tabbody" id="tab-content" hidden>
+          <ul class="assets"><li><img src="../assets/hybrid-logo.webp" alt="">Clover.png</li><li><img src="../assets/framework-logo.webp" alt="">FrameworkLogo.png</li><li><img src="../assets/engine-enuma.webp" alt="">Enuma.png</li><li><span>3D</span>Dragon.glb</li><li><span>♪</span>Theme.ogg</li><li><span>fx</span>Water.fx</li><li><span>C#</span>Spin.cs</li><li><span>map</span>Beach.tmx</li></ul>
+        </div>
+        <div class="tabbody" id="tab-build" hidden>
+          <p class="bnote">Pick a target and press <b>Build &amp; Export…</b> in the toolbar.</p>
+        </div>
+      </div>
+    </div>
+    <dialog class="exp-dlg" id="dlg">
+      <form method="dialog">
+        <h3>Build &amp; Export</h3>
+        <ul id="targets"></ul>
+        <div class="prog" aria-hidden="true"><i id="progBar"></i></div>
+        <p id="progTxt" role="status">Simulated in this demo.</p>
+        <div class="row"><button class="btn sm" id="goExport" type="button">Export</button><button class="btn sm paper" value="cancel">Close</button></div>
+      </form>
+    </dialog>
+  </div>
+</section>
+
+<!-- ================= WHY ================= -->
+<section class="why" id="why">
+  <div class="wrap">
+    <span class="eyebrow">Why Engine</span>
+    <h2 class="h reveal">Made for people <em>who love C#.</em></h2>
+    <p class="sub reveal">Most engines ask you to learn their world first. This one starts from the language, the IDE and the libraries you already use.</p>
+    <div class="cards">
+      <article class="card reveal" data-torn="bottom"><span class="n">01</span><h3>Real C#, real tools</h3><p>Gameplay lives in C# scripts attached to entities. Debug with your IDE, add any NuGet package, and keep your own tooling.</p></article>
+      <article class="card reveal alt" data-torn="bottom"><span class="n">02</span><h3>Free means free</h3><p>Free and open source. No royalties, no per-install fees, no seat licences. The engine is code you can read.</p></article>
+      <article class="card reveal" data-torn="bottom"><span class="n">03</span><h3>No lock-in</h3><p>A project is ordinary .NET code plus <code>.ytb</code> files, which are readable JSON. If you outgrow the editor, you keep everything.</p></article>
+      <article class="card reveal alt" data-torn="bottom"><span class="n">04</span><h3>Your components show up</h3><p>The Inspector is built from component attributes and metadata, so the components you write appear in the editor without extra UI code.</p></article>
+      <article class="card reveal" data-torn="bottom"><span class="n">05</span><h3>Rebuild and Run</h3><p>Rebuild assets and relaunch the game from the editor menu, so the loop from an idea to a running build stays short.</p></article>
+      <article class="card reveal alt" data-torn="bottom"><span class="n">06</span><h3>XNA heritage</h3><p>Built on the XNA API that MonoGame, FNA and KNI developers know. Existing knowledge and the content pipeline carry over.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= IN THE BOX ================= -->
+<section class="box" id="box">
+  <div class="wrap">
+    <span class="eyebrow">In the box</span>
+    <h2 class="h reveal">What's <em>inside.</em></h2>
+    <div class="cols">
+      <div class="col reveal"><h3>2D</h3><ul><li>Sprites, transforms and a zoomable 2D camera</li><li>Depth ordering and off-screen culling</li><li>Animation, fonts, text and buttons</li><li>Tilemaps with Tiled (TMX) and TexturePacker sheets</li><li>Built-in 2D physics with debug drawing</li></ul></div>
+      <div class="col reveal"><h3>3D</h3><ul><li>Cameras, primitives and 2.5D sprites</li><li>glTF models with skeletal animation</li><li>PBR materials and custom shaders</li><li>Built-in 3D physics with a spatial broad phase</li><li>Particles and VFX, plus hardware occlusion queries</li></ul></div>
+      <div class="col reveal"><h3>Workflow</h3><ul><li>ECS with scenes, entities, components and systems</li><li>Editor: scenes, entities, console, history, color picker, 3D model editor</li><li>Scripting with your own systems</li><li>Keyboard, mouse, gamepad, touch and gestures</li><li>Audio with SFX and music channels</li></ul></div>
+    </div>
+    <p class="fine reveal">Early-stage project: the API may still change. Everything above exists in the Yotsuba Hybrid codebase that the Engine is built on.</p>
+  </div>
+</section>
+
+<!-- ================= FAMILY ================= -->
+<section class="family" id="family">
+  <div class="wrap">
+    <span class="eyebrow">The family</span>
+    <h2 class="h reveal">Three products. <em>One family.</em></h2>
+    <p class="sub reveal">Same engine underneath, three ways in. Pick the one that matches how you like to work, and move to another when you need to.</p>
+    <div class="doors">
+      <a class="door reveal" href="../framework/index.html"><span class="for">For code-first developers</span><h3>Framework</h3><p>A modern XNA-shaped library. Compute, Vulkan, Metal, DirectX 12, seven shader languages. You write everything in code.</p><b>Explore Framework →</b></a>
+      <a class="door reveal" href="../hybrid/index.html"><span class="for">For tinkerers who want both</span><h3>Hybrid</h3><p>Framework plus engine. The editor lives inside your game window in DEBUG and is stripped from RELEASE.</p><b>Explore Hybrid →</b></a>
+      <a class="door here reveal" href="#top"><span class="for">For creators · you are here</span><h3>Engine</h3><p>The classic experience: an editor app with a Play button, a content browser and one-click export.</p><b>You're on it ✓</b></a>
+    </div>
+    <div class="chooser reveal" id="chooser">
+      <h3>Which door is yours?</h3>
+      <div class="opts" role="radiogroup" aria-label="How do you like to work?">
+        <button role="radio" aria-checked="false" data-k="fw">I write everything in code</button>
+        <button role="radio" aria-checked="false" data-k="hy">I want to tweak things while my game runs</button>
+        <button role="radio" aria-checked="true" data-k="en">I want an editor app with a Play button</button>
+      </div>
+      <p class="answer" id="answer" role="status" aria-live="polite"></p>
+    </div>
+    <div class="stack reveal" aria-label="How the layers fit together">
+      <h3>Under the hood</h3>
+      <ol>
+        <li class="top"><b>Yotsuba Engine</b><span>Editor app · project hub · export</span></li>
+        <li><b>Game core</b><span>Registration of systems, scripts and models</span></li>
+        <li><b>Shared engine</b><span>ECS · scenes · rendering · physics · input · audio</span></li>
+        <li><b>XNA adapter</b><span>MonoGame · KNI · FNA</span></li>
+        <li><b>Graphics backend</b><span>OpenGL · Vulkan · DirectX 12 · Metal · WebGPU</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PLATFORMS ================= -->
+<section class="plat" id="plat">
+  <div class="wrap">
+    <span class="eyebrow">Platforms</span>
+    <h2 class="h reveal">Ship <em>everywhere.</em></h2>
+    <p class="sub reveal">The status column is deliberate. We would rather tell you what is experimental than surprise you later.</p>
+    <div class="tbl reveal" role="table" aria-label="Platform status">
+      <div class="tr th" role="row"><span>Target</span><span>Graphics</span><span>Editor</span><span>Status</span></div>
+      <div class="tr" role="row"><span>Windows</span><span>DirectX 12</span><span>Yes</span><span class="st ok">Supported target</span></div>
+      <div class="tr" role="row"><span>Linux</span><span>Vulkan</span><span>Yes</span><span class="st ok">Supported target</span></div>
+      <div class="tr" role="row"><span>macOS</span><span>Metal</span><span>Yes</span><span class="st ok">Supported target</span></div>
+      <div class="tr" role="row"><span>Android</span><span>Vulkan</span><span>—</span><span class="st ok">Supported target</span></div>
+      <div class="tr" role="row"><span>iOS</span><span>Metal</span><span>—</span><span class="st ex">Experimental</span></div>
+      <div class="tr" role="row"><span>Web</span><span>WebGPU</span><span>No</span><span class="st ex">Preview · no audio in wasm</span></div>
+      <div class="tr" role="row"><span>Web (KNI)</span><span>WebGL</span><span>No</span><span class="st ex">Preview</span></div>
+    </div>
+    <p class="fine reveal">Each row is a host project in the repository. Feature parity between targets is not guaranteed yet.</p>
+  </div>
+</section>
+
+<!-- ================= UI ROADMAP ================= -->
+<section class="uiroad" id="ui">
+  <div class="wrap">
+    <span class="eyebrow">Roadmap</span>
+    <h2 class="h reveal">From in-game editor <em>to real app.</em></h2>
+    <p class="sub reveal">The Engine's editor starts from the one Hybrid already has. Here is what it does today and what we are changing to make it feel like a proper engine.</p>
+    <div class="road">
+      <figure class="today reveal"><div class="frame"><video class="editor-film" controls muted loop playsinline preload="none" poster="../assets/video/editor-poster.webp" data-autoplay-video aria-label="Yotsuba editor running in its game window"><source src="../assets/video/editor.mp4" type="video/mp4">Your browser cannot play this editor recording.</video></div><figcaption>Real footage: Yotsuba Hybrid editor.</figcaption></figure>
+      <ol class="plan reveal">
+        <li><b>Project hub</b><span>Create or open a project from templates.</span></li>
+        <li><b>Dockable panels</b><span>Move, tab and save your layout.</span></li>
+        <li><b>Content browser</b><span>Thumbnails for sprites, models, sounds and shaders.</span></li>
+        <li><b>Play in editor</b><span>Play, pause, step, and return to the edit state.</span></li>
+        <li><b>Viewport gizmos</b><span>Move, rotate and scale directly in the scene.</span></li>
+        <li><b>Build &amp; Export</b><span>One dialog, one target list.</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ================= JOIN ================= -->
+<section class="cta community" id="join" data-torn="top">
+  <div class="wrap cta-in community-in">
+    <div>
+      <span class="eyebrow" style="color:var(--gold)" data-i="community.eyebrow">Yotsuba Open Source</span>
+      <h2><span data-i="community.t1">Build</span> <em data-i="community.t2">Yotsuba together.</em></h2>
+      <p class="d" data-i="community.desc">The engine is open source and built around real C#. Help us shape the editor, the ECS and the tools that make the everyday game loop feel good.</p>
+      <ul class="community-points">
+        <li><svg aria-hidden="true"><use href="#i-leaf"/></svg><span data-i="community.f1">Inspect and improve the editor, ECS and build workflow.</span></li>
+        <li><svg aria-hidden="true"><use href="#i-leaf"/></svg><span data-i="community.f2">Explore the code, report issues and share ideas on GitHub.</span></li>
+        <li><svg aria-hidden="true"><use href="#i-leaf"/></svg><span data-i="community.f3">Connect with creators and developers in the community.</span></li>
+        <li><svg aria-hidden="true"><use href="#i-leaf"/></svg><span data-i="community.f4">Propose changes to the engine, website and documentation.</span></li>
+      </ul>
+      <div class="cta-links">
+        <a class="btn gold" href="https://github.com/sponsors/Yotsuba-Hybrid" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-heart"/></svg><span data-i="community.support">Support the project</span></a>
+        <a class="btn paper" href="https://github.com/Yotsuba-Hybrid" target="_blank" rel="noopener" data-i="community.github">View GitHub</a>
+        <a class="community-docs" href="../../yotsuba-framework-site/docs.html" data-i="community.docs">Read the docs</a>
+        <div class="socials">
+          <a class="social" href="https://discord.gg/35M8e8fE3Q" target="_blank" rel="noopener" aria-label="Discord"><svg aria-hidden="true"><use href="#i-discord"/></svg></a>
+          <a class="social" href="https://www.youtube.com/@YTBHybrid" target="_blank" rel="noopener" aria-label="YouTube"><svg aria-hidden="true"><use href="#i-youtube"/></svg></a>
+          <a class="social" href="mailto:yotsubahybrid.official@outlook.com" aria-label="Email"><svg aria-hidden="true"><use href="#i-mail"/></svg></a>
+        </div>
+      </div>
+    </div>
+    <figure class="community-art community-preview">
+      <video controls muted loop playsinline preload="none" poster="../assets/video/editor-poster.webp" data-autoplay-video aria-label="Yotsuba Engine editor recording"><source src="../assets/video/editor.mp4" type="video/mp4">Your browser cannot play this editor recording.</video>
+      <figcaption><img src="../assets/engine-logo-neon.webp" alt=""><span>YOTSUBA ENGINE <b>· EDITOR FOOTAGE</b></span></figcaption>
+    </figure>
+    <form class="form" id="joinForm" novalidate>
+      <h3 data-i="form.title">Notify me</h3>
+      <p data-i="form.desc">Leave your email and we will let you know when the first build is ready. No spam.</p>
+      <label for="jName" data-i="form.name">Name</label><input id="jName" type="text" autocomplete="name" required placeholder="Your name" data-ia="placeholder:form.nameP">
+      <label for="jMail" data-i="form.email">Email</label><input id="jMail" type="email" autocomplete="email" required placeholder="you@email.com" data-ia="placeholder:form.emailP">
+      <button class="btn" type="submit" id="jSubmit" data-i="form.submit">Notify me</button>
+      <div class="msg" id="jMsg" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span><b style="color:#fff;letter-spacing:.1em">YOTSUBA ENGINE</b> · Part of the family: <a href="../framework/index.html">Framework</a> · <a href="../hybrid/index.html">Hybrid</a> · Engine</span>
+    <a href="https://github.com/sponsors/Yotsuba-Hybrid" target="_blank" rel="noopener" data-i="foot.support">Support Yotsuba ♡</a>
+  </div>
+</footer>
+<script>window.YB_C = ["#F350A5","#39CAEC","rgba(57,202,236,.8)"];</script>
+<script src="engine.js"></script>
+</body>
+</html>
